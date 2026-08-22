@@ -1,0 +1,32 @@
+---
+import Layout from '../components/Layout.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+const home = await getEntry('home', 'home');
+const products = await getCollection('products');
+
+const contact = await getEntry('contact', 'contact');
+const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
+---
+
+<Layout title={home.data.heading}>
+  <main>
+    <h1>{home.data.heading}</h1>
+
+    <nav>
+      <a href="/quote">Request a Quotation</a>
+      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp Us</a>
+      <a href="/products">View Our Products</a>
+    </nav>
+
+    <ul>
+      {products.map((p) => (
+        <li>
+          <a href={`/products/${p.slug}`}>{p.data.name}</a>
+          — Ksh {p.data.pricePerKg}/{p.data.unit}
+          {!p.data.inStock && <em> (out of stock)</em>}
+        </li>
+      ))}
+    </ul>
+  </main>
+</Layout>

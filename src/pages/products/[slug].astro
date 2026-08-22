@@ -1,0 +1,114 @@
+---
+import Layout from '../../components/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((p) => ({
+    params: { slug: p.slug },
+    props: { product: p },
+  }));
+}
+
+const { product } = Astro.props;
+const { Content } = await product.render();
+const { name, pricePerKg, unit, inStock, stockQty } = product.data;
+const slug = product.slug;
+// A product is only orderable when the admin's manual toggle is on AND
+// there's actually stock on hand — either alone being false means no sale.
+const orderable = inStock && stockQty > 0;
+---
+
+<Layout title={name}>
+  <main>
+    <h1>{name}</h1>
+    <p>Ksh {pricePerKg} / {unit}</p>
+    <p>
+      {orderable
+        ? `In stock — ${stockQty} ${unit} available`
+        : 'Out of stock'}
+    </p>
+
+    <Content />
+
+    <form
+      id="add-to-cart-form"
+      data-slug={slug}
+      data-name={name}
+      data-price={pricePerKg}
+      data-stock={stockQty}
+    >
+      <label>
+        Quantity ({unit})
+        <input
+          type="number"
+          name="qty"
+          min="1"
+          step="1"
+          max={orderable ? stockQty : 0}
+          value={orderable ? 1 : 0}
+          disabled={!orderable}
+        />
+      </label>
+      <button type="submit" disabled={!orderable}>Add to order</button>
+    </form>
+    <p id="add-to-cart-status" role="status"></p>
+    <a id="checkout-button" href="/order" hidden>Checkout</a>
+  </main>
+</Layout>
+
+<script>
+  import { addToCart, getCart } from '../../lib/cart';
+
+  const form = document.getElementById('add-to-cart-form') as HTMLFormElement;
+  const status = document.getElementById('add-to-cart-status');
+  const checkoutButton = document.getElementById('checkout-button') as HTMLAnchorElement;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const stock = Math.max(0, parseInt(form.dataset.stock || '0', 10));
+    const slug = form.dataset.slug!;
+
+    if (stock <= 0) {
+      if (status) status.textContent = 'Sorry, this item is currently out of stock.';
+      return;
+    }
+
+    const qtyInput = form.querySelector('input[name="qty"]') as HTMLInputElement;
+    const requested = Math.max(1, parseInt(qtyInput.value || '1', 10));
+
+    // Cap by remaining stock, accounting for however much of this item is
+    // already sitting in the customer's cart — the cap is on total stock,
+    // not per add-to-cart click.
+    const alreadyInCart = getCart()[slug]?.qty ?? 0;
+    const remaining = Math.max(0, stock - alreadyInCart);
+
+    if (remaining <= 0) {
+      if (status) {
+        status.textContent = `You already have the full available stock (${stock}) of this item in your order.`;
+      }
+      return;
+    }
+
+    const qty = Math.min(requested, remaining);
+
+    addToCart(
+      {
+        slug,
+        name: form.dataset.name!,
+        pricePerKg: Number(form.dataset.price),
+      },
+      qty
+    );
+
+    if (status) {
+      status.textContent =
+        qty < requested
+          ? `Only ${qty} ${qty === 1 ? 'unit' : 'units'} available — added ${qty} to your order.`
+          : `Added ${qty} to your order.`;
+    }
+    checkoutButton.hidden = false;
+    checkoutButton.focus();
+  });
+</script>

@@ -1,0 +1,12 @@
+---
+import Layout from '../components/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const entry = await getEntry('legal', 'privacy');
+---
+
+<Layout title={entry.data.heading}>
+  <main>
+    <h1>{entry.data.heading}</h1>
+  </main>
+</Layout>

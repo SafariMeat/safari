@@ -1,0 +1,83 @@
+---
+// Site-wide shell: nav + footer, per proposal section 2.11.
+// No styling — structure only, per MVP skeleton scope.
+import { getEntry } from 'astro:content';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — Safari Meats</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">Home</a> |
+        <a href="/about">About Us</a> |
+        <a href="/products">Products</a> |
+        <a href="/export-certification">Export &amp; Certification</a> |
+        <a href="/markets">Markets</a> |
+        <a href="/wholesale">Wholesale</a> |
+        <a href="/gallery">Gallery</a> |
+        <a href="/contact">Contact</a> |
+        <a href="/quote">Request a Quote</a> |
+        <a href="/order">Your Order (<span id="nav-cart-count">0</span>)</a>
+      </nav>
+    </header>
+
+    <slot />
+
+    <footer>
+      <nav>
+        <a href="/">Home</a> |
+        <a href="/about">About Us</a> |
+        <a href="/products">Products</a> |
+        <a href="/export-certification">Export &amp; Certification</a> |
+        <a href="/markets">Markets</a> |
+        <a href="/wholesale">Wholesale</a> |
+        <a href="/export-process">Our Export Process</a> |
+        <a href="/gallery">Gallery</a> |
+        <a href="/quote">Request a Quote</a> |
+        <a href="/contact">Contact</a> |
+        <a href="/order">Your Order (<span id="nav-cart-count-footer">0</span>)</a>
+      </nav>
+      <p>Safari Meats — East African Meat Exporters</p>
+      <p>
+        <a href="/privacy">Privacy Policy</a> |
+        <a href="/terms">Terms &amp; Conditions</a>
+      </p>
+    </footer>
+  </body>
+</html>
+
+<script>
+  // Keeps the "Your Order (N)" badge in the header/footer nav in sync with
+  // the cart on every page, not just the order page itself. cartCount() was
+  // previously exported from cart.ts but never called anywhere — this is
+  // that call site.
+  import { getCart, cartCount, CART_CHANGED_EVENT } from '../lib/cart';
+
+  function updateCartBadge() {
+    const count = cartCount(getCart());
+    for (const id of ['nav-cart-count', 'nav-cart-count-footer']) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = String(count);
+    }
+  }
+
+  updateCartBadge();
+
+  // Same-tab updates (adding an item, editing qty on the order page, etc.)
+  window.addEventListener(CART_CHANGED_EVENT, updateCartBadge);
+  // Cross-tab updates (cart changed in another open tab/window).
+  window.addEventListener('storage', (e) => {
+    if (e.key === null || e.key === 'safari-meats-cart') updateCartBadge();
+  });
+</script>

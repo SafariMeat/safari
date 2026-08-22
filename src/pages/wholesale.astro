@@ -1,0 +1,117 @@
+---
+import Layout from '../components/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const wholesale = await getEntry('wholesale', 'wholesale');
+const contact = await getEntry('contact', 'contact');
+---
+
+<Layout title={wholesale.data.heading}>
+  <main data-whatsapp-number={contact.data.whatsapp}>
+    <h1>{wholesale.data.heading}</h1>
+
+    <!--
+      name + data-netlify="true" + the hidden form-name input let Netlify
+      detect this form at build time and log every submission to the Forms
+      tab in the Netlify dashboard, giving the business a real wholesale
+      enquiry history alongside the WhatsApp handoff.
+    -->
+    <form id="wholesale-form" name="wholesale" data-netlify="true">
+      <input type="hidden" name="form-name" value="wholesale" />
+      <label>
+        Company
+        <input type="text" name="company" minlength="2" required />
+      </label>
+      <label>
+        Country
+        <input type="text" name="country" minlength="2" required />
+      </label>
+      <label>
+        Product
+        <input type="text" name="product" required />
+      </label>
+      <label>
+        Quantity
+        <input type="text" name="quantity" required />
+      </label>
+      <label>
+        Order frequency
+        <input type="text" name="frequency" />
+      </label>
+      <label>
+        Destination port
+        <input type="text" name="port" />
+      </label>
+      <label>
+        Delivery terms
+        <input type="text" name="deliveryTerms" />
+      </label>
+      <label>
+        Email or phone/WhatsApp
+        <input type="text" name="contactInfo" required />
+      </label>
+      <button type="submit">Request Wholesale Pricing</button>
+    </form>
+    <p id="wholesale-status" role="status"></p>
+  </main>
+</Layout>
+
+<script>
+  import { isValidText } from '../lib/validate';
+  import { submitLead } from '../lib/leads';
+
+  const form = document.getElementById('wholesale-form') as HTMLFormElement;
+  const status = document.getElementById('wholesale-status')!;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const fields = {
+      company: String(formData.get('company') ?? '').trim(),
+      country: String(formData.get('country') ?? '').trim(),
+      product: String(formData.get('product') ?? '').trim(),
+      quantity: String(formData.get('quantity') ?? '').trim(),
+      frequency: String(formData.get('frequency') ?? '').trim(),
+      port: String(formData.get('port') ?? '').trim(),
+      deliveryTerms: String(formData.get('deliveryTerms') ?? '').trim(),
+      contactInfo: String(formData.get('contactInfo') ?? '').trim(),
+    };
+
+    if (!isValidText(fields.company)) {
+      status.textContent = 'Please enter your company name (at least 2 characters).';
+      return;
+    }
+
+    if (!isValidText(fields.country)) {
+      status.textContent = 'Please enter your country (at least 2 characters).';
+      return;
+    }
+
+    const main = document.querySelector('main') as HTMLElement;
+    const whatsappNumber = main.dataset.whatsappNumber ?? '';
+
+    const text = [
+      'Wholesale Pricing Request — Safari Meats',
+      '',
+      `Company: ${fields.company}`,
+      `Country: ${fields.country}`,
+      `Product: ${fields.product}`,
+      `Quantity: ${fields.quantity}`,
+      `Order frequency: ${fields.frequency}`,
+      `Destination port: ${fields.port}`,
+      `Delivery terms: ${fields.deliveryTerms}`,
+      `Contact: ${fields.contactInfo}`,
+    ].join('\n');
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+    // Best-effort record for the business's wholesale-enquiry history —
+    // never blocks the WhatsApp handoff if it fails.
+    void submitLead('wholesale', fields);
+
+    form.reset();
+    status.textContent = 'Opening WhatsApp to send your wholesale enquiry.';
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  });
+</script>

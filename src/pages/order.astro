@@ -1,0 +1,277 @@
+---
+import Layout from '../components/Layout.astro';
+import { getEntry, getCollection } from 'astro:content';
+
+const contact = await getEntry('contact', 'contact');
+const whatsappNumber = contact.data.whatsapp;
+
+// Stock snapshot as of this build, used to cap quantities in the cart —
+// the cart itself only remembers price/name/qty from whenever the item
+// was added, so stock has to be re-checked here rather than trusted from
+// localStorage. On a Netlify+CMS setup, editing a product's stock in
+// /admin/ triggers a rebuild, so this stays current in practice.
+const products = await getCollection('products');
+const stockBySlug = Object.fromEntries(
+  products.map((p) => [p.slug, { stockQty: p.data.stockQty, inStock: p.data.inStock }])
+);
+---
+
+<Layout title="Your Order">
+  <main data-whatsapp-number={whatsappNumber}>
+    <h1>Your Order</h1>
+
+      <table id="cart-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Price/kg</th>
+            <th>Qty</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="cart-body"></tbody>
+      </table>
+
+      <p id="cart-empty" hidden>Your order is empty.</p>
+      <p>Total: Ksh <span id="cart-total">0</span></p>
+      <script type="application/json" id="stock-data" set:html={JSON.stringify(stockBySlug)} />
+
+      <!--
+        name + data-netlify="true" + the hidden form-name input let Netlify
+        detect this form at build time and log every submission to the
+        Forms tab in the Netlify dashboard — this is the business's order
+        history. The `items` and `total` hidden inputs exist purely so
+        Netlify's schema includes those fields too; their values are filled
+        in by script just before submit (see below).
+      -->
+      <form id="checkout-form" name="order" data-netlify="true">
+        <input type="hidden" name="form-name" value="order" />
+        <input type="hidden" name="items" />
+        <input type="hidden" name="total" />
+        <label>
+          Full name
+          <input type="text" name="customerName" minlength="2" required />
+        </label>
+        <label>
+          Phone number
+          <input type="tel" name="phone" required />
+        </label>
+        <label>
+          Delivery address
+          <textarea name="address" minlength="2" required></textarea>
+        </label>
+        <button type="submit">Place order</button>
+      </form>
+      <p id="checkout-status" role="status"></p>
+  </main>
+</Layout>
+
+<script>
+  import { getCart, setQty, removeFromCart, clearCart, cartTotal, type CartItem } from '../lib/cart';
+  import { isValidText } from '../lib/validate';
+  import { submitLead } from '../lib/leads';
+
+      type StockInfo = { stockQty: number; inStock: boolean };
+      const stockData: Record<string, StockInfo> = JSON.parse(
+        document.getElementById('stock-data')?.textContent || '{}'
+      );
+
+      /** Max orderable qty for a slug right now: 0 if unknown/unavailable/removed. */
+      function maxFor(slug: string): number {
+        const info = stockData[slug];
+        if (!info || !info.inStock) return 0;
+        return Math.max(0, info.stockQty);
+      }
+
+      /**
+       * Clamp every cart line to current stock (dropping anything that's
+       * gone out of stock or been removed from the catalog entirely since
+       * it was added), and report what changed so the customer can be told.
+       */
+      function reconcileWithStock(): { adjusted: string[]; removed: string[] } {
+        const cart = getCart();
+        const adjusted: string[] = [];
+        const removed: string[] = [];
+
+        for (const item of Object.values(cart)) {
+          const max = maxFor(item.slug);
+          if (max <= 0) {
+            removeFromCart(item.slug);
+            removed.push(item.name);
+          } else if (item.qty > max) {
+            setQty(item.slug, max);
+            adjusted.push(`${item.name} (now ${max})`);
+          }
+        }
+
+        return { adjusted, removed };
+      }
+
+      const body = document.getElementById('cart-body')!;
+      const emptyMsg = document.getElementById('cart-empty')!;
+      const totalEl = document.getElementById('cart-total')!;
+      const form = document.getElementById('checkout-form') as HTMLFormElement;
+      const status = document.getElementById('checkout-status')!;
+
+      function render() {
+        const cart = getCart();
+        const items = Object.values(cart) as CartItem[];
+
+        body.innerHTML = '';
+        emptyMsg.hidden = items.length > 0;
+
+        for (const item of items) {
+          const subtotal = Math.round(item.pricePerKg * item.qty * 100) / 100;
+          const max = maxFor(item.slug);
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${item.name}</td>
+            <td>Ksh ${item.pricePerKg}</td>
+            <td>
+              <input
+                type="number"
+                min="1"
+                max="${max}"
+                step="1"
+                value="${item.qty}"
+                data-qty="${item.slug}"
+                style="width: 4em"
+              />
+              ${max > 0 ? `<small> / ${max} available</small>` : ''}
+            </td>
+            <td>Ksh ${subtotal}</td>
+            <td><button type="button" data-remove="${item.slug}">Remove</button></td>
+          `;
+          body.appendChild(row);
+        }
+
+        totalEl.textContent = String(cartTotal(cart));
+      }
+
+      body.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const slug = target.dataset.remove;
+        if (slug) {
+          removeFromCart(slug);
+          render();
+        }
+      });
+
+      // Editing the qty input updates the cart (a value of 0 or less
+      // removes the line, same as clicking Remove). Also clamped to
+      // current stock — typing more than what's available snaps back down.
+      body.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        const slug = target.dataset.qty;
+        if (slug) {
+          const requested = parseInt(target.value, 10);
+          const max = maxFor(slug);
+          setQty(slug, Math.min(requested, max));
+          render();
+        }
+      });
+
+      // Reconcile against current stock before the first render, in case
+      // items were added on an earlier visit when more stock was available.
+      {
+        const { adjusted, removed } = reconcileWithStock();
+        if (removed.length || adjusted.length) {
+          const parts = [];
+          if (removed.length) parts.push(`no longer available and removed: ${removed.join(', ')}`);
+          if (adjusted.length) parts.push(`quantity reduced to match stock: ${adjusted.join(', ')}`);
+          status.textContent = `Your order was updated — ${parts.join('; ')}.`;
+        }
+      }
+
+      render();
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Final safety check: re-clamp to current stock right at submit
+        // time, not just on page load, in case the customer sat on this
+        // page a while or edited quantities directly.
+        const { adjusted, removed } = reconcileWithStock();
+        if (removed.length || adjusted.length) {
+          render();
+          const parts = [];
+          if (removed.length) parts.push(`no longer available and removed: ${removed.join(', ')}`);
+          if (adjusted.length) parts.push(`quantity reduced to match stock: ${adjusted.join(', ')}`);
+          status.textContent = `Your order changed before submitting — ${parts.join('; ')}. Please review and place your order again.`;
+          return;
+        }
+
+        const cart = getCart();
+        const items = Object.values(cart);
+
+        if (items.length === 0) {
+          status.textContent = 'Add at least one item before placing an order.';
+          return;
+        }
+
+        const formData = new FormData(form);
+        const payload = {
+          customerName: String(formData.get('customerName') ?? '').trim(),
+          phone: String(formData.get('phone') ?? '').trim(),
+          address: String(formData.get('address') ?? '').trim(),
+          items,
+          total: cartTotal(cart),
+        };
+
+        if (!isValidText(payload.customerName)) {
+          status.textContent = 'Please enter your full name (at least 2 characters).';
+          return;
+        }
+
+        if (!isValidText(payload.address)) {
+          status.textContent = 'Please enter a valid delivery address (at least 2 characters).';
+          return;
+        }
+
+        // Business WhatsApp number, in international format without +, spaces,
+        // or punctuation. Editable by the admin via the Contact Page entry in
+        // /admin/ (src/content/contact/contact.md, "whatsapp" field).
+        const main = document.querySelector('main') as HTMLElement;
+        const whatsappNumber = main.dataset.whatsappNumber ?? '';
+        const orderLines = items.map((item) => {
+          const subtotal = Math.round(item.pricePerKg * item.qty * 100) / 100;
+          return `- ${item.name}: ${item.qty} kg x Ksh ${item.pricePerKg} = Ksh ${subtotal}`;
+        });
+        const message = [
+          'New Safari Meats Order',
+          '',
+          `Customer: ${payload.customerName}`,
+          `Phone: ${payload.phone}`,
+          `Address: ${payload.address}`,
+          '',
+          'Items:',
+          ...orderLines,
+          '',
+          `Total: Ksh ${payload.total}`,
+        ].join('\n');
+
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+        // Record the order in Netlify Forms (the business's order history)
+        // in parallel with preparing WhatsApp. Best-effort: a failed log
+        // here (offline, not on Netlify, etc.) must never block the order
+        // itself from reaching the business via WhatsApp.
+        const itemsSummary = orderLines.join(' | ');
+        void submitLead('order', {
+          customerName: payload.customerName,
+          phone: payload.phone,
+          address: payload.address,
+          items: itemsSummary,
+          total: String(payload.total),
+        });
+
+        // The order has been prepared for submission to WhatsApp, so clear the
+        // local cart before opening WhatsApp to prevent accidental duplicates.
+        clearCart();
+        render();
+        form.reset();
+        status.textContent = 'Order ready. Opening WhatsApp to send it.';
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      });
+</script>

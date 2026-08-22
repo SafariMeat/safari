@@ -1,0 +1,95 @@
+---
+import Layout from '../components/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const contact = await getEntry('contact', 'contact');
+---
+
+<Layout title={contact.data.heading}>
+  <main data-whatsapp-number={contact.data.whatsapp}>
+    <h1>{contact.data.heading}</h1>
+
+      <ul>
+        <li>Phone: {contact.data.phone}</li>
+        <li>WhatsApp: {contact.data.whatsapp}</li>
+        <li>Email: {contact.data.email}</li>
+        <li>Address: {contact.data.address}</li>
+        <li>Hours: {contact.data.hours}</li>
+      </ul>
+
+      <!--
+        name + data-netlify="true" + the hidden form-name input let Netlify
+        detect this form at build time and log every submission to the
+        Forms tab in the Netlify dashboard, giving the business a real
+        message history alongside the WhatsApp handoff.
+      -->
+      <form id="contact-form" name="contact" data-netlify="true">
+        <input type="hidden" name="form-name" value="contact" />
+        <label>
+          Name
+          <input type="text" name="name" minlength="2" required />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" required />
+        </label>
+        <label>
+          Message
+          <textarea name="message" required></textarea>
+        </label>
+        <button type="submit">Send</button>
+      </form>
+      <p id="contact-status" role="status"></p>
+  </main>
+</Layout>
+
+<script>
+  import { isValidText } from '../lib/validate';
+  import { submitLead } from '../lib/leads';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('contact-status')!;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const name = String(formData.get('name') ?? '').trim();
+    const email = String(formData.get('email') ?? '').trim();
+    const message = String(formData.get('message') ?? '').trim();
+
+    if (!isValidText(name)) {
+      status.textContent = 'Please enter your full name (at least 2 characters).';
+      return;
+    }
+
+    if (!isValidText(message)) {
+      status.textContent = 'Please enter a message (at least 2 characters).';
+      return;
+    }
+
+    // Business WhatsApp number, editable by the admin via the Contact
+    // Page entry in /admin/ (src/content/contact/contact.md).
+    const main = document.querySelector('main') as HTMLElement;
+    const whatsappNumber = main.dataset.whatsappNumber ?? '';
+
+    const text = [
+      'New message from Safari Meats website',
+      '',
+      `Name: ${name}`,
+      `Email: ${email}`,
+      '',
+      `Message: ${message}`,
+    ].join('\n');
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+    // Best-effort record for the business's message history — never blocks
+    // the WhatsApp handoff if it fails.
+    void submitLead('contact', { name, email, message });
+
+    form.reset();
+    status.textContent = 'Opening WhatsApp to send your message.';
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  });
+</script>

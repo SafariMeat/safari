@@ -1,0 +1,3 @@
+---
+heading: "Wholesale"
+---

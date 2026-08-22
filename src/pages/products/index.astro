@@ -1,0 +1,22 @@
+---
+import Layout from '../../components/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const products = await getCollection('products');
+---
+
+<Layout title="Products">
+  <main>
+    <h1>Products</h1>
+
+    <ul>
+      {products.map((p) => (
+        <li>
+          <a href={`/products/${p.slug}`}>{p.data.name}</a>
+          — {p.data.category} — Ksh {p.data.pricePerKg}/{p.data.unit}
+          {!p.data.inStock && <em> (out of stock)</em>}
+        </li>
+      ))}
+    </ul>
+  </main>
+</Layout>

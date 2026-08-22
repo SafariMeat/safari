@@ -1,0 +1,112 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images/products"
+public_folder: "/images/products"
+
+collections:
+  - name: "products"
+    label: "Products"
+    folder: "src/content/products"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Product name", name: "name", widget: "string" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["beef", "goat", "chicken", "pork", "sausages", "other"]
+      - { label: "Price per kg (Ksh)", name: "pricePerKg", widget: "number", value_type: "float", min: 0 }
+      - { label: "Unit", name: "unit", widget: "string", default: "kg" }
+      - label: "Availability"
+        name: "inStock"
+        widget: "boolean"
+        default: true
+        true_label: "Available / In stock"
+        false_label: "Unavailable / Out of stock"
+        hint: "Manual override — turn this off to pull the product from ordering immediately, regardless of stock quantity below."
+      - label: "Stock quantity (kg on hand)"
+        name: "stockQty"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        default: 0
+        hint: "The most a customer can order in one go. Update this whenever stock changes — customers can't order more than what's here."
+      - label: "Featured product"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Turn this on to show the product in the Featured section on the homepage."
+      - { label: "Product image", name: "image", widget: "image", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Full product details", name: "body", widget: "markdown", required: false }
+
+  - name: "pages"
+    label: "Site Content"
+    files:
+      - file: "src/content/home/home.md"
+        label: "Home Page"
+        name: "home"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/about/about.md"
+        label: "About Page"
+        name: "about"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/contact/contact.md"
+        label: "Contact Page"
+        name: "contact"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string" }
+          - label: "WhatsApp number"
+            name: "whatsapp"
+            widget: "string"
+            hint: "International format, digits only, no + or spaces (e.g. 254700000000). Used for all WhatsApp order/enquiry links across the site."
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Address", name: "address", widget: "string" }
+          - { label: "Business hours", name: "hours", widget: "string" }
+      - file: "src/content/certification/certification.md"
+        label: "Export & Certification Page"
+        name: "certification"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/markets/markets.md"
+        label: "Export Markets Page"
+        name: "markets"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/wholesale/wholesale.md"
+        label: "Wholesale Buyers Page"
+        name: "wholesale"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/exportProcess/exportprocess.md"
+        label: "Our Export Process Page"
+        name: "export-process"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/gallery/gallery.md"
+        label: "Gallery Page"
+        name: "gallery"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/quote/quote.md"
+        label: "Request a Quotation Page"
+        name: "quote"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/legal/privacy.md"
+        label: "Privacy Policy Page"
+        name: "privacy"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }
+      - file: "src/content/legal/terms.md"
+        label: "Terms & Conditions Page"
+        name: "terms"
+        fields:
+          - { label: "Heading", name: "heading", widget: "string" }

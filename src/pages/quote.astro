@@ -1,0 +1,146 @@
+---
+import Layout from '../components/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const quote = await getEntry('quote', 'quote');
+const contact = await getEntry('contact', 'contact');
+---
+
+<Layout title={quote.data.heading}>
+  <main data-whatsapp-number={contact.data.whatsapp}>
+    <h1>{quote.data.heading}</h1>
+
+    <!--
+      name + data-netlify="true" + the hidden form-name input let Netlify
+      detect this form at build time and log every submission to the Forms
+      tab in the Netlify dashboard, giving the business a real quotation
+      request history alongside the WhatsApp handoff.
+    -->
+    <form id="quote-form" name="quote" data-netlify="true">
+      <input type="hidden" name="form-name" value="quote" />
+      <label>
+        Full name
+        <input type="text" name="name" minlength="2" required />
+      </label>
+      <label>
+        Company
+        <input type="text" name="company" />
+      </label>
+      <label>
+        Country
+        <input type="text" name="country" minlength="2" required />
+      </label>
+      <label>
+        Email
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Phone / WhatsApp
+        <input type="tel" name="phone" required />
+      </label>
+      <label>
+        Product
+        <input type="text" name="product" required />
+      </label>
+      <label>
+        Weight
+        <input type="text" name="weight" />
+      </label>
+      <label>
+        Quantity
+        <input type="text" name="quantity" required />
+      </label>
+      <label>
+        Order frequency
+        <input type="text" name="frequency" />
+      </label>
+      <label>
+        Destination
+        <input type="text" name="destination" minlength="2" required />
+      </label>
+      <label>
+        Incoterm
+        <input type="text" name="incoterm" />
+      </label>
+      <label>
+        Additional requirements
+        <textarea name="requirements"></textarea>
+      </label>
+      <button type="submit">Request Quotation</button>
+    </form>
+    <p id="quote-status" role="status"></p>
+  </main>
+</Layout>
+
+<script>
+  import { isValidText } from '../lib/validate';
+  import { submitLead } from '../lib/leads';
+
+  const main = document.querySelector('main') as HTMLElement;
+  const whatsappNumber = main.dataset.whatsappNumber ?? '';
+
+  const form = document.getElementById('quote-form') as HTMLFormElement;
+  const status = document.getElementById('quote-status')!;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const fields = {
+      name: String(formData.get('name') ?? '').trim(),
+      company: String(formData.get('company') ?? '').trim(),
+      country: String(formData.get('country') ?? '').trim(),
+      email: String(formData.get('email') ?? '').trim(),
+      phone: String(formData.get('phone') ?? '').trim(),
+      product: String(formData.get('product') ?? '').trim(),
+      weight: String(formData.get('weight') ?? '').trim(),
+      quantity: String(formData.get('quantity') ?? '').trim(),
+      frequency: String(formData.get('frequency') ?? '').trim(),
+      destination: String(formData.get('destination') ?? '').trim(),
+      incoterm: String(formData.get('incoterm') ?? '').trim(),
+      requirements: String(formData.get('requirements') ?? '').trim(),
+    };
+
+    if (!isValidText(fields.name)) {
+      status.textContent = 'Please enter your full name (at least 2 characters).';
+      return;
+    }
+
+    if (!isValidText(fields.country)) {
+      status.textContent = 'Please enter your country (at least 2 characters).';
+      return;
+    }
+
+    if (!isValidText(fields.destination)) {
+      status.textContent = 'Please enter a valid destination (at least 2 characters).';
+      return;
+    }
+
+    const text = [
+      'Quotation Request — Safari Meats',
+      '',
+      `Name: ${fields.name}`,
+      `Company: ${fields.company}`,
+      `Country: ${fields.country}`,
+      `Email: ${fields.email}`,
+      `Phone/WhatsApp: ${fields.phone}`,
+      `Product: ${fields.product}`,
+      `Weight: ${fields.weight}`,
+      `Quantity: ${fields.quantity}`,
+      `Order frequency: ${fields.frequency}`,
+      `Destination: ${fields.destination}`,
+      `Incoterm: ${fields.incoterm}`,
+      `Additional requirements: ${fields.requirements}`,
+    ].join('\n');
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+    // Best-effort record for the business's quote-request history — never
+    // blocks the WhatsApp handoff if it fails.
+    void submitLead('quote', fields);
+
+    form.reset();
+    status.textContent = 'Opening WhatsApp to send your quotation request.';
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  });
+</script>
