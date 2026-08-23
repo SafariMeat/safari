@@ -4,8 +4,6 @@ import { getEntry } from 'astro:content';
 
 const wholesale = await getEntry('wholesale', 'wholesale');
 const contact = await getEntry('contact', 'contact');
-
-const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 ---
 
 <Layout title={wholesale.data.heading}>
@@ -22,53 +20,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
       <div class="relative mx-auto max-w-7xl px-6 py-8 lg:px-12">
 
-        <header class="animate-fade-up flex items-center justify-between opacity-0" style="animation-delay:0ms">
-
-          <a
-            href="/"
-            class="group flex items-center gap-3"
-            aria-label="Safari Meat homepage"
-          >
-            <span class="flex h-10 w-10 items-center justify-center rounded-full border border-[#F2EAD9]/15 bg-[#F2EAD9]/5 backdrop-blur">
-              <span class="h-2 w-2 rotate-45 bg-[#C17F2E]"></span>
-            </span>
-
-            <span class="font-mono text-sm font-semibold uppercase tracking-[0.2em]">
-              Safari Meat
-            </span>
-          </a>
-
-          <nav class="hidden items-center gap-8 font-mono text-xs uppercase tracking-[0.15em] text-[#F2EAD9]/70 md:flex">
-
-            <a
-              href="/products"
-              class="transition hover:text-[#F2EAD9]"
-            >
-              Products
-            </a>
-
-            <a
-              href="/quote"
-              aria-current="page"
-              class="text-[#F2EAD9] underline decoration-[#C17F2E] decoration-2 underline-offset-8 transition"
-            >
-              Wholesale
-            </a>
-
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="rounded-full border border-[#F2EAD9]/15 bg-[#F2EAD9]/5 px-5 py-2.5 font-semibold tracking-[0.1em] backdrop-blur transition hover:border-[#F2EAD9]/30 hover:bg-[#F2EAD9]/10"
-            >
-              Contact
-            </a>
-
-          </nav>
-
-        </header>
-
-        <div class="animate-fade-up mt-16 max-w-3xl pb-16 pt-8 opacity-0" style="animation-delay:150ms">
+        <div class="animate-fade-up max-w-3xl pb-16 pt-8 opacity-0" style="animation-delay:0ms">
 
           <div class="mb-6 flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.35em] text-[#C17F2E] sm:text-xs">
 
@@ -227,51 +179,6 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
     </section>
 
-
-    <!-- ========================================================= -->
-    <!-- FOOTER -->
-    <!-- ========================================================= -->
-
-    <footer class="bg-[#211C16] text-[#F2EAD9]/45">
-
-      <div class="mx-auto flex max-w-7xl flex-col gap-5 border-t border-dashed border-[#F2EAD9]/10 px-6 py-8 font-mono text-xs uppercase tracking-[0.1em] sm:flex-row sm:items-center sm:justify-between lg:px-12">
-
-        <p>
-          © {new Date().getFullYear()} Safari Meat.
-          All rights reserved.
-        </p>
-
-        <div class="flex items-center gap-6">
-
-          <a
-            href="/products"
-            class="transition hover:text-[#F2EAD9]"
-          >
-            Products
-          </a>
-
-          <a
-            href="/quote"
-            class="transition hover:text-[#F2EAD9]"
-          >
-            Wholesale
-          </a>
-
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="transition hover:text-[#F2EAD9]"
-          >
-            WhatsApp
-          </a>
-
-        </div>
-
-      </div>
-
-    </footer>
-
   </main>
 </Layout>
 
@@ -311,7 +218,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
     const whatsappNumber = main.dataset.whatsappNumber ?? '';
 
     const text = [
-      'Wholesale Pricing Request — Safari Meats',
+      'Wholesale Pricing Request — Safari Meat Exports',
       '',
       `Company: ${fields.company}`,
       `Country: ${fields.country}`,
