@@ -39,7 +39,25 @@ const home = defineCollection({
 // Pure text pages: heading only.
 const about = defineCollection({
   type: 'content',
-  schema: z.object({ heading: z.string() }),
+  schema: z.object({
+    heading: z.string(),
+    tagline: z.string(),
+    heroDescription: z.string(),
+    whoWeAreTitle: z.string(),
+    whoWeAreDescription: z.string(),
+    whoWeArePoints: z.array(z.string()),
+    missionTitle: z.string(),
+    missionDescription: z.string(),
+    whyWorkWithUsTitle: z.string(),
+    whyWorkWithUs: z.array(
+      z.object({
+        title: z.string(),
+        description: z.string(),
+      })
+    ),
+    qualityCommitmentTitle: z.string(),
+    qualityCommitmentDescription: z.string(),
+  }),
 });
 
 const certification = defineCollection({
