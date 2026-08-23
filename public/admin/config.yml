@@ -4,8 +4,9 @@ backend:
   branch: main
   base_url: https://safari-orpin.vercel.app
   auth_endpoint: api/auth
-  media_folder: "public/images/products"
-  public_folder: "/images/products"
+
+media_folder: "public/images/products"
+public_folder: "/images/products"
 
 collections:
   - name: "products"
