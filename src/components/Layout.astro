@@ -34,15 +34,75 @@ const footerLinks = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} — Safari Meat Exports</title>
+
+    <!--
+      Theme tokens: two brand palettes (not literal black/white) toggled via
+      [data-theme] on <html>. Dark is the default (no attribute needed) so
+      first-time visitors get dark mode with zero JS/flash. Alpha variants
+      throughout the site are expressed with color-mix() against these two
+      base colors, so every /NN opacity used on a page carries over exactly
+      to whichever theme is active instead of needing a light AND dark
+      version of every shade.
+    -->
+    <style is:global>
+      :root {
+        --color-bg: #211c16;
+        --color-bg-soft: #2a2419;
+        --color-bg-soft-2: #332b1e;
+        --color-text: #f2ead9;
+        color-scheme: dark;
+      }
+
+      :root[data-theme='light'] {
+        --color-bg: #f2ead9;
+        --color-bg-soft: #faf4e7;
+        --color-bg-soft-2: #eadfc7;
+        --color-text: #211c16;
+        color-scheme: light;
+      }
+
+      html {
+        background-color: var(--color-bg);
+      }
+
+      body {
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .theme-icon-sun {
+        display: none;
+      }
+      .theme-icon-moon {
+        display: block;
+      }
+      [data-theme='light'] .theme-icon-sun {
+        display: block;
+      }
+      [data-theme='light'] .theme-icon-moon {
+        display: none;
+      }
+    </style>
+
+    <!-- Blocking: applies a saved "light" preference before first paint. -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('safari-meats-theme');
+          if (stored === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="bg-neutral-950 text-neutral-100">
-    <header class="sticky top-0 z-50 border-b border-white/10 bg-neutral-950/80 backdrop-blur-md">
+  <body class="bg-[var(--color-bg)] text-[var(--color-text)]">
+    <header class="sticky top-0 z-50 border-b border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg)_80%,transparent)] backdrop-blur-md">
       <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
-        <a href="/" class="flex items-center gap-2 text-white">
+        <a href="/" class="flex items-center gap-2 text-[var(--color-text)]">
           <span class="text-lg font-bold tracking-tight">
-            Safari<span class="text-amber-500">Meat</span>
+            Safari<span class="text-[#C17F2E]">Meat</span>
           </span>
-          <span class="hidden text-xs uppercase tracking-[0.2em] text-neutral-500 sm:inline">
+          <span class="hidden text-xs uppercase tracking-[0.2em] text-[color-mix(in_srgb,var(--color-text)_45%,transparent)] sm:inline">
             Exports
           </span>
         </a>
@@ -52,19 +112,33 @@ const footerLinks = [
           {navLinks.map((link) => (
             <a
               href={link.href}
-              class="rounded-md px-3 py-2 text-sm font-medium text-neutral-300 transition hover:bg-white/[0.06] hover:text-white"
+              class="rounded-md px-3 py-2 text-sm font-medium text-[color-mix(in_srgb,var(--color-text)_70%,transparent)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)] hover:text-[var(--color-text)]"
             >
               {link.label}
             </a>
           ))}
+
+          <button
+            type="button"
+            class="theme-toggle ml-1 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)]"
+            aria-label="Toggle color theme"
+          >
+            <svg class="theme-icon-sun h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m15.36 6.36l-1.06-1.06M6.7 6.7 5.64 5.64m12.72 0-1.06 1.06M6.7 17.3l-1.06 1.06M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+            </svg>
+            <svg class="theme-icon-moon h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+            </svg>
+          </button>
+
           <a
             href="/order"
-            class="ml-2 inline-flex items-center gap-1.5 rounded-lg bg-amber-500 px-3.5 py-2 text-sm font-semibold text-neutral-950 transition hover:bg-amber-400"
+            class="ml-2 inline-flex items-center gap-1.5 rounded-lg bg-[#C17F2E] px-3.5 py-2 text-sm font-semibold text-[#211C16] transition hover:bg-[#DDA556]"
           >
             Your Order
             <span
               id="nav-cart-count"
-              class="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-neutral-950/20 px-1.5 py-0.5 text-xs font-bold"
+              class="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-black/20 px-1.5 py-0.5 text-xs font-bold"
             >
               0
             </span>
@@ -73,14 +147,27 @@ const footerLinks = [
 
         <!-- Mobile controls -->
         <div class="flex items-center gap-2 lg:hidden">
+          <button
+            type="button"
+            class="theme-toggle inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)]"
+            aria-label="Toggle color theme"
+          >
+            <svg class="theme-icon-sun h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1.5m0 15V21m9-9h-1.5M4.5 12H3m15.36 6.36l-1.06-1.06M6.7 6.7 5.64 5.64m12.72 0-1.06 1.06M6.7 17.3l-1.06 1.06M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z" />
+            </svg>
+            <svg class="theme-icon-moon h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+            </svg>
+          </button>
+
           <a
             href="/order"
-            class="inline-flex items-center gap-1.5 rounded-lg bg-amber-500 px-3 py-1.5 text-sm font-semibold text-neutral-950"
+            class="inline-flex items-center gap-1.5 rounded-lg bg-[#C17F2E] px-3 py-1.5 text-sm font-semibold text-[#211C16]"
           >
             Order
             <span
               id="nav-cart-count-mobile"
-              class="inline-flex min-w-[1.1rem] items-center justify-center rounded-full bg-neutral-950/20 px-1.5 py-0.5 text-xs font-bold"
+              class="inline-flex min-w-[1.1rem] items-center justify-center rounded-full bg-black/20 px-1.5 py-0.5 text-xs font-bold"
             >
               0
             </span>
@@ -91,7 +178,7 @@ const footerLinks = [
             aria-label="Toggle menu"
             aria-expanded="false"
             aria-controls="mobile-menu"
-            class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/10 text-neutral-200 transition hover:bg-white/[0.06]"
+            class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)]"
           >
             <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -104,12 +191,12 @@ const footerLinks = [
       </nav>
 
       <!-- Mobile menu -->
-      <div id="mobile-menu" class="hidden border-t border-white/10 lg:hidden">
+      <div id="mobile-menu" class="hidden border-t border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] lg:hidden">
         <div class="space-y-0.5 px-4 py-3 sm:px-6">
           {navLinks.map((link) => (
             <a
               href={link.href}
-              class="block rounded-md px-3 py-2.5 text-sm font-medium text-neutral-300 transition hover:bg-white/[0.06] hover:text-white"
+              class="block rounded-md px-3 py-2.5 text-sm font-medium text-[color-mix(in_srgb,var(--color-text)_70%,transparent)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)] hover:text-[var(--color-text)]"
             >
               {link.label}
             </a>
@@ -120,28 +207,28 @@ const footerLinks = [
 
     <slot />
 
-    <footer class="border-t border-white/10 bg-neutral-950">
+    <footer class="border-t border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[var(--color-bg)]">
       <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
         <div class="grid gap-10 sm:grid-cols-3">
           <div>
-            <span class="text-lg font-bold tracking-tight text-white">
-              Safari<span class="text-amber-500">Meat</span>
+            <span class="text-lg font-bold tracking-tight text-[var(--color-text)]">
+              Safari<span class="text-[#C17F2E]">Meat</span>
             </span>
-            <p class="mt-3 max-w-xs text-sm leading-relaxed text-neutral-400">
+            <p class="mt-3 max-w-xs text-sm leading-relaxed text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
               East African meat sourcing and export, built on quality, professional
               handling, and reliable supply relationships.
             </p>
           </div>
 
           <div>
-            <h3 class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+            <h3 class="text-xs font-semibold uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
               Explore
             </h3>
             <nav class="mt-4 flex flex-col gap-2.5">
               {footerLinks.map((link) => (
                 <a
                   href={link.href}
-                  class="text-sm text-neutral-400 transition hover:text-amber-400"
+                  class="text-sm text-[color-mix(in_srgb,var(--color-text)_55%,transparent)] transition hover:text-[#C17F2E]"
                 >
                   {link.label}
                 </a>
@@ -150,17 +237,17 @@ const footerLinks = [
           </div>
 
           <div>
-            <h3 class="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+            <h3 class="text-xs font-semibold uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
               Your Order
             </h3>
             <a
               href="/order"
-              class="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/[0.04] px-3.5 py-2 text-sm font-medium text-white transition hover:bg-white/[0.08]"
+              class="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_4%,transparent)] px-3.5 py-2 text-sm font-medium text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_8%,transparent)]"
             >
               View Order
               <span
                 id="nav-cart-count-footer"
-                class="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-amber-500/20 px-1.5 py-0.5 text-xs font-bold text-amber-400"
+                class="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[#C17F2E]/20 px-1.5 py-0.5 text-xs font-bold text-[#C17F2E]"
               >
                 0
               </span>
@@ -168,13 +255,13 @@ const footerLinks = [
           </div>
         </div>
 
-        <div class="mt-10 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p class="text-xs text-neutral-500">
+        <div class="mt-10 flex flex-col gap-4 border-t border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-xs text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
             &copy; {new Date().getFullYear()} Safari Meats — East African Meat Exporters
           </p>
-          <div class="flex gap-5 text-xs text-neutral-500">
-            <a href="/privacy" class="transition hover:text-neutral-300">Privacy Policy</a>
-            <a href="/terms" class="transition hover:text-neutral-300">Terms &amp; Conditions</a>
+          <div class="flex gap-5 text-xs text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
+            <a href="/privacy" class="transition hover:text-[color-mix(in_srgb,var(--color-text)_70%,transparent)]">Privacy Policy</a>
+            <a href="/terms" class="transition hover:text-[color-mix(in_srgb,var(--color-text)_70%,transparent)]">Terms &amp; Conditions</a>
           </div>
         </div>
       </div>
@@ -227,6 +314,27 @@ const footerLinks = [
       iconOpen?.classList.remove('hidden');
       iconClose?.classList.add('hidden');
       menuButton?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Theme toggle (desktop + mobile buttons share this handler).
+  const THEME_KEY = 'safari-meats-theme';
+
+  function setTheme(theme: 'dark' | 'light') {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (e) {}
+  }
+
+  document.querySelectorAll('.theme-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      setTheme(isLight ? 'dark' : 'light');
     });
   });
 </script>

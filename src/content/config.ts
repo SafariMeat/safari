@@ -33,8 +33,50 @@ const home = defineCollection({
   type: 'content',
   schema: z.object({
     heading: z.string(),
+
+    heroEyebrow: z.string(),
+    heroHeadingLine1: z.string(),
+    heroHeadingLine2: z.string(),
+    heroDescription: z.string(),
+    heroCtaPrimaryLabel: z.string(),
+    heroCtaSecondaryLabel: z.string(),
+    heroCtaWhatsappLabel: z.string(),
+    heroLedger: z.array(
+      z.object({
+        number: z.string(),
+        category: z.string(),
+        value: z.string(),
+      })
+    ),
+
+    tickerRow1: z.array(z.string()),
+    tickerRow2: z.array(z.string()),
+
+    productsEyebrow: z.string(),
+    productsHeadingLine1: z.string(),
+    productsHeadingLine2: z.string(),
+    productsDescription: z.string(),
+    productsCtaLabel: z.string(),
+
+    whySupplyEyebrow: z.string(),
+    whySupplyHeadingLine1: z.string(),
+    whySupplyHeadingLine2: z.string(),
+    whySupplyCards: z.array(
+      z.object({
+        code: z.string(),
+        title: z.string(),
+        description: z.string(),
+      })
+    ),
+
+    ctaEyebrow: z.string(),
+    ctaHeading: z.string(),
+    ctaDescription: z.string(),
+    ctaPrimaryLabel: z.string(),
+    ctaSecondaryLabel: z.string(),
   }),
 });
+
 
 // Pure text pages: heading only.
 const about = defineCollection({
