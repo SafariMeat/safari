@@ -6,44 +6,137 @@ const contact = await getEntry('contact', 'contact');
 ---
 
 <Layout title={contact.data.heading}>
-  <main data-whatsapp-number={contact.data.whatsapp} data-business-email={contact.data.email}>
-    <h1>{contact.data.heading}</h1>
+  <main
+    data-whatsapp-number={contact.data.whatsapp}
+    data-business-email={contact.data.email}
+    class="min-h-screen bg-neutral-950 text-neutral-100 px-4 py-10 sm:py-16"
+  >
+    <div class="mx-auto w-full max-w-3xl">
+      <!-- Page heading -->
+      <div class="mb-8 sm:mb-10 text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+          Safari Meat Exports
+        </p>
+        <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          {contact.data.heading}
+        </h1>
+        <p class="mt-2 text-sm text-neutral-400">
+          Reach out with your enquiry and we'll get back to you as soon as we can.
+        </p>
+      </div>
 
-      <ul>
-        <li>Phone: {contact.data.phone}</li>
-        <li>WhatsApp: {contact.data.whatsapp}</li>
-        <li>Email: {contact.data.email}</li>
-        <li>Address: {contact.data.address}</li>
-        <li>Hours: {contact.data.hours}</li>
-      </ul>
+      <div class="grid gap-6 sm:grid-cols-5">
+        <!-- Contact details -->
+        <section class="sm:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 p-6 h-fit">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-400">
+            Contact Details
+          </h2>
+          <ul class="mt-4 space-y-4 text-sm">
+            <li>
+              <span class="block text-xs uppercase tracking-wide text-neutral-500">Phone</span>
+              <span class="text-white">{contact.data.phone}</span>
+            </li>
+            <li>
+              <span class="block text-xs uppercase tracking-wide text-neutral-500">WhatsApp</span>
+              <span class="text-white">{contact.data.whatsapp}</span>
+            </li>
+            <li>
+              <span class="block text-xs uppercase tracking-wide text-neutral-500">Email</span>
+              <span class="text-white">{contact.data.email}</span>
+            </li>
+            <li>
+              <span class="block text-xs uppercase tracking-wide text-neutral-500">Address</span>
+              <span class="text-white">{contact.data.address}</span>
+            </li>
+            <li>
+              <span class="block text-xs uppercase tracking-wide text-neutral-500">Hours</span>
+              <span class="text-white">{contact.data.hours}</span>
+            </li>
+          </ul>
+        </section>
 
-      <!--
-        name + data-netlify="true" + the hidden form-name input let Netlify
-        detect this form at build time and log every submission to the
-        Forms tab in the Netlify dashboard, giving the business a real
-        message history alongside the WhatsApp handoff.
-      -->
-      <form id="contact-form" name="contact" data-netlify="true">
-        <input type="hidden" name="form-name" value="contact" />
-        <label>
-          Name
-          <input type="text" name="name" minlength="2" required />
-        </label>
-        <label>
-          Email
-          <input type="email" name="email" required />
-        </label>
-        <label>
-          Message
-          <textarea name="message" required></textarea>
-        </label>
-        <fieldset>
-          <legend>How would you like to send this?</legend>
-          <button type="submit" name="channel" value="whatsapp">Send via WhatsApp</button>
-          <button type="submit" name="channel" value="email">Send via Email</button>
-        </fieldset>
-      </form>
-      <p id="contact-status" role="status"></p>
+        <!--
+          name + data-netlify="true" + the hidden form-name input let Netlify
+          detect this form at build time and log every submission to the
+          Forms tab in the Netlify dashboard, giving the business a real
+          message history alongside the WhatsApp handoff.
+        -->
+        <form
+          id="contact-form"
+          name="contact"
+          data-netlify="true"
+          class="sm:col-span-3 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 p-5 sm:p-6 space-y-5"
+        >
+          <input type="hidden" name="form-name" value="contact" />
+
+          <label class="block">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+              Name
+            </span>
+            <input
+              type="text"
+              name="name"
+              minlength="2"
+              required
+              class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              placeholder="Jane Doe"
+            />
+          </label>
+
+          <label class="block">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+              Email
+            </span>
+            <input
+              type="email"
+              name="email"
+              required
+              class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              placeholder="jane@example.com"
+            />
+          </label>
+
+          <label class="block">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+              Message
+            </span>
+            <textarea
+              name="message"
+              required
+              rows="4"
+              class="w-full resize-none rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              placeholder="Tell us what you're looking for..."
+            ></textarea>
+          </label>
+
+          <fieldset class="border-0 p-0">
+            <legend class="mb-2.5 text-xs font-medium uppercase tracking-wide text-neutral-400">
+              How would you like to send this?
+            </legend>
+            <div class="flex flex-col gap-3 sm:flex-row">
+              <button
+                type="submit"
+                name="channel"
+                value="whatsapp"
+                class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-500 active:scale-[0.98]"
+              >
+                Send via WhatsApp
+              </button>
+              <button
+                type="submit"
+                name="channel"
+                value="email"
+                class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/[0.08] active:scale-[0.98]"
+              >
+                Send via Email
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+      <p id="contact-status" role="status" class="mt-4 min-h-[1.25rem] text-center text-sm text-amber-400"></p>
+    </div>
   </main>
 </Layout>
 
@@ -85,7 +178,7 @@ const contact = await getEntry('contact', 'contact');
     const businessEmail = main.dataset.businessEmail ?? '';
 
     const text = [
-      'New message from Safari Meats website',
+      'New message from Safari Meat Exports website',
       '',
       `Name: ${name}`,
       `Email: ${email}`,
@@ -100,7 +193,7 @@ const contact = await getEntry('contact', 'contact');
     form.reset();
 
     if (channel === 'email') {
-      const mailtoUrl = `mailto:${businessEmail}?subject=${encodeURIComponent('New message from Safari Meats website')}&body=${encodeURIComponent(text)}`;
+      const mailtoUrl = `mailto:${businessEmail}?subject=${encodeURIComponent('New message from Safari Meat Exports website')}&body=${encodeURIComponent(text)}`;
       status.textContent = 'Opening your email app to send your message.';
       window.open(mailtoUrl, '_blank', 'noopener,noreferrer');
     } else {
