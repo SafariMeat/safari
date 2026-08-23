@@ -1,4 +1,3 @@
-
 ---
 import Layout from '../components/Layout.astro';
 import { getCollection, getEntry } from 'astro:content';
@@ -11,24 +10,38 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 ---
 
 <Layout title={home.data.heading}>
-  <main class="bg-[#f6f5f1] text-stone-900">
+  <main class="bg-[#F2EAD9] text-[#211C16]">
 
     <!-- ========================================================= -->
     <!-- HERO -->
     <!-- ========================================================= -->
 
-    <section class="relative min-h-screen overflow-hidden bg-[#101411] text-white">
+    <section class="relative min-h-screen overflow-hidden bg-[#211C16] text-[#F2EAD9]">
 
       <img
         src="/images/hero-goat-meat.jpg"
         alt="Premium export-ready goat meat"
-        class="absolute inset-0 h-full w-full object-cover opacity-35"
+        class="absolute inset-0 h-full w-full object-cover opacity-25"
       />
 
-      <div class="absolute inset-0 bg-gradient-to-r from-[#101411] via-[#101411]/75 to-[#101411]/30"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-[#101411] via-transparent to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-[#211C16] via-[#211C16]/80 to-[#211C16]/40"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#211C16] via-transparent to-transparent"></div>
 
-      <div class="absolute -right-40 top-20 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
+      <!-- signature certification stamp -->
+      <div class="pointer-events-none absolute right-6 top-28 hidden h-40 w-40 -rotate-6 text-[#C17F2E]/70 sm:block lg:right-16 lg:h-52 lg:w-52">
+        <svg viewBox="0 0 160 160" class="h-full w-full">
+          <defs>
+            <path id="stampRing" d="M 80,80 m -62,0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0" />
+          </defs>
+          <circle cx="80" cy="80" r="74" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="1.5 5" />
+          <circle cx="80" cy="80" r="50" fill="none" stroke="currentColor" stroke-width="1" />
+          <text font-size="8.5" letter-spacing="2.5" fill="currentColor" style="font-family: ui-monospace, monospace;">
+            <textPath href="#stampRing" startOffset="2%">CERTIFIED &#8226; EXPORT GRADE &#8226; CERTIFIED &#8226; EXPORT GRADE &#8226;</textPath>
+          </text>
+          <text x="80" y="76" text-anchor="middle" font-size="14" style="font-family: ui-serif, Georgia, serif;" fill="currentColor">EST.</text>
+          <text x="80" y="94" text-anchor="middle" font-size="10" letter-spacing="3" style="font-family: ui-monospace, monospace;" fill="currentColor">SAFARI</text>
+        </svg>
+      </div>
 
       <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-between px-6 py-8 lg:px-12">
 
@@ -40,27 +53,27 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             class="group flex items-center gap-3"
             aria-label="Safari Meat homepage"
           >
-            <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur">
-              <span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+            <span class="flex h-10 w-10 items-center justify-center rounded-full border border-[#F2EAD9]/15 bg-[#F2EAD9]/5 backdrop-blur">
+              <span class="h-2 w-2 rotate-45 bg-[#C17F2E]"></span>
             </span>
 
-            <span class="text-sm font-semibold tracking-tight">
+            <span class="font-mono text-sm font-semibold uppercase tracking-[0.2em]">
               Safari Meat
             </span>
           </a>
 
-          <nav class="hidden items-center gap-8 text-sm text-stone-300 md:flex">
+          <nav class="hidden items-center gap-8 font-mono text-xs uppercase tracking-[0.15em] text-[#F2EAD9]/70 md:flex">
 
             <a
               href="/products"
-              class="transition hover:text-white"
+              class="transition hover:text-[#F2EAD9]"
             >
               Products
             </a>
 
             <a
               href="/quote"
-              class="transition hover:text-white"
+              class="transition hover:text-[#F2EAD9]"
             >
               Wholesale
             </a>
@@ -69,7 +82,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 font-medium backdrop-blur transition hover:border-white/30 hover:bg-white/10"
+              class="rounded-full border border-[#F2EAD9]/15 bg-[#F2EAD9]/5 px-5 py-2.5 font-semibold tracking-[0.1em] backdrop-blur transition hover:border-[#F2EAD9]/30 hover:bg-[#F2EAD9]/10"
             >
               Contact
             </a>
@@ -82,19 +95,19 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
         <!-- HERO CONTENT -->
         <div class="max-w-5xl pb-16 pt-24 lg:pb-24">
 
-          <div class="mb-8 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-400 sm:text-xs">
+          <div class="mb-8 flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.35em] text-[#C17F2E] sm:text-xs">
 
-            <span class="h-px w-8 bg-emerald-400"></span>
+            <span class="h-px w-8 bg-[#C17F2E]"></span>
 
-            East African Meat Exporters
+            Manifest No. SM-2026 &#8212; East African Exporters
 
           </div>
 
-          <h1 class="max-w-5xl text-[15vw] font-semibold leading-[0.88] tracking-[-0.06em] sm:text-7xl lg:text-[6.5rem]">
+          <h1 class="max-w-5xl font-serif text-[13vw] font-semibold leading-[0.92] tracking-[-0.03em] sm:text-7xl lg:text-[6.25rem]">
             {home.data.heading}
           </h1>
 
-          <p class="mt-8 max-w-2xl text-base leading-7 text-stone-300 sm:text-lg sm:leading-8">
+          <p class="mt-8 max-w-2xl text-base leading-7 text-[#F2EAD9]/65 sm:text-lg sm:leading-8">
             Premium, export-ready goat meat supplied to international wholesale
             buyers — professionally sourced, quality controlled, packaged and
             handled through a reliable cold chain from East Africa to your market.
@@ -104,7 +117,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
             <a
               href="/quote"
-              class="group inline-flex items-center gap-4 rounded-full bg-emerald-500 px-7 py-4 text-sm font-semibold text-stone-950 transition duration-300 hover:bg-emerald-400 hover:shadow-xl hover:shadow-emerald-500/10"
+              class="group inline-flex items-center gap-4 rounded-full bg-[#C17F2E] px-7 py-4 text-sm font-semibold text-[#211C16] transition duration-300 hover:bg-[#DDA556] hover:shadow-xl hover:shadow-[#C17F2E]/10"
             >
               Request a Quotation
 
@@ -118,7 +131,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
             <a
               href="/products"
-              class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-4 text-sm font-semibold text-white backdrop-blur transition duration-300 hover:border-white/30 hover:bg-white/10"
+              class="inline-flex items-center gap-2 rounded-full border border-dashed border-[#F2EAD9]/25 px-7 py-4 text-sm font-semibold text-[#F2EAD9] backdrop-blur transition duration-300 hover:border-[#F2EAD9]/50 hover:bg-[#F2EAD9]/5"
             >
               Explore Products
             </a>
@@ -127,9 +140,9 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="px-3 py-4 text-sm font-semibold text-emerald-400 transition hover:text-emerald-300"
+              class="px-3 py-4 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-[#C17F2E] transition hover:text-[#DDA556]"
             >
-              WhatsApp Sales
+              WhatsApp Sales →
             </a>
 
           </div>
@@ -137,45 +150,45 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
         </div>
 
 
-        <!-- HERO STATS -->
-        <div class="grid grid-cols-2 gap-6 border-t border-white/10 py-6 sm:grid-cols-4">
+        <!-- HERO LEDGER -->
+        <div class="grid grid-cols-2 gap-6 border-t border-dashed border-[#F2EAD9]/15 py-6 font-mono sm:grid-cols-4">
 
           <div>
-            <p class="text-xs uppercase tracking-widest text-stone-500">
-              Quality
+            <p class="text-[10px] uppercase tracking-[0.25em] text-[#F2EAD9]/40">
+              01 &#8226; Quality
             </p>
 
-            <p class="mt-1 text-sm font-medium text-stone-200">
+            <p class="mt-1.5 text-sm font-medium text-[#F2EAD9]/90">
               Controlled sourcing
             </p>
           </div>
 
           <div>
-            <p class="text-xs uppercase tracking-widest text-stone-500">
-              Handling
+            <p class="text-[10px] uppercase tracking-[0.25em] text-[#F2EAD9]/40">
+              02 &#8226; Handling
             </p>
 
-            <p class="mt-1 text-sm font-medium text-stone-200">
+            <p class="mt-1.5 text-sm font-medium text-[#F2EAD9]/90">
               Cold-chain
             </p>
           </div>
 
           <div>
-            <p class="text-xs uppercase tracking-widest text-stone-500">
-              Supply
+            <p class="text-[10px] uppercase tracking-[0.25em] text-[#F2EAD9]/40">
+              03 &#8226; Supply
             </p>
 
-            <p class="mt-1 text-sm font-medium text-stone-200">
+            <p class="mt-1.5 text-sm font-medium text-[#F2EAD9]/90">
               Wholesale volumes
             </p>
           </div>
 
           <div>
-            <p class="text-xs uppercase tracking-widest text-stone-500">
-              Origin
+            <p class="text-[10px] uppercase tracking-[0.25em] text-[#F2EAD9]/40">
+              04 &#8226; Origin
             </p>
 
-            <p class="mt-1 text-sm font-medium text-stone-200">
+            <p class="mt-1.5 text-sm font-medium text-[#F2EAD9]/90">
               East Africa
             </p>
           </div>
@@ -187,12 +200,12 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
 
     <!-- ========================================================= -->
-    <!-- SLEEK TWO-ROW MOVING TICKER -->
+    <!-- MANIFEST STRIP TICKER -->
     <!-- ========================================================= -->
 
-    <section class="overflow-hidden border-b border-stone-200 bg-[#f6f5f1] py-5">
+    <section class="overflow-hidden border-y border-dashed border-[#211C16]/15 bg-[#F2EAD9] py-4">
 
-      <div class="space-y-3">
+      <div class="space-y-2">
 
         <!-- ROW ONE — MOVES LEFT -->
         <div class="relative overflow-hidden">
@@ -202,29 +215,29 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             {Array(4).fill(0).map(() => (
               <div class="flex items-center">
 
-                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-xs">
+                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/55 sm:text-xs">
                   Premium Goat Meat
                 </span>
 
-                <span class="text-emerald-600">✦</span>
+                <span class="text-[#C17F2E]">&#8212;</span>
 
-                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-xs">
+                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/55 sm:text-xs">
                   Export Ready
                 </span>
 
-                <span class="text-emerald-600">✦</span>
+                <span class="text-[#C17F2E]">&#8212;</span>
 
-                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-xs">
+                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/55 sm:text-xs">
                   East African Origin
                 </span>
 
-                <span class="text-emerald-600">✦</span>
+                <span class="text-[#C17F2E]">&#8212;</span>
 
-                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-xs">
+                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/55 sm:text-xs">
                   Wholesale Supply
                 </span>
 
-                <span class="text-emerald-600">✦</span>
+                <span class="text-[#C17F2E]">&#8212;</span>
 
               </div>
             ))}
@@ -242,29 +255,29 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             {Array(4).fill(0).map(() => (
               <div class="flex items-center">
 
-                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">
+                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/35 sm:text-xs">
                   Halal Certified
                 </span>
 
-                <span class="text-emerald-600/70">✦</span>
+                <span class="text-[#4B5D42]/60">&#8212;</span>
 
-                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">
+                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/35 sm:text-xs">
                   Cold-Chain Handling
                 </span>
 
-                <span class="text-emerald-600/70">✦</span>
+                <span class="text-[#4B5D42]/60">&#8212;</span>
 
-                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">
+                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/35 sm:text-xs">
                   Professional Packaging
                 </span>
 
-                <span class="text-emerald-600/70">✦</span>
+                <span class="text-[#4B5D42]/60">&#8212;</span>
 
-                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">
+                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/35 sm:text-xs">
                   Export Documentation
                 </span>
 
-                <span class="text-emerald-600/70">✦</span>
+                <span class="text-[#4B5D42]/60">&#8212;</span>
 
               </div>
             ))}
@@ -288,21 +301,21 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
         <div class="max-w-2xl">
 
-          <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-emerald-700">
+          <div class="flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.28em] text-[#C17F2E]">
 
-            <span class="h-px w-7 bg-emerald-600"></span>
+            <span class="h-2 w-2 rotate-45 bg-[#C17F2E]"></span>
 
-            Our Products
+            Product Ledger
 
           </div>
 
-          <h2 class="mt-5 text-4xl font-semibold leading-[1] tracking-[-0.04em] text-stone-950 sm:text-5xl lg:text-6xl">
+          <h2 class="mt-5 font-serif text-4xl font-semibold leading-[1] tracking-[-0.02em] text-[#211C16] sm:text-5xl lg:text-6xl">
             Premium goat meat.
             <br />
             Ready for export.
           </h2>
 
-          <p class="mt-6 max-w-xl text-base leading-7 text-stone-500">
+          <p class="mt-6 max-w-xl text-base leading-7 text-[#211C16]/55">
             Carefully sourced products prepared for wholesale buyers,
             distributors, restaurants and international markets.
           </p>
@@ -312,9 +325,9 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
         <a
           href="/products"
-          class="group inline-flex w-fit items-center gap-3 rounded-full border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-400 hover:bg-stone-950 hover:text-white"
+          class="group inline-flex w-fit items-center gap-3 rounded-full border border-[#211C16]/20 bg-[#F2EAD9] px-5 py-3 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-[#211C16] transition hover:border-[#211C16] hover:bg-[#211C16] hover:text-[#F2EAD9]"
         >
-          View all products
+          View full manifest
 
           <span
             aria-hidden="true"
@@ -331,19 +344,20 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
       <ul class="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
-        {products.map((p) => {
+        {products.map((p, i) => {
 
           const outOfStock = !p.data.inStock;
+          const lot = `LOT-${String(i + 1).padStart(2, '0')}`;
 
           return (
             <li class="group">
 
               <a
                 href={`/products/${p.slug}`}
-                class="block overflow-hidden rounded-3xl border border-stone-200 bg-white transition duration-500 hover:-translate-y-1 hover:border-stone-300 hover:shadow-2xl hover:shadow-stone-900/5"
+                class="block overflow-hidden rounded-2xl border border-[#211C16]/12 bg-[#FAF4E7] transition duration-500 hover:-translate-y-1 hover:border-[#211C16]/25 hover:shadow-2xl hover:shadow-[#211C16]/10"
               >
 
-                <div class="relative aspect-[4/3] overflow-hidden bg-stone-100">
+                <div class="relative aspect-[4/3] overflow-hidden bg-[#EADFC7]">
 
                   <img
                     src={p.data.image ?? '/images/product-placeholder.jpg'}
@@ -352,10 +366,14 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
                     class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
                   />
 
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
+
+                  <span class="absolute left-4 top-4 rounded-full border border-[#211C16]/15 bg-[#211C16]/70 px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.15em] text-[#F2EAD9] backdrop-blur">
+                    {lot}
+                  </span>
 
                   {outOfStock && (
-                    <span class="absolute left-5 top-5 rounded-full border border-white/20 bg-stone-950/80 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur">
+                    <span class="absolute right-4 top-4 -rotate-6 rounded-md border border-dashed border-[#9C3B2C] bg-[#F2EAD9]/90 px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.15em] text-[#9C3B2C]">
                       Out of Stock
                     </span>
                   )}
@@ -369,11 +387,11 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
                     <div>
 
-                      <h3 class="text-xl font-semibold tracking-tight text-stone-950">
+                      <h3 class="font-serif text-xl font-semibold tracking-tight text-[#211C16]">
                         {p.data.name}
                       </h3>
 
-                      <p class="mt-2 text-sm text-stone-500">
+                      <p class="mt-2 font-mono text-sm text-[#211C16]/50">
                         Ksh {p.data.pricePerKg} / {p.data.unit}
                       </p>
 
@@ -381,16 +399,16 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
                     <span
                       aria-hidden="true"
-                      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-stone-200 text-stone-500 transition duration-300 group-hover:border-emerald-500 group-hover:bg-emerald-500 group-hover:text-white"
+                      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#211C16]/15 text-[#211C16]/50 transition duration-300 group-hover:border-[#C17F2E] group-hover:bg-[#C17F2E] group-hover:text-[#211C16]"
                     >
                       ↗
                     </span>
 
                   </div>
 
-                  <div class="mt-7 border-t border-stone-100 pt-5">
+                  <div class="mt-7 border-t border-dashed border-[#211C16]/12 pt-5">
 
-                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500 transition group-hover:text-emerald-700">
+                    <span class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[#211C16]/50 transition group-hover:text-[#C17F2E]">
                       View product details
                     </span>
 
@@ -414,7 +432,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
     <!-- WHY SAFARI MEAT -->
     <!-- ========================================================= -->
 
-    <section class="border-y border-stone-200 bg-white">
+    <section class="border-y border-[#211C16]/10 bg-[#FAF4E7]">
 
       <div class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-28">
 
@@ -422,15 +440,15 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
           <div>
 
-            <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-emerald-700">
+            <div class="flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.28em] text-[#C17F2E]">
 
-              <span class="h-px w-7 bg-emerald-600"></span>
+              <span class="h-2 w-2 rotate-45 bg-[#C17F2E]"></span>
 
-              Why Safari Meat
+              Terms of Supply
 
             </div>
 
-            <h2 class="mt-5 max-w-md text-4xl font-semibold leading-tight tracking-[-0.04em] text-stone-950 sm:text-5xl">
+            <h2 class="mt-5 max-w-md font-serif text-4xl font-semibold leading-tight tracking-[-0.02em] text-[#211C16] sm:text-5xl">
               A supply partner,
               <br />
               not just a supplier.
@@ -439,19 +457,19 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
           </div>
 
 
-          <div class="grid gap-px overflow-hidden rounded-3xl border border-stone-200 bg-stone-200 sm:grid-cols-2">
+          <div class="grid gap-px overflow-hidden rounded-2xl border border-[#211C16]/12 bg-[#211C16]/10 sm:grid-cols-2">
 
-            <div class="bg-[#f6f5f1] p-8">
+            <div class="bg-[#F2EAD9] p-8">
 
-              <span class="text-sm font-semibold text-emerald-700">
-                01
+              <span class="font-mono text-xs font-semibold tracking-[0.15em] text-[#C17F2E]">
+                &#167; SRC
               </span>
 
-              <h3 class="mt-12 text-xl font-semibold">
+              <h3 class="mt-12 font-serif text-xl font-semibold">
                 Reliable sourcing
               </h3>
 
-              <p class="mt-3 text-sm leading-6 text-stone-500">
+              <p class="mt-3 text-sm leading-6 text-[#211C16]/55">
                 Consistent sourcing standards designed to support
                 repeat wholesale orders.
               </p>
@@ -459,17 +477,17 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             </div>
 
 
-            <div class="bg-[#f6f5f1] p-8">
+            <div class="bg-[#F2EAD9] p-8">
 
-              <span class="text-sm font-semibold text-emerald-700">
-                02
+              <span class="font-mono text-xs font-semibold tracking-[0.15em] text-[#C17F2E]">
+                &#167; HDL
               </span>
 
-              <h3 class="mt-12 text-xl font-semibold">
+              <h3 class="mt-12 font-serif text-xl font-semibold">
                 Professional handling
               </h3>
 
-              <p class="mt-3 text-sm leading-6 text-stone-500">
+              <p class="mt-3 text-sm leading-6 text-[#211C16]/55">
                 Proper packaging and cold-chain handling from
                 preparation through delivery.
               </p>
@@ -477,17 +495,17 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             </div>
 
 
-            <div class="bg-[#f6f5f1] p-8">
+            <div class="bg-[#F2EAD9] p-8">
 
-              <span class="text-sm font-semibold text-emerald-700">
-                03
+              <span class="font-mono text-xs font-semibold tracking-[0.15em] text-[#C17F2E]">
+                &#167; EXP
               </span>
 
-              <h3 class="mt-12 text-xl font-semibold">
+              <h3 class="mt-12 font-serif text-xl font-semibold">
                 Export focused
               </h3>
 
-              <p class="mt-3 text-sm leading-6 text-stone-500">
+              <p class="mt-3 text-sm leading-6 text-[#211C16]/55">
                 Documentation and processes designed around
                 international wholesale requirements.
               </p>
@@ -495,17 +513,17 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             </div>
 
 
-            <div class="bg-[#f6f5f1] p-8">
+            <div class="bg-[#F2EAD9] p-8">
 
-              <span class="text-sm font-semibold text-emerald-700">
-                04
+              <span class="font-mono text-xs font-semibold tracking-[0.15em] text-[#C17F2E]">
+                &#167; SLS
               </span>
 
-              <h3 class="mt-12 text-xl font-semibold">
+              <h3 class="mt-12 font-serif text-xl font-semibold">
                 Responsive sales
               </h3>
 
-              <p class="mt-3 text-sm leading-6 text-stone-500">
+              <p class="mt-3 text-sm leading-6 text-[#211C16]/55">
                 Clear communication on specifications, quantities,
                 pricing and shipping requirements.
               </p>
@@ -525,11 +543,20 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
     <!-- FINAL CTA -->
     <!-- ========================================================= -->
 
-    <section class="relative overflow-hidden bg-[#101411] text-white">
+    <section class="relative overflow-hidden bg-[#211C16] text-[#F2EAD9]">
 
-      <div class="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
-
-      <div class="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-16 -right-16 hidden h-56 w-56 rotate-12 text-[#4B5D42]/40 sm:block">
+        <svg viewBox="0 0 160 160" class="h-full w-full">
+          <defs>
+            <path id="stampRing2" d="M 80,80 m -62,0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0" />
+          </defs>
+          <circle cx="80" cy="80" r="74" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="1.5 5" />
+          <circle cx="80" cy="80" r="50" fill="none" stroke="currentColor" stroke-width="1" />
+          <text font-size="8.5" letter-spacing="2.5" fill="currentColor" style="font-family: ui-monospace, monospace;">
+            <textPath href="#stampRing2" startOffset="2%">HALAL CERTIFIED &#8226; COLD CHAIN &#8226; HALAL CERTIFIED &#8226;</textPath>
+          </text>
+        </svg>
+      </div>
 
       <div class="relative mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
 
@@ -537,15 +564,15 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
           <div>
 
-            <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-emerald-400">
+            <div class="flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-[0.28em] text-[#C17F2E]">
 
-              <span class="h-px w-7 bg-emerald-400"></span>
+              <span class="h-px w-7 bg-[#C17F2E]"></span>
 
               Start a conversation
 
             </div>
 
-            <h2 class="mt-6 max-w-4xl text-4xl font-semibold leading-[0.98] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
+            <h2 class="mt-6 max-w-4xl font-serif text-4xl font-semibold leading-[0.98] tracking-[-0.02em] sm:text-5xl lg:text-7xl">
               Looking for a reliable East African goat meat supplier?
             </h2>
 
@@ -554,7 +581,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
           <div>
 
-            <p class="max-w-md text-base leading-7 text-stone-400">
+            <p class="max-w-md text-base leading-7 text-[#F2EAD9]/55">
               Request product specifications, pricing, quantities and
               shipping information. Our team responds promptly to
               wholesale enquiries.
@@ -565,7 +592,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
               <a
                 href="/quote"
-                class="group inline-flex items-center gap-4 rounded-full bg-emerald-500 px-7 py-4 text-sm font-semibold text-stone-950 transition hover:bg-emerald-400"
+                class="group inline-flex items-center gap-4 rounded-full bg-[#C17F2E] px-7 py-4 text-sm font-semibold text-[#211C16] transition hover:bg-[#DDA556]"
               >
                 Request a Quote
 
@@ -582,7 +609,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-7 py-4 text-sm font-semibold text-white backdrop-blur transition hover:border-white/30 hover:bg-white/10"
+                class="inline-flex items-center rounded-full border border-dashed border-[#F2EAD9]/25 px-7 py-4 text-sm font-semibold text-[#F2EAD9] backdrop-blur transition hover:border-[#F2EAD9]/50 hover:bg-[#F2EAD9]/5"
               >
                 Contact Sales
               </a>
@@ -602,9 +629,9 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
     <!-- FOOTER -->
     <!-- ========================================================= -->
 
-    <footer class="bg-[#101411] text-stone-500">
+    <footer class="bg-[#211C16] text-[#F2EAD9]/45">
 
-      <div class="mx-auto flex max-w-7xl flex-col gap-5 border-t border-white/10 px-6 py-8 text-xs sm:flex-row sm:items-center sm:justify-between lg:px-12">
+      <div class="mx-auto flex max-w-7xl flex-col gap-5 border-t border-dashed border-[#F2EAD9]/10 px-6 py-8 font-mono text-xs uppercase tracking-[0.1em] sm:flex-row sm:items-center sm:justify-between lg:px-12">
 
         <p>
           © {new Date().getFullYear()} Safari Meat.
@@ -615,14 +642,14 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
           <a
             href="/products"
-            class="transition hover:text-white"
+            class="transition hover:text-[#F2EAD9]"
           >
             Products
           </a>
 
           <a
             href="/quote"
-            class="transition hover:text-white"
+            class="transition hover:text-[#F2EAD9]"
           >
             Wholesale
           </a>
@@ -631,7 +658,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="transition hover:text-white"
+            class="transition hover:text-[#F2EAD9]"
           >
             WhatsApp
           </a>
@@ -648,7 +675,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
 <style>
   /*
-   * Sleek two-direction ticker
+   * Manifest strip ticker
    */
 
   .ticker-left {
@@ -699,4 +726,3 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
     }
   }
 </style>
-
