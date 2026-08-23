@@ -28,7 +28,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
       <div class="absolute inset-0 bg-gradient-to-t from-[#211C16] via-transparent to-transparent"></div>
 
       <!-- signature certification stamp -->
-      <div class="pointer-events-none absolute right-6 top-28 hidden h-40 w-40 -rotate-6 text-[#C17F2E]/70 sm:block lg:right-16 lg:h-52 lg:w-52">
+      <div class="stamp-spin pointer-events-none absolute right-6 top-28 hidden h-40 w-40 text-[#C17F2E]/70 sm:block lg:right-16 lg:h-52 lg:w-52">
         <svg viewBox="0 0 160 160" class="h-full w-full">
           <defs>
             <path id="stampRing" d="M 80,80 m -62,0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0" />
@@ -46,7 +46,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
       <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-between px-6 py-8 lg:px-12">
 
         <!-- HEADER -->
-        <header class="flex items-center justify-between">
+        <header class="animate-fade-up flex items-center justify-between opacity-0" style="animation-delay:0ms">
 
           <a
             href="/"
@@ -95,7 +95,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
         <!-- HERO CONTENT -->
         <div class="max-w-5xl pb-16 pt-24 lg:pb-24">
 
-          <div class="mb-8 flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.35em] text-[#C17F2E] sm:text-xs">
+          <div class="animate-fade-up mb-8 flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.35em] text-[#C17F2E] opacity-0 sm:text-xs" style="animation-delay:120ms">
 
             <span class="h-px w-8 bg-[#C17F2E]"></span>
 
@@ -103,21 +103,23 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
           </div>
 
-          <h1 class="max-w-5xl font-serif text-[13vw] font-semibold leading-[0.92] tracking-[-0.03em] sm:text-7xl lg:text-[6.25rem]">
-            {home.data.heading}
+          <h1 class="animate-fade-up max-w-5xl font-serif text-[13vw] font-semibold leading-[0.92] tracking-[-0.03em] opacity-0 sm:text-7xl lg:text-[6.25rem]" style="animation-delay:220ms">
+            Certified for export,
+            <br />
+            raised for quality.
           </h1>
 
-          <p class="mt-8 max-w-2xl text-base leading-7 text-[#F2EAD9]/65 sm:text-lg sm:leading-8">
+          <p class="animate-fade-up mt-8 max-w-2xl text-base leading-7 text-[#F2EAD9]/65 opacity-0 sm:text-lg sm:leading-8" style="animation-delay:340ms">
             Premium, export-ready goat meat supplied to international wholesale
             buyers — professionally sourced, quality controlled, packaged and
             handled through a reliable cold chain from East Africa to your market.
           </p>
 
-          <div class="mt-10 flex flex-wrap items-center gap-4">
+          <div class="animate-fade-up mt-10 flex flex-wrap items-center gap-4 opacity-0" style="animation-delay:460ms">
 
             <a
               href="/quote"
-              class="group inline-flex items-center gap-4 rounded-full bg-[#C17F2E] px-7 py-4 text-sm font-semibold text-[#211C16] transition duration-300 hover:bg-[#DDA556] hover:shadow-xl hover:shadow-[#C17F2E]/10"
+              class="group inline-flex items-center gap-4 rounded-full bg-[#C17F2E] px-7 py-4 text-sm font-semibold text-[#211C16] transition duration-300 hover:-translate-y-0.5 hover:bg-[#DDA556] hover:shadow-xl hover:shadow-[#C17F2E]/10"
             >
               Request a Quotation
 
@@ -131,7 +133,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
             <a
               href="/products"
-              class="inline-flex items-center gap-2 rounded-full border border-dashed border-[#F2EAD9]/25 px-7 py-4 text-sm font-semibold text-[#F2EAD9] backdrop-blur transition duration-300 hover:border-[#F2EAD9]/50 hover:bg-[#F2EAD9]/5"
+              class="inline-flex items-center gap-2 rounded-full border border-dashed border-[#F2EAD9]/25 px-7 py-4 text-sm font-semibold text-[#F2EAD9] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-[#F2EAD9]/50 hover:bg-[#F2EAD9]/5"
             >
               Explore Products
             </a>
@@ -151,7 +153,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
 
         <!-- HERO LEDGER -->
-        <div class="grid grid-cols-2 gap-6 border-t border-dashed border-[#F2EAD9]/15 py-6 font-mono sm:grid-cols-4">
+        <div class="animate-fade-up grid grid-cols-2 gap-6 border-t border-dashed border-[#F2EAD9]/15 py-6 font-mono opacity-0 sm:grid-cols-4" style="animation-delay:580ms">
 
           <div>
             <p class="text-[10px] uppercase tracking-[0.25em] text-[#F2EAD9]/40">
@@ -200,44 +202,30 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
 
     <!-- ========================================================= -->
-    <!-- MANIFEST STRIP TICKER -->
+    <!-- MANIFEST STRIP -->
     <!-- ========================================================= -->
 
-    <section class="overflow-hidden border-y border-dashed border-[#211C16]/15 bg-[#F2EAD9] py-4">
+    <section class="border-y border-dashed border-[#211C16]/15 bg-[#F2EAD9] py-5">
 
-      <div class="space-y-2">
+      <div class="space-y-3">
 
         <!-- ROW ONE — MOVES LEFT -->
-        <div class="relative overflow-hidden">
+        <div class="ticker-mask relative overflow-hidden">
 
           <div class="ticker-left flex w-max items-center whitespace-nowrap">
 
             {Array(4).fill(0).map(() => (
               <div class="flex items-center">
 
-                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/55 sm:text-xs">
-                  Premium Goat Meat
-                </span>
+                {['Premium Goat Meat', 'Export Ready', 'East African Origin', 'Wholesale Supply'].map((item) => (
+                  <>
+                    <span class="mx-6 font-mono text-[10px] font-medium uppercase tracking-[0.3em] text-[#211C16]/45 sm:text-xs">
+                      {item}
+                    </span>
 
-                <span class="text-[#C17F2E]">&#8212;</span>
-
-                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/55 sm:text-xs">
-                  Export Ready
-                </span>
-
-                <span class="text-[#C17F2E]">&#8212;</span>
-
-                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/55 sm:text-xs">
-                  East African Origin
-                </span>
-
-                <span class="text-[#C17F2E]">&#8212;</span>
-
-                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/55 sm:text-xs">
-                  Wholesale Supply
-                </span>
-
-                <span class="text-[#C17F2E]">&#8212;</span>
+                    <span class="h-1 w-1 rounded-full bg-[#C17F2E]/70"></span>
+                  </>
+                ))}
 
               </div>
             ))}
@@ -248,36 +236,22 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
 
         <!-- ROW TWO — MOVES RIGHT -->
-        <div class="relative overflow-hidden">
+        <div class="ticker-mask relative overflow-hidden">
 
           <div class="ticker-right flex w-max items-center whitespace-nowrap">
 
             {Array(4).fill(0).map(() => (
               <div class="flex items-center">
 
-                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/35 sm:text-xs">
-                  Halal Certified
-                </span>
+                {['Halal Certified', 'Cold-Chain Handling', 'Professional Packaging', 'Export Documentation'].map((item) => (
+                  <>
+                    <span class="mx-6 font-mono text-[10px] font-medium uppercase tracking-[0.3em] text-[#211C16]/25 sm:text-xs">
+                      {item}
+                    </span>
 
-                <span class="text-[#4B5D42]/60">&#8212;</span>
-
-                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/35 sm:text-xs">
-                  Cold-Chain Handling
-                </span>
-
-                <span class="text-[#4B5D42]/60">&#8212;</span>
-
-                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/35 sm:text-xs">
-                  Professional Packaging
-                </span>
-
-                <span class="text-[#4B5D42]/60">&#8212;</span>
-
-                <span class="mx-5 font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-[#211C16]/35 sm:text-xs">
-                  Export Documentation
-                </span>
-
-                <span class="text-[#4B5D42]/60">&#8212;</span>
+                    <span class="h-1 w-1 rounded-full bg-[#4B5D42]/50"></span>
+                  </>
+                ))}
 
               </div>
             ))}
@@ -297,7 +271,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
     <section class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
 
-      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+      <div class="reveal flex flex-col justify-between gap-8 md:flex-row md:items-end">
 
         <div class="max-w-2xl">
 
@@ -350,7 +324,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
           const lot = `LOT-${String(i + 1).padStart(2, '0')}`;
 
           return (
-            <li class="group">
+            <li class="reveal group">
 
               <a
                 href={`/products/${p.slug}`}
@@ -436,7 +410,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
       <div class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-28">
 
-        <div class="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
+        <div class="reveal grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
 
           <div>
 
@@ -560,7 +534,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
       <div class="relative mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
 
-        <div class="grid items-end gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+        <div class="reveal grid items-end gap-12 lg:grid-cols-[1.2fr_0.8fr]">
 
           <div>
 
@@ -672,18 +646,35 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
   </main>
 </Layout>
 
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+  );
+
+  revealEls.forEach((el) => observer.observe(el));
+</script>
 
 <style>
   /*
-   * Manifest strip ticker
+   * Manifest strip — slow, ambient drift rather than a busy marquee.
    */
 
   .ticker-left {
-    animation: ticker-left 32s linear infinite;
+    animation: ticker-left 140s linear infinite;
   }
 
   .ticker-right {
-    animation: ticker-right 36s linear infinite;
+    animation: ticker-right 160s linear infinite;
   }
 
   @keyframes ticker-left {
@@ -706,6 +697,12 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
     }
   }
 
+  /* Fade the strip out at both edges instead of a hard clip */
+  .ticker-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
   /*
    * Pause both rows when the user hovers over them.
    */
@@ -716,13 +713,76 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
   }
 
   /*
-   * Respect reduced-motion preferences.
+   * Hero entrance — staggered fade + rise, driven by inline animation-delay.
+   */
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /*
+   * Scroll reveal for sections below the fold.
+   */
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /*
+   * Slow ambient rotation on the certification stamp.
+   */
+
+  @keyframes stamp-spin {
+    from {
+      transform: rotate(-6deg);
+    }
+
+    to {
+      transform: rotate(354deg);
+    }
+  }
+
+  .stamp-spin {
+    animation: stamp-spin 70s linear infinite;
+  }
+
+  /*
+   * Respect reduced-motion preferences across the page.
    */
 
   @media (prefers-reduced-motion: reduce) {
     .ticker-left,
-    .ticker-right {
+    .ticker-right,
+    .animate-fade-up,
+    .stamp-spin {
       animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
     }
   }
 </style>
