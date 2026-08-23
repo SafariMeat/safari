@@ -1,12 +1,11 @@
 backend:
   name: github
-  repo: <your-github-username>/<your-repo-name> # e.g. janedoe/safari-meats
+  repo: SafariMeat/safari
   branch: main
-  base_url: https://<your-vercel-domain>.vercel.app # your production Vercel URL
+  base_url: https://safari-orpin.vercel.app
   auth_endpoint: api/auth
-
-media_folder: "public/images/products"
-public_folder: "/images/products"
+  media_folder: "public/images/products"
+  public_folder: "/images/products"
 
 collections:
   - name: "products"
