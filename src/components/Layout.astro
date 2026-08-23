@@ -43,13 +43,20 @@ const footerLinks = [
       base colors, so every /NN opacity used on a page carries over exactly
       to whichever theme is active instead of needing a light AND dark
       version of every shade.
+
+      Dark palette now mirrors the neutral-950 / neutral-100 / amber-500
+      look used on the contact page (bg-neutral-950, text-neutral-100,
+      amber-500 accents). Light palette is unchanged.
     -->
     <style is:global>
       :root {
-        --color-bg: #211c16;
-        --color-bg-soft: #2a2419;
-        --color-bg-soft-2: #332b1e;
-        --color-text: #f2ead9;
+        --color-bg: #0a0a0a;
+        --color-bg-soft: #171717;
+        --color-bg-soft-2: #262626;
+        --color-text: #f5f5f5;
+        --color-accent: #f59e0b;
+        --color-accent-hover: #fbbf24;
+        --color-accent-text: #0a0a0a;
         color-scheme: dark;
       }
 
@@ -58,6 +65,9 @@ const footerLinks = [
         --color-bg-soft: #faf4e7;
         --color-bg-soft-2: #eadfc7;
         --color-text: #211c16;
+        --color-accent: #c17f2e;
+        --color-accent-hover: #dda556;
+        --color-accent-text: #211c16;
         color-scheme: light;
       }
 
@@ -100,7 +110,7 @@ const footerLinks = [
       <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <a href="/" class="flex items-center gap-2 text-[var(--color-text)]">
           <span class="text-lg font-bold tracking-tight">
-            Safari<span class="text-[#C17F2E]">Meat</span>
+            Safari<span class="text-[var(--color-accent)]">Meat</span>
           </span>
           <span class="hidden text-xs uppercase tracking-[0.2em] text-[color-mix(in_srgb,var(--color-text)_45%,transparent)] sm:inline">
             Exports
@@ -110,7 +120,7 @@ const footerLinks = [
         <!-- Desktop nav -->
         <div class="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
-            <a
+            
               href={link.href}
               class="rounded-md px-3 py-2 text-sm font-medium text-[color-mix(in_srgb,var(--color-text)_70%,transparent)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)] hover:text-[var(--color-text)]"
             >
@@ -131,9 +141,9 @@ const footerLinks = [
             </svg>
           </button>
 
-          <a
+          
             href="/order"
-            class="ml-2 inline-flex items-center gap-1.5 rounded-lg bg-[#C17F2E] px-3.5 py-2 text-sm font-semibold text-[#211C16] transition hover:bg-[#DDA556]"
+            class="ml-2 inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-3.5 py-2 text-sm font-semibold text-[var(--color-accent-text)] transition hover:bg-[var(--color-accent-hover)]"
           >
             Your Order
             <span
@@ -160,9 +170,9 @@ const footerLinks = [
             </svg>
           </button>
 
-          <a
+          
             href="/order"
-            class="inline-flex items-center gap-1.5 rounded-lg bg-[#C17F2E] px-3 py-1.5 text-sm font-semibold text-[#211C16]"
+            class="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-3 py-1.5 text-sm font-semibold text-[var(--color-accent-text)]"
           >
             Order
             <span
@@ -194,7 +204,7 @@ const footerLinks = [
       <div id="mobile-menu" class="hidden border-t border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] lg:hidden">
         <div class="space-y-0.5 px-4 py-3 sm:px-6">
           {navLinks.map((link) => (
-            <a
+            
               href={link.href}
               class="block rounded-md px-3 py-2.5 text-sm font-medium text-[color-mix(in_srgb,var(--color-text)_70%,transparent)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)] hover:text-[var(--color-text)]"
             >
@@ -212,7 +222,7 @@ const footerLinks = [
         <div class="grid gap-10 sm:grid-cols-3">
           <div>
             <span class="text-lg font-bold tracking-tight text-[var(--color-text)]">
-              Safari<span class="text-[#C17F2E]">Meat</span>
+              Safari<span class="text-[var(--color-accent)]">Meat</span>
             </span>
             <p class="mt-3 max-w-xs text-sm leading-relaxed text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
               East African meat sourcing and export, built on quality, professional
@@ -226,9 +236,9 @@ const footerLinks = [
             </h3>
             <nav class="mt-4 flex flex-col gap-2.5">
               {footerLinks.map((link) => (
-                <a
+                
                   href={link.href}
-                  class="text-sm text-[color-mix(in_srgb,var(--color-text)_55%,transparent)] transition hover:text-[#C17F2E]"
+                  class="text-sm text-[color-mix(in_srgb,var(--color-text)_55%,transparent)] transition hover:text-[var(--color-accent)]"
                 >
                   {link.label}
                 </a>
@@ -240,14 +250,14 @@ const footerLinks = [
             <h3 class="text-xs font-semibold uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
               Your Order
             </h3>
-            <a
+            
               href="/order"
               class="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_4%,transparent)] px-3.5 py-2 text-sm font-medium text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_8%,transparent)]"
             >
               View Order
               <span
                 id="nav-cart-count-footer"
-                class="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[#C17F2E]/20 px-1.5 py-0.5 text-xs font-bold text-[#C17F2E]"
+                class="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[var(--color-accent)]/20 px-1.5 py-0.5 text-xs font-bold text-[var(--color-accent)]"
               >
                 0
               </span>
