@@ -1,6 +1,9 @@
 import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  // MVP: no integrations, no CSS pipeline configured on purpose
   output: 'static',
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
