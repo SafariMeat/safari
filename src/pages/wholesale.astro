@@ -4,55 +4,274 @@ import { getEntry } from 'astro:content';
 
 const wholesale = await getEntry('wholesale', 'wholesale');
 const contact = await getEntry('contact', 'contact');
+
+const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 ---
 
 <Layout title={wholesale.data.heading}>
-  <main data-whatsapp-number={contact.data.whatsapp}>
-    <h1>{wholesale.data.heading}</h1>
+  <main data-whatsapp-number={contact.data.whatsapp} class="bg-[#F2EAD9] text-[#211C16]">
 
-    <!--
-      name + data-netlify="true" + the hidden form-name input let Netlify
-      detect this form at build time and log every submission to the Forms
-      tab in the Netlify dashboard, giving the business a real wholesale
-      enquiry history alongside the WhatsApp handoff.
-    -->
-    <form id="wholesale-form" name="wholesale" data-netlify="true">
-      <input type="hidden" name="form-name" value="wholesale" />
-      <label>
-        Company
-        <input type="text" name="company" minlength="2" required />
-      </label>
-      <label>
-        Country
-        <input type="text" name="country" minlength="2" required />
-      </label>
-      <label>
-        Product
-        <input type="text" name="product" required />
-      </label>
-      <label>
-        Quantity
-        <input type="text" name="quantity" required />
-      </label>
-      <label>
-        Order frequency
-        <input type="text" name="frequency" />
-      </label>
-      <label>
-        Destination port
-        <input type="text" name="port" />
-      </label>
-      <label>
-        Delivery terms
-        <input type="text" name="deliveryTerms" />
-      </label>
-      <label>
-        Email or phone/WhatsApp
-        <input type="text" name="contactInfo" required />
-      </label>
-      <button type="submit">Request Wholesale Pricing</button>
-    </form>
-    <p id="wholesale-status" role="status"></p>
+    <!-- ========================================================= -->
+    <!-- PAGE HEADER -->
+    <!-- ========================================================= -->
+
+    <section class="relative overflow-hidden bg-[#211C16] text-[#F2EAD9]">
+
+      <div class="pointer-events-none absolute -left-32 -top-32 h-72 w-72 rounded-full bg-[#C17F2E]/10 blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-[#4B5D42]/10 blur-3xl"></div>
+
+      <div class="relative mx-auto max-w-7xl px-6 py-8 lg:px-12">
+
+        <header class="animate-fade-up flex items-center justify-between opacity-0" style="animation-delay:0ms">
+
+          <a
+            href="/"
+            class="group flex items-center gap-3"
+            aria-label="Safari Meat homepage"
+          >
+            <span class="flex h-10 w-10 items-center justify-center rounded-full border border-[#F2EAD9]/15 bg-[#F2EAD9]/5 backdrop-blur">
+              <span class="h-2 w-2 rotate-45 bg-[#C17F2E]"></span>
+            </span>
+
+            <span class="font-mono text-sm font-semibold uppercase tracking-[0.2em]">
+              Safari Meat
+            </span>
+          </a>
+
+          <nav class="hidden items-center gap-8 font-mono text-xs uppercase tracking-[0.15em] text-[#F2EAD9]/70 md:flex">
+
+            <a
+              href="/products"
+              class="transition hover:text-[#F2EAD9]"
+            >
+              Products
+            </a>
+
+            <a
+              href="/quote"
+              aria-current="page"
+              class="text-[#F2EAD9] underline decoration-[#C17F2E] decoration-2 underline-offset-8 transition"
+            >
+              Wholesale
+            </a>
+
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="rounded-full border border-[#F2EAD9]/15 bg-[#F2EAD9]/5 px-5 py-2.5 font-semibold tracking-[0.1em] backdrop-blur transition hover:border-[#F2EAD9]/30 hover:bg-[#F2EAD9]/10"
+            >
+              Contact
+            </a>
+
+          </nav>
+
+        </header>
+
+        <div class="animate-fade-up mt-16 max-w-3xl pb-16 pt-8 opacity-0" style="animation-delay:150ms">
+
+          <div class="mb-6 flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.35em] text-[#C17F2E] sm:text-xs">
+
+            <span class="h-px w-8 bg-[#C17F2E]"></span>
+
+            Wholesale Enquiry
+
+          </div>
+
+          <h1 class="font-serif text-4xl font-semibold leading-[1.05] tracking-[-0.02em] sm:text-5xl lg:text-6xl">
+            {wholesale.data.heading}
+          </h1>
+
+          <p class="mt-6 max-w-xl text-base leading-7 text-[#F2EAD9]/65 sm:text-lg">
+            Tell us what you need — product, quantities, destination — and
+            we'll follow up with pricing and next steps over WhatsApp.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- ENQUIRY FORM -->
+    <!-- ========================================================= -->
+
+    <section class="mx-auto max-w-4xl px-6 py-20 lg:px-12 lg:py-28">
+
+      <div class="reveal overflow-hidden rounded-2xl border border-[#211C16]/12 bg-[#FAF4E7] shadow-sm">
+
+        <div class="flex items-center justify-between border-b border-dashed border-[#211C16]/15 bg-[#211C16] px-8 py-5 text-[#F2EAD9] sm:px-10">
+
+          <div class="flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-[#C17F2E] sm:text-xs">
+
+            <span class="h-2 w-2 rotate-45 bg-[#C17F2E]"></span>
+
+            Enquiry Manifest
+
+          </div>
+
+          <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-[#F2EAD9]/35">
+            Form 02-W
+          </span>
+
+        </div>
+
+        <!--
+          name + data-netlify="true" + the hidden form-name input let Netlify
+          detect this form at build time and log every submission to the Forms
+          tab in the Netlify dashboard, giving the business a real wholesale
+          enquiry history alongside the WhatsApp handoff.
+        -->
+        <form id="wholesale-form" name="wholesale" data-netlify="true" class="grid gap-6 px-8 py-10 sm:grid-cols-2 sm:px-10">
+          <input type="hidden" name="form-name" value="wholesale" />
+
+          <label class="flex flex-col gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#211C16]/55">
+            Company
+            <input
+              type="text"
+              name="company"
+              minlength="2"
+              required
+              class="rounded-lg border border-[#211C16]/15 bg-[#F2EAD9] px-4 py-3 font-sans text-sm normal-case tracking-normal text-[#211C16] placeholder:text-[#211C16]/30 transition focus:border-[#C17F2E] focus:outline-none focus:ring-2 focus:ring-[#C17F2E]/20"
+            />
+          </label>
+
+          <label class="flex flex-col gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#211C16]/55">
+            Country
+            <input
+              type="text"
+              name="country"
+              minlength="2"
+              required
+              class="rounded-lg border border-[#211C16]/15 bg-[#F2EAD9] px-4 py-3 font-sans text-sm normal-case tracking-normal text-[#211C16] placeholder:text-[#211C16]/30 transition focus:border-[#C17F2E] focus:outline-none focus:ring-2 focus:ring-[#C17F2E]/20"
+            />
+          </label>
+
+          <label class="flex flex-col gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#211C16]/55">
+            Product
+            <input
+              type="text"
+              name="product"
+              required
+              class="rounded-lg border border-[#211C16]/15 bg-[#F2EAD9] px-4 py-3 font-sans text-sm normal-case tracking-normal text-[#211C16] placeholder:text-[#211C16]/30 transition focus:border-[#C17F2E] focus:outline-none focus:ring-2 focus:ring-[#C17F2E]/20"
+            />
+          </label>
+
+          <label class="flex flex-col gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#211C16]/55">
+            Quantity
+            <input
+              type="text"
+              name="quantity"
+              required
+              class="rounded-lg border border-[#211C16]/15 bg-[#F2EAD9] px-4 py-3 font-sans text-sm normal-case tracking-normal text-[#211C16] placeholder:text-[#211C16]/30 transition focus:border-[#C17F2E] focus:outline-none focus:ring-2 focus:ring-[#C17F2E]/20"
+            />
+          </label>
+
+          <label class="flex flex-col gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#211C16]/55">
+            Order frequency
+            <input
+              type="text"
+              name="frequency"
+              class="rounded-lg border border-[#211C16]/15 bg-[#F2EAD9] px-4 py-3 font-sans text-sm normal-case tracking-normal text-[#211C16] placeholder:text-[#211C16]/30 transition focus:border-[#C17F2E] focus:outline-none focus:ring-2 focus:ring-[#C17F2E]/20"
+            />
+          </label>
+
+          <label class="flex flex-col gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#211C16]/55">
+            Destination port
+            <input
+              type="text"
+              name="port"
+              class="rounded-lg border border-[#211C16]/15 bg-[#F2EAD9] px-4 py-3 font-sans text-sm normal-case tracking-normal text-[#211C16] placeholder:text-[#211C16]/30 transition focus:border-[#C17F2E] focus:outline-none focus:ring-2 focus:ring-[#C17F2E]/20"
+            />
+          </label>
+
+          <label class="flex flex-col gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#211C16]/55">
+            Delivery terms
+            <input
+              type="text"
+              name="deliveryTerms"
+              class="rounded-lg border border-[#211C16]/15 bg-[#F2EAD9] px-4 py-3 font-sans text-sm normal-case tracking-normal text-[#211C16] placeholder:text-[#211C16]/30 transition focus:border-[#C17F2E] focus:outline-none focus:ring-2 focus:ring-[#C17F2E]/20"
+            />
+          </label>
+
+          <label class="flex flex-col gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-[#211C16]/55">
+            Email or phone/WhatsApp
+            <input
+              type="text"
+              name="contactInfo"
+              required
+              class="rounded-lg border border-[#211C16]/15 bg-[#F2EAD9] px-4 py-3 font-sans text-sm normal-case tracking-normal text-[#211C16] placeholder:text-[#211C16]/30 transition focus:border-[#C17F2E] focus:outline-none focus:ring-2 focus:ring-[#C17F2E]/20"
+            />
+          </label>
+
+          <button
+            type="submit"
+            class="group mt-2 inline-flex items-center justify-center gap-3 rounded-full bg-[#C17F2E] px-7 py-4 text-sm font-semibold text-[#211C16] transition duration-300 hover:-translate-y-0.5 hover:bg-[#DDA556] hover:shadow-xl hover:shadow-[#C17F2E]/10 sm:col-span-2"
+          >
+            Request Wholesale Pricing
+
+            <span
+              aria-hidden="true"
+              class="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </button>
+
+          <p id="wholesale-status" role="status" class="font-mono text-xs leading-6 text-[#4B5D42] sm:col-span-2"></p>
+        </form>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- FOOTER -->
+    <!-- ========================================================= -->
+
+    <footer class="bg-[#211C16] text-[#F2EAD9]/45">
+
+      <div class="mx-auto flex max-w-7xl flex-col gap-5 border-t border-dashed border-[#F2EAD9]/10 px-6 py-8 font-mono text-xs uppercase tracking-[0.1em] sm:flex-row sm:items-center sm:justify-between lg:px-12">
+
+        <p>
+          © {new Date().getFullYear()} Safari Meat.
+          All rights reserved.
+        </p>
+
+        <div class="flex items-center gap-6">
+
+          <a
+            href="/products"
+            class="transition hover:text-[#F2EAD9]"
+          >
+            Products
+          </a>
+
+          <a
+            href="/quote"
+            class="transition hover:text-[#F2EAD9]"
+          >
+            Wholesale
+          </a>
+
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition hover:text-[#F2EAD9]"
+          >
+            WhatsApp
+          </a>
+
+        </div>
+
+      </div>
+
+    </footer>
+
   </main>
 </Layout>
 
@@ -115,3 +334,76 @@ const contact = await getEntry('contact', 'contact');
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   });
 </script>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+  );
+
+  revealEls.forEach((el) => observer.observe(el));
+</script>
+
+<style>
+  /*
+   * Header entrance — staggered fade + rise, driven by inline animation-delay.
+   */
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /*
+   * Scroll reveal for the form card.
+   */
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /*
+   * Respect reduced-motion preferences.
+   */
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-up {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
