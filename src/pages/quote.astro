@@ -7,68 +7,218 @@ const contact = await getEntry('contact', 'contact');
 ---
 
 <Layout title={quote.data.heading}>
-  <main data-whatsapp-number={contact.data.whatsapp}>
-    <h1>{quote.data.heading}</h1>
+  <main
+    data-whatsapp-number={contact.data.whatsapp}
+    class="min-h-screen bg-neutral-950 text-neutral-100 px-4 py-10 sm:py-16"
+  >
+    <div class="mx-auto w-full max-w-3xl">
+      <!-- Page heading -->
+      <div class="mb-8 sm:mb-10 text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+          Safari Meat Exports
+        </p>
+        <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          {quote.data.heading}
+        </h1>
+        <p class="mt-2 text-sm text-neutral-400">
+          Tell us what you need and we'll get back to you with a tailored quotation.
+        </p>
+      </div>
 
-    <!--
-      name + data-netlify="true" + the hidden form-name input let Netlify
-      detect this form at build time and log every submission to the Forms
-      tab in the Netlify dashboard, giving the business a real quotation
-      request history alongside the WhatsApp handoff.
-    -->
-    <form id="quote-form" name="quote" data-netlify="true">
-      <input type="hidden" name="form-name" value="quote" />
-      <label>
-        Full name
-        <input type="text" name="name" minlength="2" required />
-      </label>
-      <label>
-        Company
-        <input type="text" name="company" />
-      </label>
-      <label>
-        Country
-        <input type="text" name="country" minlength="2" required />
-      </label>
-      <label>
-        Email
-        <input type="email" name="email" required />
-      </label>
-      <label>
-        Phone / WhatsApp
-        <input type="tel" name="phone" required />
-      </label>
-      <label>
-        Product
-        <input type="text" name="product" required />
-      </label>
-      <label>
-        Weight
-        <input type="text" name="weight" />
-      </label>
-      <label>
-        Quantity
-        <input type="text" name="quantity" required />
-      </label>
-      <label>
-        Order frequency
-        <input type="text" name="frequency" />
-      </label>
-      <label>
-        Destination
-        <input type="text" name="destination" minlength="2" required />
-      </label>
-      <label>
-        Incoterm
-        <input type="text" name="incoterm" />
-      </label>
-      <label>
-        Additional requirements
-        <textarea name="requirements"></textarea>
-      </label>
-      <button type="submit">Request Quotation</button>
-    </form>
-    <p id="quote-status" role="status"></p>
+      <!--
+        name + data-netlify="true" + the hidden form-name input let Netlify
+        detect this form at build time and log every submission to the Forms
+        tab in the Netlify dashboard, giving the business a real quotation
+        request history alongside the WhatsApp handoff.
+      -->
+      <form
+        id="quote-form"
+        name="quote"
+        data-netlify="true"
+        class="rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 p-5 sm:p-8 space-y-8"
+      >
+        <input type="hidden" name="form-name" value="quote" />
+
+        <!-- Contact details -->
+        <fieldset class="border-0 p-0">
+          <legend class="mb-4 text-xs font-semibold uppercase tracking-wide text-amber-500/80">
+            Your Details
+          </legend>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Full name
+              </span>
+              <input
+                type="text"
+                name="name"
+                minlength="2"
+                required
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="Jane Doe"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Company
+              </span>
+              <input
+                type="text"
+                name="company"
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="Company name (optional)"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Country
+              </span>
+              <input
+                type="text"
+                name="country"
+                minlength="2"
+                required
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="e.g. United Arab Emirates"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Email
+              </span>
+              <input
+                type="email"
+                name="email"
+                required
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="jane@example.com"
+              />
+            </label>
+
+            <label class="block sm:col-span-2">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Phone / WhatsApp
+              </span>
+              <input
+                type="tel"
+                name="phone"
+                required
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="+254 7XX XXX XXX"
+              />
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Order details -->
+        <fieldset class="border-0 p-0">
+          <legend class="mb-4 text-xs font-semibold uppercase tracking-wide text-amber-500/80">
+            Order Details
+          </legend>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Product
+              </span>
+              <input
+                type="text"
+                name="product"
+                required
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="e.g. Goat meat, whole carcass"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Weight
+              </span>
+              <input
+                type="text"
+                name="weight"
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="e.g. 20kg per unit (optional)"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Quantity
+              </span>
+              <input
+                type="text"
+                name="quantity"
+                required
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="e.g. 2 tonnes"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Order frequency
+              </span>
+              <input
+                type="text"
+                name="frequency"
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="e.g. Monthly (optional)"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Destination
+              </span>
+              <input
+                type="text"
+                name="destination"
+                minlength="2"
+                required
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="Port or city of delivery"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+                Incoterm
+              </span>
+              <input
+                type="text"
+                name="incoterm"
+                class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                placeholder="e.g. FOB, CIF (optional)"
+              />
+            </label>
+          </div>
+
+          <label class="mt-5 block">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+              Additional requirements
+            </span>
+            <textarea
+              name="requirements"
+              rows="4"
+              class="w-full resize-none rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              placeholder="Cuts, packaging, certifications needed, etc."
+            ></textarea>
+          </label>
+        </fieldset>
+
+        <button
+          type="submit"
+          class="w-full rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-500 active:scale-[0.98]"
+        >
+          Request Quotation
+        </button>
+      </form>
+
+      <p id="quote-status" role="status" class="mt-4 text-center text-sm text-amber-400"></p>
+    </div>
   </main>
 </Layout>
 
@@ -117,7 +267,7 @@ const contact = await getEntry('contact', 'contact');
     }
 
     const text = [
-      'Quotation Request — Safari Meats',
+      'Quotation Request — Safari Meat Exports',
       '',
       `Name: ${fields.name}`,
       `Company: ${fields.company}`,
