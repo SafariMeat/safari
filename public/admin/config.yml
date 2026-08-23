@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: <your-github-username>/<your-repo-name> # e.g. janedoe/safari-meats
   branch: main
+  base_url: https://<your-vercel-domain>.vercel.app # your production Vercel URL
+  auth_endpoint: api/auth
 
 media_folder: "public/images/products"
 public_folder: "/images/products"

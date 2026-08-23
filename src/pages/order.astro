@@ -4,6 +4,7 @@ import { getEntry, getCollection } from 'astro:content';
 
 const contact = await getEntry('contact', 'contact');
 const whatsappNumber = contact.data.whatsapp;
+const businessEmail = contact.data.email;
 
 // Stock snapshot as of this build, used to cap quantities in the cart —
 // the cart itself only remembers price/name/qty from whenever the item
@@ -17,7 +18,7 @@ const stockBySlug = Object.fromEntries(
 ---
 
 <Layout title="Your Order">
-  <main data-whatsapp-number={whatsappNumber}>
+  <main data-whatsapp-number={whatsappNumber} data-business-email={businessEmail}>
     <h1>Your Order</h1>
 
       <table id="cart-table">
@@ -61,7 +62,11 @@ const stockBySlug = Object.fromEntries(
           Delivery address
           <textarea name="address" minlength="2" required></textarea>
         </label>
-        <button type="submit">Place order</button>
+        <fieldset>
+          <legend>How would you like to send your order?</legend>
+          <button type="submit" name="channel" value="whatsapp">Place order via WhatsApp</button>
+          <button type="submit" name="channel" value="email">Place order via Email</button>
+        </fieldset>
       </form>
       <p id="checkout-status" role="status"></p>
   </main>
@@ -189,6 +194,13 @@ const stockBySlug = Object.fromEntries(
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        // Which button the customer pressed — 'whatsapp' or 'email'.
+        // Falls back to 'whatsapp' if the browser doesn't report
+        // submitter (older Safari), matching the original single-button
+        // behavior.
+        const channel =
+          (e.submitter as HTMLButtonElement | null)?.value === 'email' ? 'email' : 'whatsapp';
+
         // Final safety check: re-clamp to current stock right at submit
         // time, not just on page load, in case the customer sat on this
         // page a while or edited quantities directly.
@@ -229,11 +241,13 @@ const stockBySlug = Object.fromEntries(
           return;
         }
 
-        // Business WhatsApp number, in international format without +, spaces,
-        // or punctuation. Editable by the admin via the Contact Page entry in
-        // /admin/ (src/content/contact/contact.md, "whatsapp" field).
+        // Business contact details, editable by the admin via the Contact
+        // Page entry in /admin/ (src/content/contact/contact.md). WhatsApp
+        // number must be in international format without +, spaces, or
+        // punctuation.
         const main = document.querySelector('main') as HTMLElement;
         const whatsappNumber = main.dataset.whatsappNumber ?? '';
+        const businessEmail = main.dataset.businessEmail ?? '';
         const orderLines = items.map((item) => {
           const subtotal = Math.round(item.pricePerKg * item.qty * 100) / 100;
           return `- ${item.name}: ${item.qty} kg x Ksh ${item.pricePerKg} = Ksh ${subtotal}`;
@@ -251,12 +265,10 @@ const stockBySlug = Object.fromEntries(
           `Total: Ksh ${payload.total}`,
         ].join('\n');
 
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
         // Record the order in Netlify Forms (the business's order history)
-        // in parallel with preparing WhatsApp. Best-effort: a failed log
-        // here (offline, not on Netlify, etc.) must never block the order
-        // itself from reaching the business via WhatsApp.
+        // in parallel with whichever channel the customer picked.
+        // Best-effort: a failed log here (offline, not on Netlify, etc.)
+        // must never block the order itself from reaching the business.
         const itemsSummary = orderLines.join(' | ');
         void submitLead('order', {
           customerName: payload.customerName,
@@ -264,14 +276,24 @@ const stockBySlug = Object.fromEntries(
           address: payload.address,
           items: itemsSummary,
           total: String(payload.total),
+          channel,
         });
 
-        // The order has been prepared for submission to WhatsApp, so clear the
-        // local cart before opening WhatsApp to prevent accidental duplicates.
+        // The order has been prepared for submission, so clear the local
+        // cart before handing off to prevent accidental duplicates.
         clearCart();
         render();
         form.reset();
-        status.textContent = 'Order ready. Opening WhatsApp to send it.';
-        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+        if (channel === 'email') {
+          const subject = `New order from ${payload.customerName}`;
+          const mailtoUrl = `mailto:${businessEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+          status.textContent = 'Order ready. Opening your email app to send it.';
+          window.open(mailtoUrl, '_blank', 'noopener,noreferrer');
+        } else {
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+          status.textContent = 'Order ready. Opening WhatsApp to send it.';
+          window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
       });
 </script>

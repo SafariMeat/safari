@@ -6,7 +6,7 @@ const contact = await getEntry('contact', 'contact');
 ---
 
 <Layout title={contact.data.heading}>
-  <main data-whatsapp-number={contact.data.whatsapp}>
+  <main data-whatsapp-number={contact.data.whatsapp} data-business-email={contact.data.email}>
     <h1>{contact.data.heading}</h1>
 
       <ul>
@@ -37,7 +37,11 @@ const contact = await getEntry('contact', 'contact');
           Message
           <textarea name="message" required></textarea>
         </label>
-        <button type="submit">Send</button>
+        <fieldset>
+          <legend>How would you like to send this?</legend>
+          <button type="submit" name="channel" value="whatsapp">Send via WhatsApp</button>
+          <button type="submit" name="channel" value="email">Send via Email</button>
+        </fieldset>
       </form>
       <p id="contact-status" role="status"></p>
   </main>
@@ -52,6 +56,12 @@ const contact = await getEntry('contact', 'contact');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    // Which button the customer pressed — 'whatsapp' or 'email'. Falls
+    // back to 'whatsapp' if the browser doesn't report submitter (older
+    // Safari), matching the original single-button behavior.
+    const channel =
+      (e.submitter as HTMLButtonElement | null)?.value === 'email' ? 'email' : 'whatsapp';
 
     const formData = new FormData(form);
     const name = String(formData.get('name') ?? '').trim();
@@ -68,10 +78,11 @@ const contact = await getEntry('contact', 'contact');
       return;
     }
 
-    // Business WhatsApp number, editable by the admin via the Contact
+    // Business contact details, editable by the admin via the Contact
     // Page entry in /admin/ (src/content/contact/contact.md).
     const main = document.querySelector('main') as HTMLElement;
     const whatsappNumber = main.dataset.whatsappNumber ?? '';
+    const businessEmail = main.dataset.businessEmail ?? '';
 
     const text = [
       'New message from Safari Meats website',
@@ -82,14 +93,20 @@ const contact = await getEntry('contact', 'contact');
       `Message: ${message}`,
     ].join('\n');
 
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
-
     // Best-effort record for the business's message history — never blocks
-    // the WhatsApp handoff if it fails.
-    void submitLead('contact', { name, email, message });
+    // whichever handoff channel the customer picked.
+    void submitLead('contact', { name, email, message, channel });
 
     form.reset();
-    status.textContent = 'Opening WhatsApp to send your message.';
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+    if (channel === 'email') {
+      const mailtoUrl = `mailto:${businessEmail}?subject=${encodeURIComponent('New message from Safari Meats website')}&body=${encodeURIComponent(text)}`;
+      status.textContent = 'Opening your email app to send your message.';
+      window.open(mailtoUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+      status.textContent = 'Opening WhatsApp to send your message.';
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
   });
 </script>
