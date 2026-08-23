@@ -17,25 +17,55 @@ const stockBySlug = Object.fromEntries(
 );
 ---
 
-<Layout title="Your Order">
-  <main data-whatsapp-number={whatsappNumber} data-business-email={businessEmail}>
-    <h1>Your Order</h1>
+<Layout title="Your Order — Safari Meat Exports">
+  <main
+    data-whatsapp-number={whatsappNumber}
+    data-business-email={businessEmail}
+    class="min-h-screen bg-neutral-950 text-neutral-100 px-4 py-10 sm:py-16"
+  >
+    <div class="mx-auto w-full max-w-3xl">
+      <!-- Page heading -->
+      <div class="mb-8 sm:mb-10">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+          Safari Meat Exports
+        </p>
+        <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          Your Order
+        </h1>
+        <p class="mt-2 text-sm text-neutral-400">
+          Review your items, confirm your details, and send your order via WhatsApp or email.
+        </p>
+      </div>
 
-      <table id="cart-table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Price/kg</th>
-            <th>Qty</th>
-            <th>Subtotal</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="cart-body"></tbody>
-      </table>
+      <!-- Cart card -->
+      <section class="rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table id="cart-table" class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-white/10 text-xs uppercase tracking-wider text-neutral-400">
+                <th class="px-5 py-4 font-medium">Item</th>
+                <th class="px-5 py-4 font-medium">Price/kg</th>
+                <th class="px-5 py-4 font-medium">Qty</th>
+                <th class="px-5 py-4 font-medium">Subtotal</th>
+                <th class="px-5 py-4"></th>
+              </tr>
+            </thead>
+            <tbody id="cart-body" class="divide-y divide-white/5"></tbody>
+          </table>
+        </div>
 
-      <p id="cart-empty" hidden>Your order is empty.</p>
-      <p>Total: Ksh <span id="cart-total">0</span></p>
+        <p id="cart-empty" hidden class="px-5 py-10 text-center text-sm text-neutral-500">
+          Your order is empty.
+        </p>
+
+        <div class="flex items-center justify-between border-t border-white/10 bg-white/[0.02] px-5 py-4">
+          <span class="text-sm text-neutral-400">Total</span>
+          <span class="text-xl font-semibold text-amber-400">
+            Ksh <span id="cart-total">0</span>
+          </span>
+        </div>
+      </section>
+
       <script type="application/json" id="stock-data" set:html={JSON.stringify(stockBySlug)} />
 
       <!--
@@ -46,29 +76,86 @@ const stockBySlug = Object.fromEntries(
         Netlify's schema includes those fields too; their values are filled
         in by script just before submit (see below).
       -->
-      <form id="checkout-form" name="order" data-netlify="true">
+      <form
+        id="checkout-form"
+        name="order"
+        data-netlify="true"
+        class="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 p-5 sm:p-6 space-y-5"
+      >
         <input type="hidden" name="form-name" value="order" />
         <input type="hidden" name="items" />
         <input type="hidden" name="total" />
-        <label>
-          Full name
-          <input type="text" name="customerName" minlength="2" required />
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <label class="block">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+              Full name
+            </span>
+            <input
+              type="text"
+              name="customerName"
+              minlength="2"
+              required
+              class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              placeholder="Jane Doe"
+            />
+          </label>
+
+          <label class="block">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+              Phone number
+            </span>
+            <input
+              type="tel"
+              name="phone"
+              required
+              class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              placeholder="07XX XXX XXX"
+            />
+          </label>
+        </div>
+
+        <label class="block">
+          <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+            Delivery address
+          </span>
+          <textarea
+            name="address"
+            minlength="2"
+            required
+            rows="3"
+            class="w-full resize-none rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+            placeholder="Street, building, city"
+          ></textarea>
         </label>
-        <label>
-          Phone number
-          <input type="tel" name="phone" required />
-        </label>
-        <label>
-          Delivery address
-          <textarea name="address" minlength="2" required></textarea>
-        </label>
-        <fieldset>
-          <legend>How would you like to send your order?</legend>
-          <button type="submit" name="channel" value="whatsapp">Place order via WhatsApp</button>
-          <button type="submit" name="channel" value="email">Place order via Email</button>
+
+        <fieldset class="border-0 p-0">
+          <legend class="mb-2.5 text-xs font-medium uppercase tracking-wide text-neutral-400">
+            How would you like to send your order?
+          </legend>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <button
+              type="submit"
+              name="channel"
+              value="whatsapp"
+              class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-500 active:scale-[0.98]"
+            >
+              Place order via WhatsApp
+            </button>
+            <button
+              type="submit"
+              name="channel"
+              value="email"
+              class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/[0.08] active:scale-[0.98]"
+            >
+              Place order via Email
+            </button>
+          </div>
         </fieldset>
       </form>
-      <p id="checkout-status" role="status"></p>
+
+      <p id="checkout-status" role="status" class="mt-4 min-h-[1.25rem] text-sm text-amber-400"></p>
+    </div>
   </main>
 </Layout>
 
@@ -130,23 +217,34 @@ const stockBySlug = Object.fromEntries(
           const subtotal = Math.round(item.pricePerKg * item.qty * 100) / 100;
           const max = maxFor(item.slug);
           const row = document.createElement('tr');
+          row.className = 'transition hover:bg-white/[0.02]';
           row.innerHTML = `
-            <td>${item.name}</td>
-            <td>Ksh ${item.pricePerKg}</td>
-            <td>
-              <input
-                type="number"
-                min="1"
-                max="${max}"
-                step="1"
-                value="${item.qty}"
-                data-qty="${item.slug}"
-                style="width: 4em"
-              />
-              ${max > 0 ? `<small> / ${max} available</small>` : ''}
+            <td class="px-5 py-4 font-medium text-white">${item.name}</td>
+            <td class="px-5 py-4 text-neutral-300">Ksh ${item.pricePerKg}</td>
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-2">
+                <input
+                  type="number"
+                  min="1"
+                  max="${max}"
+                  step="1"
+                  value="${item.qty}"
+                  data-qty="${item.slug}"
+                  class="w-16 rounded-md border border-white/10 bg-neutral-900/80 px-2 py-1.5 text-sm text-white outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+                />
+                ${max > 0 ? `<span class="text-xs text-neutral-500">/ ${max} available</span>` : ''}
+              </div>
             </td>
-            <td>Ksh ${subtotal}</td>
-            <td><button type="button" data-remove="${item.slug}">Remove</button></td>
+            <td class="px-5 py-4 font-medium text-amber-400">Ksh ${subtotal}</td>
+            <td class="px-5 py-4 text-right">
+              <button
+                type="button"
+                data-remove="${item.slug}"
+                class="rounded-md px-2.5 py-1.5 text-xs font-medium text-neutral-400 transition hover:bg-red-500/10 hover:text-red-400"
+              >
+                Remove
+              </button>
+            </td>
           `;
           body.appendChild(row);
         }
@@ -253,7 +351,7 @@ const stockBySlug = Object.fromEntries(
           return `- ${item.name}: ${item.qty} kg x Ksh ${item.pricePerKg} = Ksh ${subtotal}`;
         });
         const message = [
-          'New Safari Meats Order',
+          'New Safari Meat Exports Order',
           '',
           `Customer: ${payload.customerName}`,
           `Phone: ${payload.phone}`,
