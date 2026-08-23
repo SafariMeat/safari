@@ -1,3 +1,4 @@
+
 ---
 import Layout from '../components/Layout.astro';
 import { getCollection, getEntry } from 'astro:content';
@@ -18,40 +19,38 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
     <section class="relative min-h-screen overflow-hidden bg-[#101411] text-white">
 
-      <!-- Background image -->
       <img
         src="/images/hero-goat-meat.jpg"
         alt="Premium export-ready goat meat"
         class="absolute inset-0 h-full w-full object-cover opacity-35"
       />
 
-      <!-- Modern overlay -->
       <div class="absolute inset-0 bg-gradient-to-r from-[#101411] via-[#101411]/75 to-[#101411]/30"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-[#101411] via-transparent to-transparent"></div>
 
-      <!-- Subtle glow -->
       <div class="absolute -right-40 top-20 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
 
       <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-between px-6 py-8 lg:px-12">
 
-        <!-- Header -->
+        <!-- HEADER -->
         <header class="flex items-center justify-between">
 
           <a
             href="/"
             class="group flex items-center gap-3"
-            aria-label="Go to homepage"
+            aria-label="Safari Meat homepage"
           >
             <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur">
               <span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
             </span>
 
             <span class="text-sm font-semibold tracking-tight">
-              East African Meats
+              Safari Meat
             </span>
           </a>
 
           <nav class="hidden items-center gap-8 text-sm text-stone-300 md:flex">
+
             <a
               href="/products"
               class="transition hover:text-white"
@@ -74,17 +73,21 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             >
               Contact
             </a>
+
           </nav>
 
         </header>
 
 
-        <!-- Hero content -->
+        <!-- HERO CONTENT -->
         <div class="max-w-5xl pb-16 pt-24 lg:pb-24">
 
           <div class="mb-8 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-400 sm:text-xs">
+
             <span class="h-px w-8 bg-emerald-400"></span>
+
             East African Meat Exporters
+
           </div>
 
           <h1 class="max-w-5xl text-[15vw] font-semibold leading-[0.88] tracking-[-0.06em] sm:text-7xl lg:text-[6.5rem]">
@@ -130,16 +133,18 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             </a>
 
           </div>
+
         </div>
 
 
-        <!-- Hero bottom information -->
+        <!-- HERO STATS -->
         <div class="grid grid-cols-2 gap-6 border-t border-white/10 py-6 sm:grid-cols-4">
 
           <div>
             <p class="text-xs uppercase tracking-widest text-stone-500">
               Quality
             </p>
+
             <p class="mt-1 text-sm font-medium text-stone-200">
               Controlled sourcing
             </p>
@@ -149,6 +154,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             <p class="text-xs uppercase tracking-widest text-stone-500">
               Handling
             </p>
+
             <p class="mt-1 text-sm font-medium text-stone-200">
               Cold-chain
             </p>
@@ -158,6 +164,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             <p class="text-xs uppercase tracking-widest text-stone-500">
               Supply
             </p>
+
             <p class="mt-1 text-sm font-medium text-stone-200">
               Wholesale volumes
             </p>
@@ -167,6 +174,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
             <p class="text-xs uppercase tracking-widest text-stone-500">
               Origin
             </p>
+
             <p class="mt-1 text-sm font-medium text-stone-200">
               East Africa
             </p>
@@ -179,54 +187,95 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
 
     <!-- ========================================================= -->
-    <!-- MOVING TRUST BAR -->
+    <!-- SLEEK TWO-ROW MOVING TICKER -->
     <!-- ========================================================= -->
 
-    <div class="overflow-hidden border-b border-stone-200 bg-white">
+    <section class="overflow-hidden border-b border-stone-200 bg-[#f6f5f1] py-5">
 
-      <div class="flex min-w-max animate-[scroll_28s_linear_infinite] items-center py-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500">
+      <div class="space-y-3">
 
-        {Array(4).fill(0).map(() => (
-          <div class="flex items-center">
+        <!-- ROW ONE — MOVES LEFT -->
+        <div class="relative overflow-hidden">
 
-            <span class="mx-8">
-              Halal Certified
-            </span>
+          <div class="ticker-left flex w-max items-center whitespace-nowrap">
 
-            <span class="text-emerald-600">
-              •
-            </span>
+            {Array(4).fill(0).map(() => (
+              <div class="flex items-center">
 
-            <span class="mx-8">
-              Cold-Chain Handling
-            </span>
+                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-xs">
+                  Premium Goat Meat
+                </span>
 
-            <span class="text-emerald-600">
-              •
-            </span>
+                <span class="text-emerald-600">✦</span>
 
-            <span class="mx-8">
-              Export Documentation
-            </span>
+                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-xs">
+                  Export Ready
+                </span>
 
-            <span class="text-emerald-600">
-              •
-            </span>
+                <span class="text-emerald-600">✦</span>
 
-            <span class="mx-8">
-              Professional Packaging
-            </span>
+                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-xs">
+                  East African Origin
+                </span>
 
-            <span class="text-emerald-600">
-              •
-            </span>
+                <span class="text-emerald-600">✦</span>
+
+                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-xs">
+                  Wholesale Supply
+                </span>
+
+                <span class="text-emerald-600">✦</span>
+
+              </div>
+            ))}
 
           </div>
-        ))}
+
+        </div>
+
+
+        <!-- ROW TWO — MOVES RIGHT -->
+        <div class="relative overflow-hidden">
+
+          <div class="ticker-right flex w-max items-center whitespace-nowrap">
+
+            {Array(4).fill(0).map(() => (
+              <div class="flex items-center">
+
+                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">
+                  Halal Certified
+                </span>
+
+                <span class="text-emerald-600/70">✦</span>
+
+                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">
+                  Cold-Chain Handling
+                </span>
+
+                <span class="text-emerald-600/70">✦</span>
+
+                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">
+                  Professional Packaging
+                </span>
+
+                <span class="text-emerald-600/70">✦</span>
+
+                <span class="mx-5 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">
+                  Export Documentation
+                </span>
+
+                <span class="text-emerald-600/70">✦</span>
+
+              </div>
+            ))}
+
+          </div>
+
+        </div>
 
       </div>
 
-    </div>
+    </section>
 
 
     <!-- ========================================================= -->
@@ -235,7 +284,6 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
     <section class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
 
-      <!-- Section heading -->
       <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
 
         <div class="max-w-2xl">
@@ -279,7 +327,8 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
       </div>
 
 
-      <!-- Product grid -->
+      <!-- PRODUCT GRID -->
+
       <ul class="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
         {products.map((p) => {
@@ -294,7 +343,6 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
                 class="block overflow-hidden rounded-3xl border border-stone-200 bg-white transition duration-500 hover:-translate-y-1 hover:border-stone-300 hover:shadow-2xl hover:shadow-stone-900/5"
               >
 
-                <!-- Image -->
                 <div class="relative aspect-[4/3] overflow-hidden bg-stone-100">
 
                   <img
@@ -304,7 +352,6 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
                     class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
                   />
 
-                  <!-- Image overlay -->
                   <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
 
                   {outOfStock && (
@@ -316,7 +363,6 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
                 </div>
 
 
-                <!-- Product details -->
                 <div class="p-6 sm:p-7">
 
                   <div class="flex items-start justify-between gap-5">
@@ -365,7 +411,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
 
     <!-- ========================================================= -->
-    <!-- WHY US -->
+    <!-- WHY SAFARI MEAT -->
     <!-- ========================================================= -->
 
     <section class="border-y border-stone-200 bg-white">
@@ -380,7 +426,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
               <span class="h-px w-7 bg-emerald-600"></span>
 
-              Built for wholesale
+              Why Safari Meat
 
             </div>
 
@@ -481,8 +527,8 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
     <section class="relative overflow-hidden bg-[#101411] text-white">
 
-      <!-- Decorative glow -->
       <div class="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
+
       <div class="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
 
       <div class="relative mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
@@ -561,7 +607,7 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
       <div class="mx-auto flex max-w-7xl flex-col gap-5 border-t border-white/10 px-6 py-8 text-xs sm:flex-row sm:items-center sm:justify-between lg:px-12">
 
         <p>
-          © {new Date().getFullYear()} East African Meats.
+          © {new Date().getFullYear()} Safari Meat.
           All rights reserved.
         </p>
 
@@ -601,7 +647,19 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
 
 <style>
-  @keyframes scroll {
+  /*
+   * Sleek two-direction ticker
+   */
+
+  .ticker-left {
+    animation: ticker-left 32s linear infinite;
+  }
+
+  .ticker-right {
+    animation: ticker-right 36s linear infinite;
+  }
+
+  @keyframes ticker-left {
     from {
       transform: translateX(0);
     }
@@ -610,4 +668,35 @@ const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
       transform: translateX(-25%);
     }
   }
+
+  @keyframes ticker-right {
+    from {
+      transform: translateX(-25%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  /*
+   * Pause both rows when the user hovers over them.
+   */
+
+  .ticker-left:hover,
+  .ticker-right:hover {
+    animation-play-state: paused;
+  }
+
+  /*
+   * Respect reduced-motion preferences.
+   */
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-left,
+    .ticker-right {
+      animation: none;
+    }
+  }
 </style>
+
