@@ -6,7 +6,15 @@ const entry = await getEntry('about', 'about');
 ---
 
 <Layout title={entry.data.heading}>
-  <main>
-    <h1>{entry.data.heading}</h1>
+  <main class="min-h-screen bg-neutral-950 text-neutral-100 px-4 py-10 sm:py-16">
+    <div class="mx-auto w-full max-w-3xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+        Safari Meat Exports
+      </p>
+      <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-white">
+        {entry.data.heading}
+      </h1>
+
+    </div>
   </main>
 </Layout>
