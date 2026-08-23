@@ -3,18 +3,117 @@ import Layout from '../components/Layout.astro';
 import { getEntry } from 'astro:content';
 
 const entry = await getEntry('about', 'about');
+
+const whyWorkWithUs = [
+  {
+    title: 'Quality-controlled sourcing',
+    description: 'Every animal and cut is selected against consistent quality standards before it enters the supply chain.',
+  },
+  {
+    title: 'Professional handling',
+    description: 'Meat is handled with care at every stage, from sourcing through to final packaging.',
+  },
+  {
+    title: 'Export-ready products',
+    description: 'Products are prepared and documented to meet the requirements of international shipment.',
+  },
+  {
+    title: 'Buyer-specific specifications',
+    description: 'We work with buyers to meet their specific cuts, packaging, and volume requirements.',
+  },
+  {
+    title: 'Reliable communication',
+    description: 'Clear, responsive communication throughout the sourcing and export process.',
+  },
+  {
+    title: 'International shipping support',
+    description: 'Support and coordination to help shipments move smoothly to their destination.',
+  },
+];
 ---
 
 <Layout title={entry.data.heading}>
-  <main class="min-h-screen bg-neutral-950 text-neutral-100 px-4 py-10 sm:py-16">
-    <div class="mx-auto w-full max-w-3xl">
-      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
-        Safari Meat Exports
-      </p>
-      <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-white">
-        {entry.data.heading}
-      </h1>
+  <main class="min-h-screen bg-neutral-950 text-neutral-100">
+    <!-- Hero -->
+    <section class="px-4 pt-14 pb-10 sm:pt-20 sm:pb-14">
+      <div class="mx-auto w-full max-w-3xl text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.25em] text-amber-500/80">
+          Safari Meat Exports
+        </p>
+        <h1 class="mt-3 text-3xl sm:text-5xl font-bold tracking-tight text-white">
+          {entry.data.heading}
+        </h1>
+        <p class="mt-5 text-base sm:text-lg leading-relaxed text-neutral-400">
+          Safari Meats is an East African meat sourcing and export business focused on
+          supplying international customers with quality goat meat. From sourcing through
+          to export preparation, we bring a professional, standards-driven approach to every
+          stage of the supply chain — built on reliable relationships across the region and a
+          steady commitment to quality and consistency.
+        </p>
+      </div>
+    </section>
 
+    <div class="mx-auto w-full max-w-3xl px-4 pb-16 sm:pb-24 space-y-6">
+      <!-- Company background / what we do -->
+      <section class="rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 p-6 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-semibold text-white">Who We Are</h2>
+        <p class="mt-4 text-sm sm:text-base leading-relaxed text-neutral-300">
+          Rooted in East Africa's rich livestock-farming tradition, Safari Meats sources goat
+          meat directly from trusted regional suppliers. We combine that local sourcing
+          strength with professional meat handling, careful export preparation, and
+          responsive international customer service — giving overseas buyers a dependable
+          partner for their supply needs.
+        </p>
+        <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+          {[
+            'East African sourcing',
+            'Commitment to quality',
+            'Professional meat handling',
+            'Export preparation',
+            'International customer service',
+            'Reliable supply relationships',
+          ].map((point) => (
+            <li class="flex items-start gap-2.5 text-sm text-neutral-300">
+              <span class="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-500"></span>
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Mission -->
+      <section class="rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/[0.07] to-transparent p-6 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-semibold text-white">Our Mission</h2>
+        <p class="mt-4 text-sm sm:text-base leading-relaxed text-neutral-300">
+          Provide international buyers with reliable access to quality East African goat
+          meat, while maintaining professional sourcing, processing, documentation and
+          export standards.
+        </p>
+      </section>
+
+      <!-- Why work with us -->
+      <section>
+        <h2 class="px-1 text-xl sm:text-2xl font-semibold text-white">Why Work With Us</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          {whyWorkWithUs.map((item) => (
+            <div class="rounded-xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-amber-500/30 hover:bg-white/[0.05]">
+              <h3 class="text-sm font-semibold text-amber-400">{item.title}</h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-neutral-400">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Quality commitment -->
+      <section class="rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 p-6 sm:p-8">
+        <h2 class="text-xl sm:text-2xl font-semibold text-white">Quality Commitment</h2>
+        <p class="mt-4 text-sm sm:text-base leading-relaxed text-neutral-300">
+          Quality is maintained at every stage of our process — from sourcing and processing
+          through to packaging, storage and shipment. We hold each step to consistent
+          standards so buyers can trust the product that reaches them, from the first
+          selection through to final delivery.
+        </p>
+      </section>
     </div>
   </main>
 </Layout>
