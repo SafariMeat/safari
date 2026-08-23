@@ -5,176 +5,609 @@ import { getCollection, getEntry } from 'astro:content';
 const home = await getEntry('home', 'home');
 const products = await getCollection('products');
 const contact = await getEntry('contact', 'contact');
+
 const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 ---
 
 <Layout title={home.data.heading}>
-  <main class="bg-[#f7f4ee] text-stone-900">
+  <main class="bg-[#f6f5f1] text-stone-900">
 
+    <!-- ========================================================= -->
     <!-- HERO -->
-    <section class="relative overflow-hidden bg-stone-950 text-stone-50">
+    <!-- ========================================================= -->
+
+    <section class="relative min-h-screen overflow-hidden bg-[#101411] text-white">
+
+      <!-- Background image -->
       <img
         src="/images/hero-goat-meat.jpg"
-        alt="Premium export-ready goat meat, packaged and chilled"
-        class="absolute inset-0 h-full w-full object-cover opacity-30"
+        alt="Premium export-ready goat meat"
+        class="absolute inset-0 h-full w-full object-cover opacity-35"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-stone-950/40 via-stone-950/70 to-stone-950"></div>
 
-      <div class="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-6 pb-20 pt-40 lg:px-12">
-        <div class="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-emerald-400">
-          <span class="h-px w-8 bg-emerald-400"></span>
-          East African Meat Exporters
-        </div>
+      <!-- Modern overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#101411] via-[#101411]/75 to-[#101411]/30"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#101411] via-transparent to-transparent"></div>
 
-        <h1 class="mt-8 max-w-4xl text-[13vw] font-semibold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-          {home.data.heading}
-        </h1>
+      <!-- Subtle glow -->
+      <div class="absolute -right-40 top-20 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
 
-        <p class="mt-8 max-w-xl text-base text-stone-300 sm:text-lg">
-          Premium, export-ready goat meat supplied to international wholesale buyers —
-          quality-controlled sourcing, professional packaging and cold-chain handling
-          from East Africa to your market.
-        </p>
+      <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-between px-6 py-8 lg:px-12">
 
-        <div class="mt-10 flex flex-wrap items-center gap-6">
-          
-            href="/quote"
-            class="group inline-flex items-center gap-3 rounded-full bg-emerald-600 px-7 py-4 text-sm font-semibold text-white transition hover:bg-emerald-500"
+        <!-- Header -->
+        <header class="flex items-center justify-between">
+
+          <a
+            href="/"
+            class="group flex items-center gap-3"
+            aria-label="Go to homepage"
           >
-            Request a Quotation
-            <span class="transition group-hover:translate-x-1">→</span>
-          </a>
-          
-            href="/products"
-            class="text-sm font-semibold text-stone-100 underline decoration-stone-500 underline-offset-4 transition hover:decoration-emerald-400"
-          >
-            View Our Products
-          </a>
-          
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm font-semibold text-emerald-400 transition hover:text-emerald-300"
-          >
-            WhatsApp Us
-          </a>
-        </div>
-      </div>
-
-      <!-- marquee strip -->
-      <div class="relative border-t border-stone-800 bg-stone-950/80 py-3 backdrop-blur">
-        <div class="flex animate-[scroll_28s_linear_infinite] whitespace-nowrap text-xs font-medium uppercase tracking-[0.3em] text-stone-400">
-          {Array(3).fill(0).map(() => (
-            <span class="mx-6 flex items-center gap-6">
-              <span>Halal Certified</span>
-              <span class="text-emerald-500">•</span>
-              <span>Cold-Chain Handling</span>
-              <span class="text-emerald-500">•</span>
-              <span>Export Documentation</span>
-              <span class="text-emerald-500">•</span>
-              <span>Professional Packaging</span>
-              <span class="text-emerald-500">•</span>
+            <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur">
+              <span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
             </span>
-          ))}
+
+            <span class="text-sm font-semibold tracking-tight">
+              East African Meats
+            </span>
+          </a>
+
+          <nav class="hidden items-center gap-8 text-sm text-stone-300 md:flex">
+            <a
+              href="/products"
+              class="transition hover:text-white"
+            >
+              Products
+            </a>
+
+            <a
+              href="/quote"
+              class="transition hover:text-white"
+            >
+              Wholesale
+            </a>
+
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 font-medium backdrop-blur transition hover:border-white/30 hover:bg-white/10"
+            >
+              Contact
+            </a>
+          </nav>
+
+        </header>
+
+
+        <!-- Hero content -->
+        <div class="max-w-5xl pb-16 pt-24 lg:pb-24">
+
+          <div class="mb-8 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-400 sm:text-xs">
+            <span class="h-px w-8 bg-emerald-400"></span>
+            East African Meat Exporters
+          </div>
+
+          <h1 class="max-w-5xl text-[15vw] font-semibold leading-[0.88] tracking-[-0.06em] sm:text-7xl lg:text-[6.5rem]">
+            {home.data.heading}
+          </h1>
+
+          <p class="mt-8 max-w-2xl text-base leading-7 text-stone-300 sm:text-lg sm:leading-8">
+            Premium, export-ready goat meat supplied to international wholesale
+            buyers — professionally sourced, quality controlled, packaged and
+            handled through a reliable cold chain from East Africa to your market.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center gap-4">
+
+            <a
+              href="/quote"
+              class="group inline-flex items-center gap-4 rounded-full bg-emerald-500 px-7 py-4 text-sm font-semibold text-stone-950 transition duration-300 hover:bg-emerald-400 hover:shadow-xl hover:shadow-emerald-500/10"
+            >
+              Request a Quotation
+
+              <span
+                aria-hidden="true"
+                class="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </a>
+
+            <a
+              href="/products"
+              class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-4 text-sm font-semibold text-white backdrop-blur transition duration-300 hover:border-white/30 hover:bg-white/10"
+            >
+              Explore Products
+            </a>
+
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-3 py-4 text-sm font-semibold text-emerald-400 transition hover:text-emerald-300"
+            >
+              WhatsApp Sales
+            </a>
+
+          </div>
         </div>
+
+
+        <!-- Hero bottom information -->
+        <div class="grid grid-cols-2 gap-6 border-t border-white/10 py-6 sm:grid-cols-4">
+
+          <div>
+            <p class="text-xs uppercase tracking-widest text-stone-500">
+              Quality
+            </p>
+            <p class="mt-1 text-sm font-medium text-stone-200">
+              Controlled sourcing
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xs uppercase tracking-widest text-stone-500">
+              Handling
+            </p>
+            <p class="mt-1 text-sm font-medium text-stone-200">
+              Cold-chain
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xs uppercase tracking-widest text-stone-500">
+              Supply
+            </p>
+            <p class="mt-1 text-sm font-medium text-stone-200">
+              Wholesale volumes
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xs uppercase tracking-widest text-stone-500">
+              Origin
+            </p>
+            <p class="mt-1 text-sm font-medium text-stone-200">
+              East Africa
+            </p>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
-    <!-- PRODUCTS -->
-    <section class="mx-auto max-w-7xl px-6 py-28 lg:px-12">
-      <div class="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-        <div>
-          <span class="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-700">
-            Our Products
-          </span>
-          <h2 class="mt-3 text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl">
-            Premium Goat Meat,<br />Export Ready
-          </h2>
-        </div>
-        
-          href="/products"
-          class="shrink-0 text-sm font-semibold text-emerald-700 underline underline-offset-4 transition hover:text-emerald-600"
-        >
-          View all products →
-        </a>
+
+    <!-- ========================================================= -->
+    <!-- MOVING TRUST BAR -->
+    <!-- ========================================================= -->
+
+    <div class="overflow-hidden border-b border-stone-200 bg-white">
+
+      <div class="flex min-w-max animate-[scroll_28s_linear_infinite] items-center py-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500">
+
+        {Array(4).fill(0).map(() => (
+          <div class="flex items-center">
+
+            <span class="mx-8">
+              Halal Certified
+            </span>
+
+            <span class="text-emerald-600">
+              •
+            </span>
+
+            <span class="mx-8">
+              Cold-Chain Handling
+            </span>
+
+            <span class="text-emerald-600">
+              •
+            </span>
+
+            <span class="mx-8">
+              Export Documentation
+            </span>
+
+            <span class="text-emerald-600">
+              •
+            </span>
+
+            <span class="mx-8">
+              Professional Packaging
+            </span>
+
+            <span class="text-emerald-600">
+              •
+            </span>
+
+          </div>
+        ))}
+
       </div>
 
-      <ul class="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-stone-200 bg-stone-200 sm:grid-cols-2 lg:grid-cols-3">
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- PRODUCTS -->
+    <!-- ========================================================= -->
+
+    <section class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
+
+      <!-- Section heading -->
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+
+        <div class="max-w-2xl">
+
+          <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-emerald-700">
+
+            <span class="h-px w-7 bg-emerald-600"></span>
+
+            Our Products
+
+          </div>
+
+          <h2 class="mt-5 text-4xl font-semibold leading-[1] tracking-[-0.04em] text-stone-950 sm:text-5xl lg:text-6xl">
+            Premium goat meat.
+            <br />
+            Ready for export.
+          </h2>
+
+          <p class="mt-6 max-w-xl text-base leading-7 text-stone-500">
+            Carefully sourced products prepared for wholesale buyers,
+            distributors, restaurants and international markets.
+          </p>
+
+        </div>
+
+
+        <a
+          href="/products"
+          class="group inline-flex w-fit items-center gap-3 rounded-full border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-800 transition hover:border-stone-400 hover:bg-stone-950 hover:text-white"
+        >
+          View all products
+
+          <span
+            aria-hidden="true"
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          >
+            →
+          </span>
+        </a>
+
+      </div>
+
+
+      <!-- Product grid -->
+      <ul class="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
         {products.map((p) => {
+
           const outOfStock = !p.data.inStock;
+
           return (
-            <li class="group relative bg-[#f7f4ee] transition hover:bg-white">
-              <a href={`/products/${p.slug}`} class="flex h-full flex-col">
-                <div class="relative aspect-[4/3] overflow-hidden">
+            <li class="group">
+
+              <a
+                href={`/products/${p.slug}`}
+                class="block overflow-hidden rounded-3xl border border-stone-200 bg-white transition duration-500 hover:-translate-y-1 hover:border-stone-300 hover:shadow-2xl hover:shadow-stone-900/5"
+              >
+
+                <!-- Image -->
+                <div class="relative aspect-[4/3] overflow-hidden bg-stone-100">
+
                   <img
                     src={p.data.image ?? '/images/product-placeholder.jpg'}
                     alt={p.data.name}
-                    class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                    loading="lazy"
+                    class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
                   />
+
+                  <!-- Image overlay -->
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100"></div>
+
                   {outOfStock && (
-                    <span class="absolute left-4 top-4 rounded-full bg-stone-950/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white">
+                    <span class="absolute left-5 top-5 rounded-full border border-white/20 bg-stone-950/80 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur">
                       Out of Stock
                     </span>
                   )}
+
                 </div>
 
-                <div class="flex flex-1 flex-col justify-between p-7">
-                  <div>
-                    <h3 class="text-xl font-semibold text-stone-900">{p.data.name}</h3>
-                    <p class="mt-2 text-sm text-stone-500">
-                      Ksh {p.data.pricePerKg} / {p.data.unit}
-                    </p>
+
+                <!-- Product details -->
+                <div class="p-6 sm:p-7">
+
+                  <div class="flex items-start justify-between gap-5">
+
+                    <div>
+
+                      <h3 class="text-xl font-semibold tracking-tight text-stone-950">
+                        {p.data.name}
+                      </h3>
+
+                      <p class="mt-2 text-sm text-stone-500">
+                        Ksh {p.data.pricePerKg} / {p.data.unit}
+                      </p>
+
+                    </div>
+
+                    <span
+                      aria-hidden="true"
+                      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-stone-200 text-stone-500 transition duration-300 group-hover:border-emerald-500 group-hover:bg-emerald-500 group-hover:text-white"
+                    >
+                      ↗
+                    </span>
+
                   </div>
-                  <span class="mt-6 inline-flex items-center text-sm font-semibold text-emerald-700 transition group-hover:gap-2">
-                    View details <span aria-hidden="true">→</span>
-                  </span>
+
+                  <div class="mt-7 border-t border-stone-100 pt-5">
+
+                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500 transition group-hover:text-emerald-700">
+                      View product details
+                    </span>
+
+                  </div>
+
                 </div>
+
               </a>
+
             </li>
           );
+
         })}
+
       </ul>
+
     </section>
 
-    <!-- FINAL CTA -->
-    <section class="bg-stone-950 text-stone-50">
-      <div class="mx-auto max-w-7xl px-6 py-28 lg:px-12">
-        <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-          <h2 class="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Looking for a reliable East African goat meat supplier?
-          </h2>
+
+    <!-- ========================================================= -->
+    <!-- WHY US -->
+    <!-- ========================================================= -->
+
+    <section class="border-y border-stone-200 bg-white">
+
+      <div class="mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-28">
+
+        <div class="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
+
           <div>
-            <p class="max-w-md text-stone-400">
-              Request product specifications, pricing, quantities and shipping
-              information — our team responds promptly to wholesale enquiries.
+
+            <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-emerald-700">
+
+              <span class="h-px w-7 bg-emerald-600"></span>
+
+              Built for wholesale
+
+            </div>
+
+            <h2 class="mt-5 max-w-md text-4xl font-semibold leading-tight tracking-[-0.04em] text-stone-950 sm:text-5xl">
+              A supply partner,
+              <br />
+              not just a supplier.
+            </h2>
+
+          </div>
+
+
+          <div class="grid gap-px overflow-hidden rounded-3xl border border-stone-200 bg-stone-200 sm:grid-cols-2">
+
+            <div class="bg-[#f6f5f1] p-8">
+
+              <span class="text-sm font-semibold text-emerald-700">
+                01
+              </span>
+
+              <h3 class="mt-12 text-xl font-semibold">
+                Reliable sourcing
+              </h3>
+
+              <p class="mt-3 text-sm leading-6 text-stone-500">
+                Consistent sourcing standards designed to support
+                repeat wholesale orders.
+              </p>
+
+            </div>
+
+
+            <div class="bg-[#f6f5f1] p-8">
+
+              <span class="text-sm font-semibold text-emerald-700">
+                02
+              </span>
+
+              <h3 class="mt-12 text-xl font-semibold">
+                Professional handling
+              </h3>
+
+              <p class="mt-3 text-sm leading-6 text-stone-500">
+                Proper packaging and cold-chain handling from
+                preparation through delivery.
+              </p>
+
+            </div>
+
+
+            <div class="bg-[#f6f5f1] p-8">
+
+              <span class="text-sm font-semibold text-emerald-700">
+                03
+              </span>
+
+              <h3 class="mt-12 text-xl font-semibold">
+                Export focused
+              </h3>
+
+              <p class="mt-3 text-sm leading-6 text-stone-500">
+                Documentation and processes designed around
+                international wholesale requirements.
+              </p>
+
+            </div>
+
+
+            <div class="bg-[#f6f5f1] p-8">
+
+              <span class="text-sm font-semibold text-emerald-700">
+                04
+              </span>
+
+              <h3 class="mt-12 text-xl font-semibold">
+                Responsive sales
+              </h3>
+
+              <p class="mt-3 text-sm leading-6 text-stone-500">
+                Clear communication on specifications, quantities,
+                pricing and shipping requirements.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- FINAL CTA -->
+    <!-- ========================================================= -->
+
+    <section class="relative overflow-hidden bg-[#101411] text-white">
+
+      <!-- Decorative glow -->
+      <div class="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
+      <div class="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl"></div>
+
+      <div class="relative mx-auto max-w-7xl px-6 py-24 lg:px-12 lg:py-32">
+
+        <div class="grid items-end gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+
+          <div>
+
+            <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-emerald-400">
+
+              <span class="h-px w-7 bg-emerald-400"></span>
+
+              Start a conversation
+
+            </div>
+
+            <h2 class="mt-6 max-w-4xl text-4xl font-semibold leading-[0.98] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
+              Looking for a reliable East African goat meat supplier?
+            </h2>
+
+          </div>
+
+
+          <div>
+
+            <p class="max-w-md text-base leading-7 text-stone-400">
+              Request product specifications, pricing, quantities and
+              shipping information. Our team responds promptly to
+              wholesale enquiries.
             </p>
-            <div class="mt-8 flex flex-wrap gap-4">
-              
+
+
+            <div class="mt-8 flex flex-wrap gap-3">
+
+              <a
                 href="/quote"
-                class="rounded-full bg-emerald-600 px-7 py-4 text-sm font-semibold text-white transition hover:bg-emerald-500"
+                class="group inline-flex items-center gap-4 rounded-full bg-emerald-500 px-7 py-4 text-sm font-semibold text-stone-950 transition hover:bg-emerald-400"
               >
                 Request a Quote
+
+                <span
+                  aria-hidden="true"
+                  class="transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  →
+                </span>
               </a>
-              
+
+
+              <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="rounded-full border border-stone-700 px-7 py-4 text-sm font-semibold text-stone-100 transition hover:border-stone-500"
+                class="inline-flex items-center rounded-full border border-white/15 bg-white/5 px-7 py-4 text-sm font-semibold text-white backdrop-blur transition hover:border-white/30 hover:bg-white/10"
               >
                 Contact Sales
               </a>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </section>
+
+
+    <!-- ========================================================= -->
+    <!-- FOOTER -->
+    <!-- ========================================================= -->
+
+    <footer class="bg-[#101411] text-stone-500">
+
+      <div class="mx-auto flex max-w-7xl flex-col gap-5 border-t border-white/10 px-6 py-8 text-xs sm:flex-row sm:items-center sm:justify-between lg:px-12">
+
+        <p>
+          © {new Date().getFullYear()} East African Meats.
+          All rights reserved.
+        </p>
+
+        <div class="flex items-center gap-6">
+
+          <a
+            href="/products"
+            class="transition hover:text-white"
+          >
+            Products
+          </a>
+
+          <a
+            href="/quote"
+            class="transition hover:text-white"
+          >
+            Wholesale
+          </a>
+
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition hover:text-white"
+          >
+            WhatsApp
+          </a>
+
+        </div>
+
+      </div>
+
+    </footer>
 
   </main>
 </Layout>
 
+
 <style>
   @keyframes scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-33.333%); }
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-25%);
+    }
   }
 </style>
