@@ -170,6 +170,9 @@ const USD_TO_KSH = 129;
   import { isValidText } from '../lib/validate';
   import { submitLead } from '../lib/leads';
 
+  document.addEventListener('astro:page-load', () => {
+      if (!document.getElementById('stock-data')) return;
+
       type StockInfo = { stockQty: number; inStock: boolean };
       const stockData: Record<string, StockInfo> = JSON.parse(
         document.getElementById('stock-data')?.textContent || '{}'
@@ -410,4 +413,5 @@ const USD_TO_KSH = 129;
           window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
         }
       });
+  });
 </script>

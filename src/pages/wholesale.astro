@@ -216,7 +216,9 @@ const contact = await getEntry('contact', 'contact');
   import { isValidText } from '../lib/validate';
   import { submitLead } from '../lib/leads';
 
-  const form = document.getElementById('wholesale-form') as HTMLFormElement;
+  document.addEventListener('astro:page-load', () => {
+  const form = document.getElementById('wholesale-form') as HTMLFormElement | null;
+  if (!form) return;
   const status = document.getElementById('wholesale-status')!;
   const main = document.querySelector('main') as HTMLElement;
 
@@ -365,24 +367,27 @@ const contact = await getEntry('contact', 'contact');
     status.textContent = 'Opening your email app to send your wholesale enquiry.';
     window.location.href = mailtoUrl;
   });
+  });
 </script>
 
 <script>
-  const revealEls = document.querySelectorAll('.reveal');
+  document.addEventListener('astro:page-load', () => {
+    const revealEls = document.querySelectorAll('.reveal');
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
         }
-      }
-    },
-    { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
-  );
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+    );
 
-  revealEls.forEach((el) => observer.observe(el));
+    revealEls.forEach((el) => observer.observe(el));
+  });
 </script>
 
 <style>

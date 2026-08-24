@@ -116,7 +116,8 @@ const toUsd = (kshPrice: number) => (Number(kshPrice) / USD_TO_KSH).toFixed(2);
 <script>
   import { addToCart, getCart } from '../../lib/cart';
 
-  const form = document.getElementById('add-to-cart-form') as HTMLFormElement;
+  document.addEventListener('astro:page-load', () => {
+  const form = document.getElementById('add-to-cart-form') as HTMLFormElement | null;
   const status = document.getElementById('add-to-cart-status');
   const checkoutButton = document.getElementById('checkout-button') as HTMLAnchorElement;
 
@@ -166,5 +167,6 @@ const toUsd = (kshPrice: number) => (Number(kshPrice) / USD_TO_KSH).toFixed(2);
     }
     checkoutButton.hidden = false;
     checkoutButton.focus();
+  });
   });
 </script>

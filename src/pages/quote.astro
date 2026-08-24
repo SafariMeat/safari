@@ -232,11 +232,12 @@ const contact = await getEntry('contact', 'contact');
   import { isValidText } from '../lib/validate';
   import { submitLead } from '../lib/leads';
 
+  document.addEventListener('astro:page-load', () => {
+  const form = document.getElementById('quote-form') as HTMLFormElement | null;
+  if (!form) return;
   const main = document.querySelector('main') as HTMLElement;
   const whatsappNumber = main.dataset.whatsappNumber ?? '';
   const contactEmail = main.dataset.contactEmail ?? '';
-
-  const form = document.getElementById('quote-form') as HTMLFormElement;
   const status = document.getElementById('quote-status')!;
 
   function getFields() {
@@ -322,5 +323,6 @@ const contact = await getEntry('contact', 'contact');
     form.reset();
     status.textContent = 'Opening your email client to send your quotation request.';
     window.location.href = mailtoUrl;
+  });
   });
 </script>

@@ -144,7 +144,13 @@ const contact = await getEntry('contact', 'contact');
   import { isValidText } from '../lib/validate';
   import { submitLead } from '../lib/leads';
 
-  const form = document.getElementById('contact-form') as HTMLFormElement;
+  // Re-run on every client-side navigation (including back to a page already
+  // visited this session) so the form binds to the freshly-swapped DOM.
+  // See astro:transitions docs — a page's <script> module only executes
+  // once per browser session otherwise.
+  document.addEventListener('astro:page-load', () => {
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (!form) return;
   const status = document.getElementById('contact-status')!;
 
   form.addEventListener('submit', (e) => {
@@ -201,5 +207,6 @@ const contact = await getEntry('contact', 'contact');
       status.textContent = 'Opening WhatsApp to send your message.';
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
+  });
   });
 </script>

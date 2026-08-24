@@ -1,7 +1,34 @@
 ---
 // Site-wide shell: nav + footer, per proposal section 2.11.
 import { getEntry } from 'astro:content';
+import { ViewTransitions } from 'astro:transitions';
+import type { TransitionAnimationValue } from 'astro:transitions';
 import '../styles/global.css';
+
+// Fluid page-content transition: outgoing page eases down/out, incoming page
+// eases up/in, on matching curves so the swap reads as one continuous motion.
+// Keyframes for these live in the global <style> block below. Only the
+// #page-content wrapper uses this — header/footer are transition:persist'd
+// and never animate. Same animation runs for forwards and backwards nav.
+const pageContentPair = {
+  old: {
+    name: 'page-content-out',
+    duration: '0.28s',
+    easing: 'cubic-bezier(0.4, 0, 1, 1)',
+    fillMode: 'both',
+  },
+  new: {
+    name: 'page-content-in',
+    duration: '0.42s',
+    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    fillMode: 'both',
+  },
+};
+
+const pageTransition: TransitionAnimationValue = {
+  forwards: pageContentPair,
+  backwards: pageContentPair,
+};
 
 interface Props {
   title: string;
@@ -33,6 +60,10 @@ const footerLinks = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} — Safari Meat Exports</title>
+
+    <!-- Enables smooth, SPA-style page transitions for every internal link
+         on the site (astro:transitions). No per-page setup needed. -->
+    <ViewTransitions />
 
     <!--
       Theme tokens: two brand palettes (not literal black/white) toggled via
@@ -87,6 +118,42 @@ const footerLinks = [
       [data-theme='light'] .theme-icon-moon {
         display: none;
       }
+
+      /*
+        Keyframes referenced by `pageTransition` above (applied to
+        #page-content via transition:animate). Astro generates the scoped
+        ::view-transition-old/new(page-content) rules that point at these
+        names, so we only need to define the motion itself here.
+      */
+      @media (prefers-reduced-motion: reduce) {
+        ::view-transition-group(*),
+        ::view-transition-old(*),
+        ::view-transition-new(*) {
+          animation: none !important;
+        }
+      }
+
+      @keyframes page-content-out {
+        from {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-8px) scale(0.99);
+        }
+      }
+
+      @keyframes page-content-in {
+        from {
+          opacity: 0;
+          transform: translateY(14px) scale(0.99);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
     </style>
 
     <!-- Blocking: applies a saved "light" preference before first paint. -->
@@ -102,7 +169,10 @@ const footerLinks = [
     </script>
   </head>
   <body class="bg-[var(--color-bg)] text-[var(--color-text)]">
-    <header class="sticky top-0 z-50 border-b border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg)_80%,transparent)] backdrop-blur-md">
+    <header
+      transition:persist
+      transition:name="site-header"
+      class="sticky top-0 z-50 border-b border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg)_80%,transparent)] backdrop-blur-md">
       <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
         <a href="/" class="flex items-center gap-2 text-[var(--color-text)]">
           <span class="text-lg font-bold tracking-tight">
@@ -211,9 +281,14 @@ const footerLinks = [
       </div>
     </header>
 
-    <slot />
+    <div id="page-content" transition:animate={pageTransition} transition:name="page-content">
+      <slot />
+    </div>
 
-    <footer class="border-t border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[var(--color-bg)]">
+    <footer
+      transition:persist
+      transition:name="site-footer"
+      class="border-t border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[var(--color-bg)]">
       <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6">
         <div class="grid gap-10 sm:grid-cols-3">
           <div>
