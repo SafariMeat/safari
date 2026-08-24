@@ -1,8 +1,8 @@
 ---
 name: "Whole Baby Goat"
 category: "goat"
-pricePerKg: 900
-unit: "kg"
+pricePerKg: 11200
+unit: "piece"
 inStock: true
 stockQty: 10
 featured: true
