@@ -1,10 +1,10 @@
 ---
 name: "Whole Baby Goat"
 category: "goat"
-pricePerKg: 900
-unit: "kg"
+pricePerKg: 7000
+unit: "piece"
 inStock: true
-stockQty: 10
+stockQty: 1200
 featured: true
 description: "Whole baby goat, dressed and sold as a full carcass."
 ---
