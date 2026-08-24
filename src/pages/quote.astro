@@ -9,6 +9,7 @@ const contact = await getEntry('contact', 'contact');
 <Layout title={quote.data.heading}>
   <main
     data-whatsapp-number={contact.data.whatsapp}
+    data-contact-email={contact.data.email}
     class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] px-4 py-10 sm:py-16"
   >
     <div class="mx-auto w-full max-w-3xl">
@@ -25,12 +26,6 @@ const contact = await getEntry('contact', 'contact');
         </p>
       </div>
 
-      <!--
-        name + data-netlify="true" + the hidden form-name input let Netlify
-        detect this form at build time and log every submission to the Forms
-        tab in the Netlify dashboard, giving the business a real quotation
-        request history alongside the WhatsApp handoff.
-      -->
       <form
         id="quote-form"
         name="quote"
@@ -209,12 +204,23 @@ const contact = await getEntry('contact', 'contact');
           </label>
         </fieldset>
 
-        <button
-          type="submit"
-          class="w-full rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-500 active:scale-[0.98]"
-        >
-          Request Quotation
-        </button>
+        <!-- Two send options -->
+        <div class="grid gap-3 sm:grid-cols-2">
+          <button
+            type="submit"
+            data-channel="whatsapp"
+            class="w-full rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-500 active:scale-[0.98]"
+          >
+            Send via WhatsApp
+          </button>
+          <button
+            type="button"
+            data-channel="email"
+            class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_20%,transparent)] bg-transparent px-4 py-3 text-sm font-semibold text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)] active:scale-[0.98]"
+          >
+            Send via Email
+          </button>
+        </div>
       </form>
 
       <p id="quote-status" role="status" class="mt-4 text-center text-sm text-[var(--color-accent)]"></p>
@@ -228,15 +234,14 @@ const contact = await getEntry('contact', 'contact');
 
   const main = document.querySelector('main') as HTMLElement;
   const whatsappNumber = main.dataset.whatsappNumber ?? '';
+  const contactEmail = main.dataset.contactEmail ?? '';
 
   const form = document.getElementById('quote-form') as HTMLFormElement;
   const status = document.getElementById('quote-status')!;
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
+  function getFields() {
     const formData = new FormData(form);
-    const fields = {
+    return {
       name: String(formData.get('name') ?? '').trim(),
       company: String(formData.get('company') ?? '').trim(),
       country: String(formData.get('country') ?? '').trim(),
@@ -250,23 +255,26 @@ const contact = await getEntry('contact', 'contact');
       incoterm: String(formData.get('incoterm') ?? '').trim(),
       requirements: String(formData.get('requirements') ?? '').trim(),
     };
+  }
 
+  function validate(fields: ReturnType<typeof getFields>) {
     if (!isValidText(fields.name)) {
       status.textContent = 'Please enter your full name (at least 2 characters).';
-      return;
+      return false;
     }
-
     if (!isValidText(fields.country)) {
       status.textContent = 'Please enter your country (at least 2 characters).';
-      return;
+      return false;
     }
-
     if (!isValidText(fields.destination)) {
       status.textContent = 'Please enter a valid destination (at least 2 characters).';
-      return;
+      return false;
     }
+    return true;
+  }
 
-    const text = [
+  function buildMessage(fields: ReturnType<typeof getFields>) {
+    return [
       'Quotation Request — Safari Meat Exports',
       '',
       `Name: ${fields.name}`,
@@ -282,15 +290,37 @@ const contact = await getEntry('contact', 'contact');
       `Incoterm: ${fields.incoterm}`,
       `Additional requirements: ${fields.requirements}`,
     ].join('\n');
+  }
 
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const fields = getFields();
+    if (!validate(fields)) return;
+
+    const text = buildMessage(fields);
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
 
-    // Best-effort record for the business's quote-request history — never
-    // blocks the WhatsApp handoff if it fails.
     void submitLead('quote', fields);
 
     form.reset();
     status.textContent = 'Opening WhatsApp to send your quotation request.';
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  });
+
+  const emailButton = form.querySelector('button[data-channel="email"]') as HTMLButtonElement;
+  emailButton.addEventListener('click', () => {
+    const fields = getFields();
+    if (!validate(fields)) return;
+
+    const text = buildMessage(fields);
+    const subject = `Quotation Request — ${fields.product || 'Safari Meat Exports'}`;
+    const mailtoUrl = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+
+    void submitLead('quote', fields);
+
+    form.reset();
+    status.textContent = 'Opening your email client to send your quotation request.';
+    window.location.href = mailtoUrl;
   });
 </script>
