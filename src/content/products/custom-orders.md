@@ -1,7 +1,7 @@
 ---
 name: "Custom Orders"
 category: "other"
-pricePerKg: 850
+pricePerKg: 12000
 unit: "order"
 inStock: true
 stockQty: 20
