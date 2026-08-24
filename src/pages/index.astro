@@ -8,6 +8,10 @@ const contact = await getEntry('contact', 'contact');
 
 const whatsappUrl = `https://wa.me/${contact.data.whatsapp}`;
 
+// Fixed conversion rate (not live) — update this number whenever you want to refresh it
+const USD_TO_KSH = 129;
+const toUsd = (kshPrice: number) => (Number(kshPrice) / USD_TO_KSH).toFixed(2);
+
 const {
   heading,
   heroEyebrow,
@@ -47,7 +51,7 @@ const {
     <section class="relative min-h-[85vh] overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
 
       <img
-        src="/public/goat.jpeg"
+        src="/public/goat2.png"
         alt="Premium export-ready goat meat"
         class="absolute inset-0 h-full w-full object-cover opacity-25"
       />
@@ -315,8 +319,11 @@ const {
                         {p.data.name}
                       </h3>
 
-                      <p class="mt-2 font-mono text-sm text-[color-mix(in_srgb,var(--color-text)_50%,transparent)]">
-                        Ksh {p.data.pricePerKg} / {p.data.unit}
+                      <p class="mt-2 flex items-baseline gap-2 font-mono text-sm text-[color-mix(in_srgb,var(--color-text)_50%,transparent)]">
+                        <span>Ksh {p.data.pricePerKg} / {p.data.unit}</span>
+                        <span class="text-[color-mix(in_srgb,var(--color-text)_35%,transparent)]">
+                          (${toUsd(p.data.pricePerKg)})
+                        </span>
                       </p>
 
                     </div>
