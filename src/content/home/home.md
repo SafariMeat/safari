@@ -2,7 +2,7 @@
 heading: "Home"
 
 heroEyebrow: "Manifest No. SM-2026 — East African Exporters"
-heroHeadingLine1: "Premium East African Goat Meat,"
+heroHeadingLine1: "Quality East African Goat Meat,"
 heroHeadingLine2: "-Ready for Export."
 heroDescription: >
   Premium, export-ready goat meat supplied to international wholesale
