@@ -17,6 +17,10 @@ const slug = product.slug;
 // A product is only orderable when the admin's manual toggle is on AND
 // there's actually stock on hand — either alone being false means no sale.
 const orderable = inStock && stockQty > 0;
+
+// Fixed conversion rate (not live) — update this number whenever you want to refresh it
+const USD_TO_KSH = 129;
+const toUsd = (kshPrice: number) => (Number(kshPrice) / USD_TO_KSH).toFixed(2);
 ---
 
 <Layout title={name}>
@@ -47,6 +51,9 @@ const orderable = inStock && stockQty > 0;
         <p class="mt-3 text-2xl font-semibold text-[var(--color-accent)]">
           Ksh {pricePerKg}
           <span class="text-base font-normal text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">/{unit}</span>
+          <span class="text-base font-normal text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
+            (${toUsd(pricePerKg)})
+          </span>
         </p>
 
         <p class="mt-1 text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">

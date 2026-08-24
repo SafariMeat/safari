@@ -15,12 +15,17 @@ const products = await getCollection('products');
 const stockBySlug = Object.fromEntries(
   products.map((p) => [p.slug, { stockQty: p.data.stockQty, inStock: p.data.inStock }])
 );
+
+// Fixed conversion rate (not live) — update this number whenever you want to refresh it.
+// Also read client-side by the cart script below, so it's exposed as a data attribute.
+const USD_TO_KSH = 129;
 ---
 
 <Layout title="Your Order — Safari Meat Exports">
   <main
     data-whatsapp-number={whatsappNumber}
     data-business-email={businessEmail}
+    data-usd-to-ksh={USD_TO_KSH}
     class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] px-4 py-10 sm:py-16"
   >
     <div class="mx-auto w-full max-w-3xl">
@@ -62,6 +67,7 @@ const stockBySlug = Object.fromEntries(
           <span class="text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">Total</span>
           <span class="text-xl font-semibold text-[var(--color-accent)]">
             Ksh <span id="cart-total">0</span>
+            <span id="cart-total-usd" class="text-sm font-normal text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]"></span>
           </span>
         </div>
       </section>
@@ -169,6 +175,13 @@ const stockBySlug = Object.fromEntries(
         document.getElementById('stock-data')?.textContent || '{}'
       );
 
+      // Fixed conversion rate (not live), passed down from the server as a
+      // data attribute so it stays in sync with the one used elsewhere on
+      // the site.
+      const mainEl = document.querySelector('main') as HTMLElement;
+      const USD_TO_KSH = Number(mainEl.dataset.usdToKsh) || 129;
+      const toUsd = (kshAmount: number) => (Number(kshAmount) / USD_TO_KSH).toFixed(2);
+
       /** Max orderable qty for a slug right now: 0 if unknown/unavailable/removed. */
       function maxFor(slug: string): number {
         const info = stockData[slug];
@@ -203,6 +216,7 @@ const stockBySlug = Object.fromEntries(
       const body = document.getElementById('cart-body')!;
       const emptyMsg = document.getElementById('cart-empty')!;
       const totalEl = document.getElementById('cart-total')!;
+      const totalUsdEl = document.getElementById('cart-total-usd')!;
       const form = document.getElementById('checkout-form') as HTMLFormElement;
       const status = document.getElementById('checkout-status')!;
 
@@ -220,7 +234,7 @@ const stockBySlug = Object.fromEntries(
           row.className = 'transition hover:bg-[color-mix(in_srgb,var(--color-text)_2%,transparent)]';
           row.innerHTML = `
             <td class="px-5 py-4 font-medium text-[var(--color-text)]">${item.name}</td>
-            <td class="px-5 py-4 text-[color-mix(in_srgb,var(--color-text)_80%,transparent)]">Ksh ${item.pricePerKg}</td>
+            <td class="px-5 py-4 text-[color-mix(in_srgb,var(--color-text)_80%,transparent)]">Ksh ${item.pricePerKg} <span class="text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">($${toUsd(item.pricePerKg)})</span></td>
             <td class="px-5 py-4">
               <div class="flex items-center gap-2">
                 <input
@@ -235,7 +249,7 @@ const stockBySlug = Object.fromEntries(
                 ${max > 0 ? `<span class="text-xs text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">/ ${max} available</span>` : ''}
               </div>
             </td>
-            <td class="px-5 py-4 font-medium text-[var(--color-accent)]">Ksh ${subtotal}</td>
+            <td class="px-5 py-4 font-medium text-[var(--color-accent)]">Ksh ${subtotal} <span class="font-normal text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">($${toUsd(subtotal)})</span></td>
             <td class="px-5 py-4 text-right">
               <button
                 type="button"
@@ -249,7 +263,9 @@ const stockBySlug = Object.fromEntries(
           body.appendChild(row);
         }
 
-        totalEl.textContent = String(cartTotal(cart));
+        const total = cartTotal(cart);
+        totalEl.textContent = String(total);
+        totalUsdEl.textContent = `($${toUsd(total)})`;
       }
 
       body.addEventListener('click', (e) => {
@@ -348,7 +364,7 @@ const stockBySlug = Object.fromEntries(
         const businessEmail = main.dataset.businessEmail ?? '';
         const orderLines = items.map((item) => {
           const subtotal = Math.round(item.pricePerKg * item.qty * 100) / 100;
-          return `- ${item.name}: ${item.qty} kg x Ksh ${item.pricePerKg} = Ksh ${subtotal}`;
+          return `- ${item.name}: ${item.qty} kg x Ksh ${item.pricePerKg} (\$${toUsd(item.pricePerKg)}) = Ksh ${subtotal} (\$${toUsd(subtotal)})`;
         });
         const message = [
           'New Safari Meat Exports Order',
@@ -360,7 +376,7 @@ const stockBySlug = Object.fromEntries(
           'Items:',
           ...orderLines,
           '',
-          `Total: Ksh ${payload.total}`,
+          `Total: Ksh ${payload.total} ($${toUsd(payload.total)})`,
         ].join('\n');
 
         // Record the order in Netlify Forms (the business's order history)

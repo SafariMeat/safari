@@ -3,6 +3,10 @@ import Layout from '../../components/Layout.astro';
 import { getCollection } from 'astro:content';
 
 const products = await getCollection('products');
+
+// Fixed conversion rate (not live) — update this number whenever you want to refresh it
+const USD_TO_KSH = 129;
+const toUsd = (kshPrice: number) => (Number(kshPrice) / USD_TO_KSH).toFixed(2);
 ---
 
 <Layout title="Products">
@@ -53,6 +57,9 @@ const products = await getCollection('products');
                   <p class="text-xl font-semibold text-[var(--color-accent)]">
                     Ksh {p.data.pricePerKg}
                     <span class="text-sm font-normal text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">/{p.data.unit}</span>
+                    <span class="ml-1 text-sm font-normal text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
+                      (${toUsd(p.data.pricePerKg)})
+                    </span>
                   </p>
                   <span class="text-sm font-medium text-[color-mix(in_srgb,var(--color-text)_60%,transparent)] transition group-hover:text-[var(--color-text)]">
                     View &rarr;
