@@ -5,30 +5,62 @@ import { ViewTransitions } from 'astro:transitions';
 import type { TransitionAnimationValue } from 'astro:transitions';
 import '../styles/global.css';
 
-// Fluid page-content transition: outgoing page eases down/out, incoming page
-// eases up/in, on matching curves so the swap reads as one continuous motion.
-// Keyframes for these live in the global <style> block below. Only the
-// #page-content wrapper uses this — header/footer are transition:persist'd
-// and never animate. Same animation runs for forwards and backwards nav.
-const pageContentPair = {
-  old: {
-    name: 'page-content-out',
-    duration: '0.28s',
-    easing: 'cubic-bezier(0.4, 0, 1, 1)',
-    fillMode: 'both',
-  },
-  new: {
-    name: 'page-content-in',
-    duration: '0.42s',
-    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-    fillMode: 'both',
-  },
+// Different pages get different transitions, categorized by what kind of
+// page they are — rather than one animation reused everywhere:
+//
+//   Home           → cinematic zoom (it's the hub you launch from / land on)
+//   Informational  → direction-aware horizontal slide (About, Products,
+//                    Markets, Gallery, Export pages) — feels like flipping
+//                    through pages of a book. Astro auto-detects browser
+//                    back navigation and swaps in the "backwards" pair below,
+//                    so the slide direction reverses naturally.
+//   Task pages     → content rises up like a focused sheet (Wholesale,
+//                    Contact, Quote, Order) — sets "do something" pages
+//                    apart from pages you just read.
+//   Utility/legal  → quick, quiet fade (Terms, Privacy) — no drama needed.
+//
+// Keyframes for all of these live in the global <style> block below. Only
+// the #page-content wrapper animates — header/footer are transition:persist'd.
+type Anim = { name: string; duration?: string; easing?: string; fillMode?: string };
+type Pair = { old: Anim; new: Anim };
+
+const zoomPair: Pair = {
+  old: { name: 'zoom-out', duration: '0.3s', easing: 'cubic-bezier(0.4, 0, 1, 1)', fillMode: 'both' },
+  new: { name: 'zoom-in', duration: '0.45s', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'both' },
 };
 
-const pageTransition: TransitionAnimationValue = {
-  forwards: pageContentPair,
-  backwards: pageContentPair,
+const slideForwardPair: Pair = {
+  old: { name: 'slide-out-left', duration: '0.32s', easing: 'cubic-bezier(0.4, 0, 1, 1)', fillMode: 'both' },
+  new: { name: 'slide-in-right', duration: '0.38s', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'both' },
 };
+const slideBackwardPair: Pair = {
+  old: { name: 'slide-out-right', duration: '0.32s', easing: 'cubic-bezier(0.4, 0, 1, 1)', fillMode: 'both' },
+  new: { name: 'slide-in-left', duration: '0.38s', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'both' },
+};
+
+const risePair: Pair = {
+  old: { name: 'rise-out', duration: '0.24s', easing: 'cubic-bezier(0.4, 0, 1, 1)', fillMode: 'both' },
+  new: { name: 'rise-in', duration: '0.4s', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'both' },
+};
+
+const quickFadePair: Pair = {
+  old: { name: 'quick-fade-out', duration: '0.15s', easing: 'ease-out', fillMode: 'both' },
+  new: { name: 'quick-fade-in', duration: '0.2s', easing: 'ease-out', fillMode: 'both' },
+};
+
+const taskPages = ['/wholesale', '/contact', '/quote', '/order'];
+const utilityPages = ['/terms', '/privacy'];
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const pageTransition: TransitionAnimationValue =
+  path === '/'
+    ? { forwards: zoomPair, backwards: zoomPair }
+    : taskPages.includes(path)
+      ? { forwards: risePair, backwards: risePair }
+      : utilityPages.includes(path)
+        ? { forwards: quickFadePair, backwards: quickFadePair }
+        : { forwards: slideForwardPair, backwards: slideBackwardPair }; // about, products, markets, gallery, export-*
 
 interface Props {
   title: string;
@@ -120,10 +152,10 @@ const footerLinks = [
       }
 
       /*
-        Keyframes referenced by `pageTransition` above (applied to
-        #page-content via transition:animate). Astro generates the scoped
+        Keyframes referenced by the transition pairs defined above (applied
+        to #page-content via transition:animate). Astro generates the scoped
         ::view-transition-old/new(page-content) rules that point at these
-        names, so we only need to define the motion itself here.
+        names — we only define the motion itself here.
       */
       @media (prefers-reduced-motion: reduce) {
         ::view-transition-group(*),
@@ -133,26 +165,52 @@ const footerLinks = [
         }
       }
 
-      @keyframes page-content-out {
-        from {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-        to {
-          opacity: 0;
-          transform: translateY(-8px) scale(0.99);
-        }
+      /* Home: cinematic zoom. */
+      @keyframes zoom-out {
+        from { opacity: 1; transform: scale(1); }
+        to { opacity: 0; transform: scale(0.97); }
+      }
+      @keyframes zoom-in {
+        from { opacity: 0; transform: scale(1.04); }
+        to { opacity: 1; transform: scale(1); }
       }
 
-      @keyframes page-content-in {
-        from {
-          opacity: 0;
-          transform: translateY(14px) scale(0.99);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
+      /* Informational pages: direction-aware horizontal slide. */
+      @keyframes slide-out-left {
+        from { opacity: 1; transform: translateX(0); }
+        to { opacity: 0; transform: translateX(-40px); }
+      }
+      @keyframes slide-in-right {
+        from { opacity: 0; transform: translateX(40px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes slide-out-right {
+        from { opacity: 1; transform: translateX(0); }
+        to { opacity: 0; transform: translateX(40px); }
+      }
+      @keyframes slide-in-left {
+        from { opacity: 0; transform: translateX(-40px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      /* Task pages (forms/checkout): rises up like a focused sheet. */
+      @keyframes rise-out {
+        from { opacity: 1; transform: translateY(0) scale(1); }
+        to { opacity: 0; transform: translateY(-10px) scale(0.98); }
+      }
+      @keyframes rise-in {
+        from { opacity: 0; transform: translateY(28px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      /* Utility/legal pages: quick, quiet fade. */
+      @keyframes quick-fade-out {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+      @keyframes quick-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
     </style>
 
