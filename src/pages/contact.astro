@@ -9,48 +9,48 @@ const contact = await getEntry('contact', 'contact');
   <main
     data-whatsapp-number={contact.data.whatsapp}
     data-business-email={contact.data.email}
-    class="min-h-screen bg-neutral-950 text-neutral-100 px-4 py-10 sm:py-16"
+    class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] px-4 py-10 sm:py-16"
   >
     <div class="mx-auto w-full max-w-3xl">
       <!-- Page heading -->
       <div class="mb-8 sm:mb-10 text-center">
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[color-mix(in_srgb,var(--color-accent)_80%,transparent)]">
           Safari Meat Exports
         </p>
-        <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-white">
+        <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-[var(--color-text)]">
           {contact.data.heading}
         </h1>
-        <p class="mt-2 text-sm text-neutral-400">
+        <p class="mt-2 text-sm text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
           Reach out with your enquiry and we'll get back to you as soon as we can.
         </p>
       </div>
 
       <div class="grid gap-6 sm:grid-cols-5">
         <!-- Contact details -->
-        <section class="sm:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 p-6 h-fit">
-          <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-400">
+        <section class="sm:col-span-2 rounded-2xl border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_3%,transparent)] backdrop-blur-sm shadow-xl shadow-black/30 p-6 h-fit">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
             Contact Details
           </h2>
           <ul class="mt-4 space-y-4 text-sm">
             <li>
-              <span class="block text-xs uppercase tracking-wide text-neutral-500">Phone</span>
-              <span class="text-white">{contact.data.phone}</span>
+              <span class="block text-xs uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">Phone</span>
+              <span class="text-[var(--color-text)]">{contact.data.phone}</span>
             </li>
             <li>
-              <span class="block text-xs uppercase tracking-wide text-neutral-500">WhatsApp</span>
-              <span class="text-white">{contact.data.whatsapp}</span>
+              <span class="block text-xs uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">WhatsApp</span>
+              <span class="text-[var(--color-text)]">{contact.data.whatsapp}</span>
             </li>
             <li>
-              <span class="block text-xs uppercase tracking-wide text-neutral-500">Email</span>
-              <span class="text-white">{contact.data.email}</span>
+              <span class="block text-xs uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">Email</span>
+              <span class="text-[var(--color-text)]">{contact.data.email}</span>
             </li>
             <li>
-              <span class="block text-xs uppercase tracking-wide text-neutral-500">Address</span>
-              <span class="text-white">{contact.data.address}</span>
+              <span class="block text-xs uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">Address</span>
+              <span class="text-[var(--color-text)]">{contact.data.address}</span>
             </li>
             <li>
-              <span class="block text-xs uppercase tracking-wide text-neutral-500">Hours</span>
-              <span class="text-white">{contact.data.hours}</span>
+              <span class="block text-xs uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">Hours</span>
+              <span class="text-[var(--color-text)]">{contact.data.hours}</span>
             </li>
           </ul>
         </section>
@@ -65,12 +65,12 @@ const contact = await getEntry('contact', 'contact');
           id="contact-form"
           name="contact"
           data-netlify="true"
-          class="sm:col-span-3 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-xl shadow-black/30 p-5 sm:p-6 space-y-5"
+          class="sm:col-span-3 rounded-2xl border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_3%,transparent)] backdrop-blur-sm shadow-xl shadow-black/30 p-5 sm:p-6 space-y-5"
         >
           <input type="hidden" name="form-name" value="contact" />
 
           <label class="block">
-            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
               Name
             </span>
             <input
@@ -78,39 +78,39 @@ const contact = await getEntry('contact', 'contact');
               name="name"
               minlength="2"
               required
-              class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder:text-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
               placeholder="Jane Doe"
             />
           </label>
 
           <label class="block">
-            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
               Email
             </span>
             <input
               type="email"
               name="email"
               required
-              class="w-full rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder:text-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
               placeholder="jane@example.com"
             />
           </label>
 
           <label class="block">
-            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-neutral-400">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
               Message
             </span>
             <textarea
               name="message"
               required
               rows="4"
-              class="w-full resize-none rounded-lg border border-white/10 bg-neutral-900/80 px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 outline-none transition focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20"
+              class="w-full resize-none rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder:text-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
               placeholder="Tell us what you're looking for..."
             ></textarea>
           </label>
 
           <fieldset class="border-0 p-0">
-            <legend class="mb-2.5 text-xs font-medium uppercase tracking-wide text-neutral-400">
+            <legend class="mb-2.5 text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
               How would you like to send this?
             </legend>
             <div class="flex flex-col gap-3 sm:flex-row">
@@ -126,7 +126,7 @@ const contact = await getEntry('contact', 'contact');
                 type="submit"
                 name="channel"
                 value="email"
-                class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/[0.08] active:scale-[0.98]"
+                class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_4%,transparent)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_8%,transparent)] active:scale-[0.98]"
               >
                 Send via Email
               </button>
@@ -135,7 +135,7 @@ const contact = await getEntry('contact', 'contact');
         </form>
       </div>
 
-      <p id="contact-status" role="status" class="mt-4 min-h-[1.25rem] text-center text-sm text-amber-400"></p>
+      <p id="contact-status" role="status" class="mt-4 min-h-[1.25rem] text-center text-sm text-[var(--color-accent)]"></p>
     </div>
   </main>
 </Layout>
