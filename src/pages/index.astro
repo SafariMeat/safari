@@ -77,8 +77,10 @@ const {
 
       <div class="relative mx-auto flex min-h-[85vh] max-w-7xl flex-col justify-end px-6 pb-8 pt-4 lg:px-12">
 
+        <div class="grid gap-14 pb-16 pt-6 lg:grid-cols-[1.3fr_0.9fr] lg:items-end lg:gap-10 lg:pb-24 lg:pt-8">
+
         <!-- HERO CONTENT -->
-        <div class="max-w-5xl pb-16 pt-6 lg:pb-24 lg:pt-8">
+        <div class="max-w-2xl">
 
           <div class="animate-fade-up mb-8 flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.35em] text-[#C17F2E] opacity-0 sm:text-xs" style="animation-delay:120ms">
 
@@ -88,7 +90,7 @@ const {
 
           </div>
 
-          <h1 class="animate-fade-up max-w-5xl font-serif text-[13vw] font-semibold leading-[0.92] tracking-[-0.03em] opacity-0 sm:text-7xl lg:text-[6.25rem]" style="animation-delay:220ms">
+          <h1 class="animate-fade-up font-serif text-[13vw] font-semibold leading-[0.92] tracking-[-0.03em] opacity-0 sm:text-7xl lg:text-[5.25rem]" style="animation-delay:220ms">
             {heroHeadingLine1}
             <br />
             {heroHeadingLine2}
@@ -131,6 +133,79 @@ const {
             </a>
 
           </div>
+
+        </div>
+
+
+        <!-- HERO PRODUCT SLIDE -->
+        {products.length > 0 && (
+          <div class="animate-fade-up relative mx-auto w-full max-w-sm opacity-0 lg:mx-0" style="animation-delay:400ms">
+
+            <div
+              class="hero-slider group/slider relative aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] bg-[#14110D] shadow-2xl shadow-black/30"
+              data-hero-slider
+            >
+
+              {products.slice(0, 6).map((p, i) => (
+                <div class={`hero-slide absolute inset-0 ${i === 0 ? 'is-active' : ''}`} data-slide-index={i}>
+
+                  <img
+                    src={p.data.image ?? '/goat.jpeg'}
+                    alt={p.data.name}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    class="hero-slide-img h-full w-full object-cover"
+                  />
+
+                  <div class="absolute inset-0 bg-gradient-to-t from-[#14110D]/90 via-[#14110D]/15 to-transparent"></div>
+
+                  <span class="absolute left-5 top-5 rounded-full border border-white/15 bg-black/40 px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-[#F2EAD9] backdrop-blur">
+                    LOT-{String(i + 1).padStart(2, '0')}
+                  </span>
+
+                  <div class="absolute inset-x-5 bottom-5">
+
+                    <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.25em] text-[#DDA556]">
+                      {p.data.category}
+                    </p>
+
+                    <h3 class="mt-1.5 font-serif text-2xl font-semibold text-[#F2EAD9]">
+                      {p.data.name}
+                    </h3>
+
+                    <p class="mt-1 font-mono text-xs text-[#F2EAD9]/70">
+                      Ksh {p.data.pricePerKg} / {p.data.unit} &#8226; ${toUsd(p.data.pricePerKg)}
+                    </p>
+
+                  </div>
+
+                </div>
+              ))}
+
+              <!-- progress dots -->
+              <div class="absolute right-5 top-5 z-10 flex gap-1.5">
+
+                {products.slice(0, 6).map((p, i) => (
+                  <button
+                    type="button"
+                    class={`hero-dot h-1.5 w-6 overflow-hidden rounded-full bg-white/25 transition-colors ${i === 0 ? 'is-active' : ''}`}
+                    data-dot-index={i}
+                    aria-label={`Show ${p.data.name}`}
+                  >
+                    <span class="hero-dot-fill block h-full w-full bg-[#C17F2E]"></span>
+                  </button>
+                ))}
+
+              </div>
+
+            </div>
+
+            <p class="mt-4 flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-[color-mix(in_srgb,var(--color-text)_40%,transparent)]">
+              <span class="h-1.5 w-1.5 rounded-full bg-[#C17F2E]"></span>
+              Products offered
+            </p>
+
+          </div>
+        )}
 
         </div>
 
@@ -524,6 +599,68 @@ const {
 
     revealEls.forEach((el) => observer.observe(el));
   });
+
+  // Hero product slider — auto-advancing crossfade through the products
+  // on offer. Re-initialised on every astro:page-load (first load + every
+  // client-side route swap), with the previous interval cleared first so
+  // repeat visits to this page never stack duplicate timers.
+  document.addEventListener('astro:page-load', () => {
+    const slider = document.querySelector('[data-hero-slider]');
+    if (!slider) return;
+
+    const slides = Array.from(slider.querySelectorAll('.hero-slide'));
+    const dots = Array.from(slider.querySelectorAll('.hero-dot'));
+
+    if (window.__heroSliderTimer) {
+      clearInterval(window.__heroSliderTimer);
+      window.__heroSliderTimer = null;
+    }
+
+    if (slides.length < 2) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SLIDE_MS = 4500;
+
+    let index = Math.max(0, slides.findIndex((s) => s.classList.contains('is-active')));
+
+    const goTo = (next) => {
+      slides[index].classList.remove('is-active');
+      dots[index]?.classList.remove('is-active');
+      index = next;
+      slides[index].classList.add('is-active');
+      dots[index]?.classList.add('is-active');
+    };
+
+    const start = () => {
+      if (prefersReducedMotion) return;
+      window.__heroSliderTimer = window.setInterval(() => {
+        goTo((index + 1) % slides.length);
+      }, SLIDE_MS);
+    };
+
+    const stop = () => {
+      if (window.__heroSliderTimer) {
+        clearInterval(window.__heroSliderTimer);
+        window.__heroSliderTimer = null;
+      }
+    };
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        if (i === index) return;
+        stop();
+        goTo(i);
+        start();
+      });
+    });
+
+    slider.addEventListener('mouseenter', stop);
+    slider.addEventListener('mouseleave', start);
+    slider.addEventListener('focusin', stop);
+    slider.addEventListener('focusout', start);
+
+    start();
+  });
 </script>
 
 <style>
@@ -610,6 +747,54 @@ const {
   }
 
   /*
+   * Hero product slide — crossfading panel that cycles through the
+   * products on offer, with a slow Ken Burns drift on the active image
+   * and a progress fill on its dot.
+   */
+
+  .hero-slide {
+    opacity: 0;
+    transition: opacity 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hero-slide.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .hero-slide-img {
+    transform: scale(1);
+    transition: transform 5.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hero-slide.is-active .hero-slide-img {
+    transform: scale(1.09);
+  }
+
+  .hero-dot-fill {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .hero-dot.is-active {
+    background-color: color-mix(in srgb, #C17F2E 35%, transparent);
+  }
+
+  .hero-dot.is-active .hero-dot-fill {
+    animation: hero-dot-progress 4.5s linear forwards;
+  }
+
+  @keyframes hero-dot-progress {
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /*
    * Slow ambient rotation on the certification stamp.
    */
 
@@ -635,7 +820,8 @@ const {
     .ticker-left,
     .ticker-right,
     .animate-fade-up,
-    .stamp-spin {
+    .stamp-spin,
+    .hero-dot-fill {
       animation: none;
       opacity: 1;
       transform: none;
@@ -645,6 +831,15 @@ const {
       opacity: 1;
       transform: none;
       transition: none;
+    }
+
+    .hero-slide {
+      transition: none;
+    }
+
+    .hero-slide-img {
+      transition: none;
+      transform: none;
     }
   }
 </style>
