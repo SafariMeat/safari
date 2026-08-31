@@ -56,15 +56,21 @@ const {
         class="absolute inset-0 h-full w-full object-cover opacity-[0.12]"
       />
 
-      <!-- Ambient hero animation — a restrained, abstract impression of a
-           chilled processing floor: a steel rail with hanging hooks, soft
-           drifting silhouettes standing in for hanging cuts, a slow light
-           sweep across "steel", and gently rising cold-room particles.
-           Entirely decorative, non-literal, and kept low-contrast so it
-           never competes with the type sitting on top of it. -->
+      <!-- Ambient hero animation — a sleek, modern impression of global
+           export logistics: soft drifting mesh-gradient light, a fine
+           parallax dot-grid, and a handful of animated trade-route lines
+           with light pulses travelling along them. Entirely abstract and
+           kept low-contrast so it never competes with the type on top. -->
       <div class="hero-ambient pointer-events-none absolute inset-0 overflow-hidden" data-hero-ambient aria-hidden="true">
 
         <div class="hero-ambient-scrim absolute inset-0"></div>
+
+        <!-- drifting mesh-gradient glows -->
+        <div class="hero-amb-mesh absolute inset-0">
+          <span class="hero-amb-glow hero-amb-glow--a"></span>
+          <span class="hero-amb-glow hero-amb-glow--b"></span>
+          <span class="hero-amb-glow hero-amb-glow--c"></span>
+        </div>
 
         <div class="hero-ambient-vignette absolute inset-0"></div>
 
@@ -75,98 +81,68 @@ const {
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            <linearGradient id="railGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#8a8378" stop-opacity="0" />
-              <stop offset="18%" stop-color="#c9c2b4" stop-opacity="0.5" />
-              <stop offset="50%" stop-color="#e8ddc9" stop-opacity="0.75" />
-              <stop offset="82%" stop-color="#c9c2b4" stop-opacity="0.5" />
-              <stop offset="100%" stop-color="#8a8378" stop-opacity="0" />
-            </linearGradient>
+            <pattern id="dotGrid" width="42" height="42" patternUnits="userSpaceOnUse">
+              <circle cx="1.4" cy="1.4" r="1.4" fill="#DDA556" fill-opacity="0.35" />
+            </pattern>
 
-            <linearGradient id="formGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#3a2f28" />
-              <stop offset="55%" stop-color="#2a221c" />
-              <stop offset="100%" stop-color="#1c1712" />
-            </linearGradient>
-
-            <radialGradient id="emberGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#7a2b2b" stop-opacity="0.35" />
-              <stop offset="100%" stop-color="#7a2b2b" stop-opacity="0" />
+            <radialGradient id="gridFade" cx="50%" cy="38%" r="65%">
+              <stop offset="0%" stop-color="#000" stop-opacity="1" />
+              <stop offset="100%" stop-color="#000" stop-opacity="0" />
             </radialGradient>
 
-            <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="7" />
-            </filter>
+            <mask id="gridMask">
+              <rect x="0" y="0" width="1600" height="900" fill="url(#gridFade)" />
+            </mask>
 
-            <filter id="softBlurSm" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2.5" />
+            <linearGradient id="routeGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#C17F2E" stop-opacity="0" />
+              <stop offset="50%" stop-color="#DDA556" stop-opacity="0.7" />
+              <stop offset="100%" stop-color="#C17F2E" stop-opacity="0" />
+            </linearGradient>
+
+            <filter id="dotGlow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur stdDeviation="3" />
             </filter>
           </defs>
 
-          <!-- faint burgundy ember glow, far back, barely perceptible -->
-          <circle class="hero-amb-ember" cx="1180" cy="360" r="260" fill="url(#emberGlow)" />
+          <!-- fine dot-grid, fading out toward the edges -->
+          <rect x="0" y="0" width="1600" height="900" fill="url(#dotGrid)" mask="url(#gridMask)" />
 
-          <!-- overhead steel rail -->
-          <line x1="60" y1="46" x2="1540" y2="46" stroke="url(#railGrad)" stroke-width="3" />
-          <!-- slow light sweep travelling along the rail -->
-          <rect class="hero-amb-sweep" x="-200" y="40" width="140" height="12" fill="#f3ead9" opacity="0.35" filter="url(#softBlurSm)" />
-
-          <!-- hanging silhouettes — abstract, rounded forms only -->
-          <g class="hero-amb-hook hero-amb-hook--a">
-            <line x1="260" y1="46" x2="260" y2="108" stroke="#9c9488" stroke-width="2" opacity="0.5" />
-            <circle cx="260" cy="46" r="5" fill="#c9c2b4" opacity="0.6" />
-            <path
-              d="M260,108 C214,150 206,232 232,300 C250,346 250,398 224,438 C260,458 300,446 312,406 C332,344 322,262 296,206 C282,174 278,140 260,108 Z"
-              fill="url(#formGrad)" opacity="0.16" filter="url(#softBlur)"
-            />
+          <!-- abstract trade-route lines, sweeping across the hero -->
+          <g class="hero-amb-route hero-amb-route--a" fill="none" stroke="url(#routeGrad)" stroke-width="1.4">
+            <path d="M-100,620 C320,540 520,700 860,560 C1140,440 1340,520 1700,360" />
+          </g>
+          <g class="hero-amb-route hero-amb-route--b" fill="none" stroke="url(#routeGrad)" stroke-width="1.4">
+            <path d="M-100,260 C260,320 480,180 820,260 C1120,332 1360,220 1700,300" />
+          </g>
+          <g class="hero-amb-route hero-amb-route--c" fill="none" stroke="url(#routeGrad)" stroke-width="1" opacity="0.6">
+            <path d="M-100,440 C300,480 620,380 980,430 C1260,470 1440,400 1700,460" />
           </g>
 
-          <g class="hero-amb-hook hero-amb-hook--b">
-            <line x1="700" y1="46" x2="700" y2="96" stroke="#9c9488" stroke-width="2" opacity="0.5" />
-            <circle cx="700" cy="46" r="5" fill="#c9c2b4" opacity="0.6" />
-            <path
-              d="M700,96 C662,132 656,204 680,262 C696,300 694,344 674,378 C704,396 738,386 748,352 C764,300 756,232 734,184 C722,158 716,126 700,96 Z"
-              fill="url(#formGrad)" opacity="0.13" filter="url(#softBlur)"
-            />
-          </g>
-
-          <g class="hero-amb-hook hero-amb-hook--c">
-            <line x1="1160" y1="46" x2="1160" y2="118" stroke="#9c9488" stroke-width="2" opacity="0.5" />
-            <circle cx="1160" cy="46" r="5" fill="#c9c2b4" opacity="0.6" />
-            <path
-              d="M1160,118 C1110,162 1100,250 1130,322 C1150,370 1148,424 1120,464 C1158,486 1202,472 1214,428 C1234,360 1222,270 1194,212 C1178,178 1174,148 1160,118 Z"
-              fill="url(#formGrad)" opacity="0.15" filter="url(#softBlur)"
-            />
-          </g>
-
-          <g class="hero-amb-hook hero-amb-hook--d">
-            <line x1="1420" y1="46" x2="1420" y2="90" stroke="#9c9488" stroke-width="2" opacity="0.4" />
-            <circle cx="1420" cy="46" r="4.5" fill="#c9c2b4" opacity="0.55" />
-            <path
-              d="M1420,90 C1388,120 1384,178 1402,222 C1414,250 1412,284 1396,310 C1420,324 1448,316 1456,290 C1468,250 1460,196 1442,158 C1432,138 1428,114 1420,90 Z"
-              fill="url(#formGrad)" opacity="0.11" filter="url(#softBlur)"
-            />
-          </g>
-
-          <!-- small abstract farm marks, low opacity, near the base -->
-          <g class="hero-amb-farm" opacity="0.22" stroke="#c9c2b4" stroke-width="1.4" fill="none" stroke-linecap="round">
-            <path d="M120,800 C120,760 100,730 80,712" />
-            <path d="M120,800 C120,760 140,730 160,712" />
-            <path d="M120,760 C120,760 120,800 120,800" />
-            <path d="M1480,820 C1480,772 1458,738 1436,718" />
-            <path d="M1480,820 C1480,772 1502,738 1524,718" />
-          </g>
+          <!-- light pulses travelling along each route -->
+          <circle class="hero-amb-pulse hero-amb-pulse--a" r="4" fill="#F2EAD9" filter="url(#dotGlow)">
+            <animateMotion dur="9s" repeatCount="indefinite" rotate="auto"
+              path="M-100,620 C320,540 520,700 860,560 C1140,440 1340,520 1700,360" />
+          </circle>
+          <circle class="hero-amb-pulse hero-amb-pulse--b" r="3.5" fill="#DDA556" filter="url(#dotGlow)">
+            <animateMotion dur="12s" repeatCount="indefinite" begin="-3s" rotate="auto"
+              path="M-100,260 C260,320 480,180 820,260 C1120,332 1360,220 1700,300" />
+          </circle>
+          <circle class="hero-amb-pulse hero-amb-pulse--c" r="3" fill="#F2EAD9" filter="url(#dotGlow)" opacity="0.8">
+            <animateMotion dur="14s" repeatCount="indefinite" begin="-6s" rotate="auto"
+              path="M-100,440 C300,480 620,380 980,430 C1260,470 1440,400 1700,460" />
+          </circle>
         </svg>
 
-        <!-- slow-rising cold-room particles -->
+        <!-- slow-drifting particles -->
         <div class="hero-amb-particles absolute inset-0">
-          <span class="hero-amb-p" style="--x:8%; --size:3px; --dur:16s; --delay:0s;"></span>
+          <span class="hero-amb-p" style="--x:8%; --size:2.5px; --dur:16s; --delay:0s;"></span>
           <span class="hero-amb-p" style="--x:22%; --size:2px; --dur:19s; --delay:2.4s;"></span>
-          <span class="hero-amb-p" style="--x:37%; --size:4px; --dur:14s; --delay:1.1s;"></span>
+          <span class="hero-amb-p" style="--x:37%; --size:3px; --dur:14s; --delay:1.1s;"></span>
           <span class="hero-amb-p" style="--x:51%; --size:2px; --dur:21s; --delay:3.6s;"></span>
-          <span class="hero-amb-p" style="--x:64%; --size:3px; --dur:17s; --delay:0.8s;"></span>
-          <span class="hero-amb-p" style="--x:73%; --size:2.5px; --dur:20s; --delay:2.9s;"></span>
-          <span class="hero-amb-p" style="--x:85%; --size:3px; --dur:15s; --delay:1.7s;"></span>
+          <span class="hero-amb-p" style="--x:64%; --size:2.5px; --dur:17s; --delay:0.8s;"></span>
+          <span class="hero-amb-p" style="--x:73%; --size:2px; --dur:20s; --delay:2.9s;"></span>
+          <span class="hero-amb-p" style="--x:85%; --size:2.5px; --dur:15s; --delay:1.7s;"></span>
           <span class="hero-amb-p" style="--x:93%; --size:2px; --dur:18s; --delay:0.3s;"></span>
         </div>
 
@@ -937,13 +913,13 @@ const {
 
 <style>
   /*
-   * Hero ambient background — a quiet, abstract impression of a chilled
-   * processing floor (steel rail, hanging forms, drifting cold-room
-   * particles). Everything moves slowly and stays low-contrast so the
-   * hero copy sitting on top of it is never fought for attention.
-   * The scrim keeps this dark and premium regardless of the site's
-   * light/dark toggle, matching a butcher-brand palette rather than the
-   * page theme.
+   * Hero ambient background — a sleek, modern impression of global export
+   * logistics: drifting mesh-gradient light, a fine parallax dot-grid,
+   * and animated trade-route lines with travelling pulses. Everything
+   * moves slowly and stays low-contrast so the hero copy sitting on top
+   * of it is never fought for attention. The scrim keeps this dark and
+   * premium regardless of the site's light/dark toggle, matching a
+   * confident export brand rather than the page theme.
    */
 
   .hero-ambient {
@@ -952,7 +928,7 @@ const {
 
   .hero-ambient-scrim {
     background:
-      radial-gradient(120% 90% at 78% 15%, rgba(58, 32, 32, 0.22), transparent 55%),
+      radial-gradient(120% 90% at 78% 15%, rgba(193, 127, 46, 0.14), transparent 55%),
       linear-gradient(180deg, rgba(10, 9, 8, 0.78) 0%, rgba(14, 12, 10, 0.86) 55%, rgba(10, 9, 8, 0.94) 100%);
   }
 
@@ -964,26 +940,60 @@ const {
     opacity: 0.9;
   }
 
-  .hero-amb-ember {
-    animation: hero-amb-ember-pulse 14s ease-in-out infinite;
-    transform-origin: 1180px 360px;
+  /* Mesh-gradient glows — large, very soft blurred blobs that drift
+     slowly, giving the hero a bit of colour and depth without ever
+     reading as a literal shape. */
+  .hero-amb-mesh {
+    filter: blur(60px);
+    mix-blend-mode: screen;
   }
 
-  .hero-amb-sweep {
-    animation: hero-amb-sweep-move 11s cubic-bezier(0.45, 0, 0.2, 1) infinite;
-    animation-delay: 2s;
+  .hero-amb-glow {
+    position: absolute;
+    border-radius: 9999px;
+    opacity: 0.4;
+    will-change: transform;
   }
 
-  .hero-amb-hook {
-    transform-box: fill-box;
-    transform-origin: top center;
-    animation: hero-amb-sway 10s ease-in-out infinite;
+  .hero-amb-glow--a {
+    top: -10%;
+    right: 4%;
+    width: 42vw;
+    height: 42vw;
+    background: radial-gradient(circle, rgba(193, 127, 46, 0.55), transparent 70%);
+    animation: hero-amb-drift-a 22s ease-in-out infinite;
   }
 
-  .hero-amb-hook--a { animation-duration: 11s; animation-delay: 0s; }
-  .hero-amb-hook--b { animation-duration: 13s; animation-delay: 1.2s; }
-  .hero-amb-hook--c { animation-duration: 12s; animation-delay: 0.6s; }
-  .hero-amb-hook--d { animation-duration: 14.5s; animation-delay: 2s; }
+  .hero-amb-glow--b {
+    bottom: -15%;
+    left: -6%;
+    width: 34vw;
+    height: 34vw;
+    background: radial-gradient(circle, rgba(221, 165, 86, 0.35), transparent 70%);
+    animation: hero-amb-drift-b 26s ease-in-out infinite;
+  }
+
+  .hero-amb-glow--c {
+    top: 30%;
+    left: 40%;
+    width: 26vw;
+    height: 26vw;
+    background: radial-gradient(circle, rgba(242, 234, 217, 0.18), transparent 70%);
+    animation: hero-amb-drift-c 19s ease-in-out infinite;
+  }
+
+  .hero-amb-route {
+    stroke-dasharray: 14 10;
+    animation: hero-amb-route-flow 26s linear infinite;
+  }
+
+  .hero-amb-route--a { animation-duration: 24s; }
+  .hero-amb-route--b { animation-duration: 30s; animation-direction: reverse; }
+  .hero-amb-route--c { animation-duration: 36s; }
+
+  .hero-amb-pulse {
+    animation: hero-amb-pulse-fade 1.2s ease-in-out infinite alternate;
+  }
 
   .hero-amb-particles {
     overflow: hidden;
@@ -1002,22 +1012,28 @@ const {
     animation-delay: var(--delay);
   }
 
-  @keyframes hero-amb-sway {
-    0%, 100% { transform: rotate(-0.9deg) translateY(0); }
-    50% { transform: rotate(0.9deg) translateY(3px); }
+  @keyframes hero-amb-drift-a {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-4%, 6%, 0) scale(1.12); }
   }
 
-  @keyframes hero-amb-sweep-move {
-    0% { transform: translateX(0); opacity: 0; }
-    8% { opacity: 0.35; }
-    45% { opacity: 0.35; }
-    60% { opacity: 0; }
-    100% { transform: translateX(1900px); opacity: 0; }
+  @keyframes hero-amb-drift-b {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(5%, -5%, 0) scale(1.08); }
   }
 
-  @keyframes hero-amb-ember-pulse {
-    0%, 100% { opacity: 0.7; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.08); }
+  @keyframes hero-amb-drift-c {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(-3%, -4%, 0) scale(0.92); }
+  }
+
+  @keyframes hero-amb-route-flow {
+    to { stroke-dashoffset: -480; }
+  }
+
+  @keyframes hero-amb-pulse-fade {
+    0% { opacity: 0.55; }
+    100% { opacity: 1; }
   }
 
   @keyframes hero-amb-rise {
@@ -1030,21 +1046,27 @@ const {
   /* Gentle whole-layer parallax on pointer move — a couple of pixels at
      most, purely additive to the idle animations above. */
   .hero-ambient-svg,
-  .hero-amb-particles {
+  .hero-amb-particles,
+  .hero-amb-mesh {
     transform: translate3d(calc(var(--amb-x, 0) * 1px), calc(var(--amb-y, 0) * 1px), 0);
     transition: transform 0.6s ease-out;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-amb-ember,
-    .hero-amb-sweep,
-    .hero-amb-hook,
+    .hero-amb-glow,
+    .hero-amb-route,
+    .hero-amb-pulse,
     .hero-amb-p {
       animation: none !important;
     }
 
+    .hero-amb-pulse {
+      opacity: 0 !important;
+    }
+
     .hero-ambient-svg,
-    .hero-amb-particles {
+    .hero-amb-particles,
+    .hero-amb-mesh {
       transition: none;
       transform: none !important;
     }
