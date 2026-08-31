@@ -688,6 +688,37 @@ const {
     slider.addEventListener('focusin', stop);
     slider.addEventListener('focusout', start);
 
+    // Subtle pointer-driven 3D tilt on the active card — a light,
+    // glassy parallax that reinforces the depth of the slide transitions
+    // without fighting them (skipped entirely for reduced motion).
+    if (!prefersReducedMotion) {
+      const MAX_TILT = 7;
+
+      const handleMove = (e) => {
+        const active = slides[index];
+        if (!active) return;
+        const rect = slider.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;
+        const py = (e.clientY - rect.top) / rect.height;
+        const tiltY = (px - 0.5) * 2 * MAX_TILT;
+        const tiltX = (0.5 - py) * 2 * MAX_TILT;
+        active.classList.add('is-tilting');
+        active.style.setProperty('--tilt-x', `${tiltX.toFixed(2)}deg`);
+        active.style.setProperty('--tilt-y', `${tiltY.toFixed(2)}deg`);
+      };
+
+      const resetTilt = () => {
+        const active = slides[index];
+        if (!active) return;
+        active.classList.remove('is-tilting');
+        active.style.setProperty('--tilt-x', '0deg');
+        active.style.setProperty('--tilt-y', '0deg');
+      };
+
+      slider.addEventListener('mousemove', handleMove);
+      slider.addEventListener('mouseleave', resetTilt);
+    }
+
     start();
   });
 </script>
@@ -776,25 +807,55 @@ const {
   }
 
   /*
-   * Hero product slide — the incoming product pushes in from the right
-   * while the current one slides out to the left, with a slow Ken Burns
-   * drift on the active image and a progress fill on its dot.
+   * Hero product slide — a sleek 3D layer: the incoming product rotates
+   * in out of the depth of the frame on a Y-axis, the current one recedes
+   * and banks away as it exits, with a slow Ken Burns drift on the active
+   * image and a progress fill on its dot. The active card also gets a
+   * subtle pointer-driven tilt for a bit of tactile, glassy depth.
    */
 
+  .hero-slider {
+    perspective: 1600px;
+    transform-style: preserve-3d;
+  }
+
   .hero-slide {
-    transform: translateX(105%);
-    opacity: 1;
-    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+    transform: perspective(1600px) translateX(62%) translateZ(-180px) rotateY(-42deg) scale(0.82);
+    transform-origin: left center;
+    opacity: 0;
+    filter: blur(3px) brightness(0.65) saturate(0.85);
+    transition:
+      transform 1s cubic-bezier(0.65, 0, 0.35, 1),
+      opacity 0.65s ease,
+      filter 0.9s ease;
+    will-change: transform, opacity, filter;
     z-index: 1;
+    backface-visibility: hidden;
   }
 
   .hero-slide.is-active {
-    transform: translateX(0);
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    transform: perspective(1600px) translateX(0) translateZ(0) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(1);
+    transform-origin: center center;
+    opacity: 1;
+    filter: blur(0) brightness(1) saturate(1);
     z-index: 2;
+    transition:
+      transform 1s cubic-bezier(0.65, 0, 0.35, 1),
+      opacity 0.65s ease,
+      filter 0.9s ease;
+  }
+
+  .hero-slide.is-active.is-tilting {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.65s ease, filter 0.9s ease;
   }
 
   .hero-slide.is-leaving {
-    transform: translateX(-105%);
+    transform: perspective(1600px) translateX(-62%) translateZ(-180px) rotateY(42deg) scale(0.82);
+    transform-origin: right center;
+    opacity: 0;
+    filter: blur(3px) brightness(0.65) saturate(0.85);
     z-index: 1;
   }
 
@@ -805,12 +866,22 @@ const {
   }
 
   .hero-slide-img {
-    transform: scale(1);
+    transform: scale(1) translateZ(0);
     transition: transform 5.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .hero-slide.is-active .hero-slide-img {
-    transform: scale(1.09);
+    transform: scale(1.09) translateZ(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide,
+    .hero-slide.is-active,
+    .hero-slide.is-leaving {
+      transition: opacity 0.4s ease;
+      filter: none;
+      transform: none;
+    }
   }
 
   .hero-dot-fill {
