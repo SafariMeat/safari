@@ -42,6 +42,68 @@ const USD_TO_KSH = 129;
         </p>
       </div>
 
+      <!-- Empty-cart state: shown instead of the cart/checkout when there's nothing to order -->
+      <div id="order-empty-state" hidden>
+        <a
+          href="/products"
+          class="group flex flex-col gap-5 rounded-2xl border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_3%,transparent)] backdrop-blur-sm shadow-xl shadow-black/30 p-6 sm:p-8 transition hover:border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-text)_5%,transparent)] sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="flex items-start gap-4">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--color-accent)_15%,transparent)] text-[var(--color-accent)]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                <path d="M3 6h18" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+            </span>
+            <div>
+              <h2 class="text-lg font-semibold text-[var(--color-text)]">Your order is empty</h2>
+              <p class="mt-1 text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">
+                Browse our products and add a few to your order to get started.
+              </p>
+            </div>
+          </div>
+          <span class="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-lg bg-[var(--color-accent)] px-4 py-2.5 text-sm font-semibold text-[var(--color-bg)] shadow-lg transition group-hover:brightness-110 sm:self-auto">
+            Browse products
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </span>
+        </a>
+
+        <a
+          href="/wholesale"
+          class="group mt-4 flex flex-col gap-5 rounded-2xl border border-dashed border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_2%,transparent)] backdrop-blur-sm p-6 sm:p-8 transition hover:border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-text)_4%,transparent)] sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="flex items-start gap-4">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--color-text)_8%,transparent)] text-[color-mix(in_srgb,var(--color-text)_70%,transparent)]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+                <path d="M16.5 9.4 7.5 4.21" />
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                <path d="m3.27 6.96 8.73 5.05 8.73-5.05" />
+                <path d="M12 22.08V12" />
+              </svg>
+            </span>
+            <div>
+              <h2 class="text-base font-semibold text-[var(--color-text)]">Ordering in bulk?</h2>
+              <p class="mt-1 text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">
+                For larger or recurring volumes, send us a wholesale enquiry and we'll get back to you with pricing.
+              </p>
+            </div>
+          </div>
+          <span class="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-lg border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text)] transition group-hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)] sm:self-auto">
+            Wholesale enquiry
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <!-- Cart + checkout: hidden while the cart is empty -->
+      <div id="order-active">
       <!-- Cart card -->
       <section class="rounded-2xl border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_3%,transparent)] backdrop-blur-sm shadow-xl shadow-black/30 overflow-hidden">
         <div class="overflow-x-auto">
@@ -58,10 +120,6 @@ const USD_TO_KSH = 129;
             <tbody id="cart-body" class="divide-y divide-[color-mix(in_srgb,var(--color-text)_5%,transparent)]"></tbody>
           </table>
         </div>
-
-        <p id="cart-empty" hidden class="px-5 py-10 text-center text-sm text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
-          Your order is empty.
-        </p>
 
         <div class="flex items-center justify-between border-t border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_2%,transparent)] px-5 py-4">
           <span class="text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">Total</span>
@@ -161,6 +219,7 @@ const USD_TO_KSH = 129;
       </form>
 
       <p id="checkout-status" role="status" class="mt-4 min-h-[1.25rem] text-sm text-[var(--color-accent)]"></p>
+      </div>
     </div>
   </main>
 </Layout>
@@ -217,18 +276,30 @@ const USD_TO_KSH = 129;
       }
 
       const body = document.getElementById('cart-body')!;
-      const emptyMsg = document.getElementById('cart-empty')!;
       const totalEl = document.getElementById('cart-total')!;
       const totalUsdEl = document.getElementById('cart-total-usd')!;
       const form = document.getElementById('checkout-form') as HTMLFormElement;
       const status = document.getElementById('checkout-status')!;
+      const emptyState = document.getElementById('order-empty-state')!;
+      const activeState = document.getElementById('order-active')!;
 
       function render() {
         const cart = getCart();
         const items = Object.values(cart) as CartItem[];
 
+        // Nothing in the cart: hide the table/checkout entirely and show
+        // the "go browse products" / "wholesale" prompt instead.
+        const isEmpty = items.length === 0;
+        emptyState.hidden = !isEmpty;
+        activeState.hidden = isEmpty;
+        if (isEmpty) {
+          body.innerHTML = '';
+          totalEl.textContent = '0';
+          totalUsdEl.textContent = '';
+          return;
+        }
+
         body.innerHTML = '';
-        emptyMsg.hidden = items.length > 0;
 
         for (const item of items) {
           const subtotal = Math.round(item.pricePerKg * item.qty * 100) / 100;
