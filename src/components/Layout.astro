@@ -126,7 +126,17 @@ const footerLinks = [
         --color-bg-soft-2: #212327;       /* raised surface, more contrast */
         --color-text: #f2efe9;            /* warm off-white, pairs with bronze accent */
         --color-accent: #c17f2e;          /* bronze — matches hero stamp/CTA for a unified palette */
+        --color-accent-soft: #dda556;     /* lighter bronze — hover states, glows */
         --color-accent-contrast: #17130c; /* text sitting on accent bg */
+
+        /* Semantic colors, tuned to sit next to the bronze/charcoal palette
+           instead of stock Tailwind neon green/red (which read as generic
+           and clash with the warm, earthy hue of the accent). */
+        --color-success: #3f9d67;         /* muted forest green */
+        --color-success-hover: #4db479;
+        --color-success-contrast: #f2efe9;
+        --color-danger: #d97757;          /* warm terracotta red */
+        --color-danger-hover: #e28b6c;
         color-scheme: dark;
       }
 
@@ -136,7 +146,14 @@ const footerLinks = [
         --color-bg-soft-2: #e6e2d8;       /* raised surface, more contrast */
         --color-text: #17140f;            /* near-black with warm undertone */
         --color-accent: #a3641f;          /* deeper bronze for AA contrast on light bg */
+        --color-accent-soft: #c17f2e;
         --color-accent-contrast: #faf9f6;
+
+        --color-success: #2f7d4f;         /* deeper green for AA contrast on light bg */
+        --color-success-hover: #26663f;
+        --color-success-contrast: #faf9f6;
+        --color-danger: #b8503a;          /* deeper terracotta for AA contrast on light bg */
+        --color-danger-hover: #9c3f2b;
         color-scheme: light;
       }
 

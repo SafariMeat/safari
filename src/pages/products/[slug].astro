@@ -47,8 +47,8 @@ const toUsd = (kshPrice: number) => (Number(kshPrice) / USD_TO_KSH).toFixed(2);
             class:list={[
               'flex-shrink-0 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide',
               orderable
-                ? 'border border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-                : 'border border-red-500/30 bg-red-500/10 text-red-400',
+                ? 'border border-[color-mix(in_srgb,var(--color-success)_35%,transparent)] bg-[color-mix(in_srgb,var(--color-success)_12%,transparent)] text-[var(--color-success)]'
+                : 'border border-[color-mix(in_srgb,var(--color-danger)_35%,transparent)] bg-[color-mix(in_srgb,var(--color-danger)_12%,transparent)] text-[var(--color-danger)]',
             ]}
           >
             {orderable ? 'In stock' : 'Out of stock'}
@@ -100,7 +100,7 @@ const toUsd = (kshPrice: number) => (Number(kshPrice) / USD_TO_KSH).toFixed(2);
           <button
             type="submit"
             disabled={!orderable}
-            class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[var(--color-bg-soft-2)] disabled:text-[color-mix(in_srgb,var(--color-text)_45%,transparent)] disabled:shadow-none disabled:active:scale-100"
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--color-success)] px-5 py-2.5 text-sm font-semibold text-[var(--color-success-contrast)] shadow-lg shadow-[color-mix(in_srgb,var(--color-success)_35%,transparent)] transition hover:bg-[var(--color-success-hover)] active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[var(--color-bg-soft-2)] disabled:text-[color-mix(in_srgb,var(--color-text)_45%,transparent)] disabled:shadow-none disabled:active:scale-100"
           >
             Add to order
           </button>

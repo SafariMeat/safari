@@ -50,7 +50,7 @@ const toUsd = (kshPrice: number) => (Number(kshPrice) / USD_TO_KSH).toFixed(2);
                       {p.data.name}
                     </h2>
                     {!p.data.inStock && (
-                      <span class="flex-shrink-0 rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-red-400">
+                      <span class="flex-shrink-0 rounded-full border border-[color-mix(in_srgb,var(--color-danger)_35%,transparent)] bg-[color-mix(in_srgb,var(--color-danger)_12%,transparent)] px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-wide text-[var(--color-danger)]">
                         Out of stock
                       </span>
                     )}

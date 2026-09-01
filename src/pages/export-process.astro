@@ -6,12 +6,17 @@ const entry = await getEntry('exportProcess', 'exportprocess');
 ---
 
 <Layout title={entry.data.heading}>
-  <main class="min-h-screen bg-neutral-950 text-neutral-100 px-4 py-10 sm:py-16">
-    <div class="mx-auto w-full max-w-3xl">
-      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-500/80">
+  <main class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] px-4 py-16 sm:py-24">
+    <div class="mx-auto w-full max-w-3xl text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.25em] text-[color-mix(in_srgb,var(--color-accent)_80%,transparent)]">
         Safari Meat Exports
       </p>
-      <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-white">
+      <div class="mt-4 flex items-center justify-center gap-3">
+        <span class="h-px w-8 bg-[color-mix(in_srgb,var(--color-accent)_60%,transparent)]"></span>
+        <span class="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]"></span>
+        <span class="h-px w-8 bg-[color-mix(in_srgb,var(--color-accent)_60%,transparent)]"></span>
+      </div>
+      <h1 class="mt-5 text-3xl sm:text-5xl font-bold tracking-tight text-[var(--color-text)]">
         {entry.data.heading}
       </h1>
     </div>
