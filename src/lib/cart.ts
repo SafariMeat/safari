@@ -22,6 +22,7 @@ export type CartItem = {
   name: string;
   pricePerKg: number;
   qty: number;
+  image?: string;
 };
 
 export type Cart = Record<string, CartItem>;
@@ -52,11 +53,14 @@ function sanitizeItem(slug: string, raw: unknown): CartItem | null {
   const name = typeof r.name === 'string' && r.name.trim() ? r.name : null;
   if (!name) return null;
 
+  const image = typeof r.image === 'string' && r.image.trim() ? r.image : undefined;
+
   return {
     slug,
     name,
     pricePerKg: sanitizePrice(r.pricePerKg),
     qty,
+    image,
   };
 }
 
@@ -100,6 +104,7 @@ export function addToCart(item: Omit<CartItem, 'qty'>, qty = 1): Cart {
     name: item.name,
     pricePerKg: sanitizePrice(item.pricePerKg),
     qty: existingQty + addQty,
+    image: item.image ?? cart[item.slug]?.image,
   };
 
   saveCart(cart);

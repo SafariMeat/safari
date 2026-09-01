@@ -307,7 +307,16 @@ const USD_TO_KSH = 129;
           const row = document.createElement('tr');
           row.className = 'transition hover:bg-[color-mix(in_srgb,var(--color-text)_2%,transparent)]';
           row.innerHTML = `
-            <td class="px-5 py-4 font-medium text-[var(--color-text)]">${item.name}</td>
+            <td class="px-5 py-4 font-medium text-[var(--color-text)]">
+              <div class="flex items-center gap-3">
+                <img
+                  src="${item.image ?? '/goat.jfif'}"
+                  alt="${item.name}"
+                  class="h-12 w-12 shrink-0 rounded-lg object-cover"
+                />
+                <span>${item.name}</span>
+              </div>
+            </td>
             <td class="px-5 py-4 text-[color-mix(in_srgb,var(--color-text)_80%,transparent)]">Ksh ${item.pricePerKg} <span class="text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">($${toUsd(item.pricePerKg)})</span></td>
             <td class="px-5 py-4">
               <div class="flex items-center gap-2">
