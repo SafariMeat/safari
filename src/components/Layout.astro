@@ -141,19 +141,19 @@ const footerLinks = [
       }
 
       :root[data-theme='light'] {
-        --color-bg: #faf9f6;              /* warm off-white, not stark white */
-        --color-bg-soft: #f1efe9;         /* raised surface */
-        --color-bg-soft-2: #e6e2d8;       /* raised surface, more contrast */
-        --color-text: #17140f;            /* near-black with warm undertone */
-        --color-accent: #a3641f;          /* deeper bronze for AA contrast on light bg */
-        --color-accent-soft: #c17f2e;
-        --color-accent-contrast: #faf9f6;
+        --color-bg: #fbf8f2;              /* warm linen/ivory — softer than a flat off-white */
+        --color-bg-soft: #f4efe2;         /* parchment card surface */
+        --color-bg-soft-2: #e8e0cd;       /* deeper parchment for borders/hover, more tonal presence */
+        --color-text: #241f19;            /* rich espresso, warmer & softer than near-black */
+        --color-accent: #9a5c1c;          /* burnished copper, AA on ivory (5.05:1) */
+        --color-accent-soft: #c17f2e;     /* honey-bronze — hover glows, echoes the dark theme's accent */
+        --color-accent-contrast: #fffaf0;
 
-        --color-success: #2f7d4f;         /* deeper green for AA contrast on light bg */
-        --color-success-hover: #26663f;
-        --color-success-contrast: #faf9f6;
-        --color-danger: #b8503a;          /* deeper terracotta for AA contrast on light bg */
-        --color-danger-hover: #9c3f2b;
+        --color-success: #3f7d52;         /* muted sage, quieter/more elegant than forest green */
+        --color-success-hover: #336343;
+        --color-success-contrast: #fbf8f2;
+        --color-danger: #b1543c;          /* soft clay-red, warmer and less harsh than terracotta */
+        --color-danger-hover: #954732;
         color-scheme: light;
       }
 
@@ -241,17 +241,35 @@ const footerLinks = [
       }
     </style>
 
-    <!-- Blocking: applies a saved "light" preference before first paint. -->
+    <!--
+      Applies a saved "light" preference before first paint.
+
+      Runs on the initial load AND on 'astro:after-swap'. With
+      astro:transitions enabled, client-side navigations swap the <html>
+      element's attributes to match the freshly-fetched page — which wipes
+      out any data-theme we'd previously set via JS, since the server-
+      rendered markup never includes it. Re-running this on every swap
+      (before the browser paints the new page) puts it back, so a light-
+      mode choice survives navigation instead of reverting to dark.
+    -->
     <script is:inline>
       (function () {
-        try {
-          var stored = localStorage.getItem('safari-meats-theme');
-          if (stored === 'light') {
-            document.documentElement.setAttribute('data-theme', 'light');
-            var meta = document.getElementById('theme-color-meta');
-            if (meta) meta.setAttribute('content', '#faf9f6');
-          }
-        } catch (e) {}
+        function applyStoredTheme() {
+          try {
+            var stored = localStorage.getItem('safari-meats-theme');
+            if (stored === 'light') {
+              document.documentElement.setAttribute('data-theme', 'light');
+              var meta = document.getElementById('theme-color-meta');
+              if (meta) meta.setAttribute('content', '#fbf8f2');
+            } else {
+              document.documentElement.removeAttribute('data-theme');
+              var metaEl = document.getElementById('theme-color-meta');
+              if (metaEl) metaEl.setAttribute('content', '#0b0c0e');
+            }
+          } catch (e) {}
+        }
+        applyStoredTheme();
+        document.addEventListener('astro:after-swap', applyStoredTheme);
       })();
     </script>
   </head>
@@ -499,16 +517,26 @@ const footerLinks = [
     // Set instantly (no CSS transition applies to a meta tag), so the
     // browser gets the final color right away instead of trying to
     // interpolate/re-sample it across the 0.3s background-color fade.
-    themeColorMeta?.setAttribute('content', theme === 'light' ? '#faf9f6' : '#0b0c0e');
+    themeColorMeta?.setAttribute('content', theme === 'light' ? '#fbf8f2' : '#0b0c0e');
     try {
       localStorage.setItem(THEME_KEY, theme);
     } catch (e) {}
   }
 
-  document.querySelectorAll('.theme-toggle').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      setTheme(isLight ? 'dark' : 'light');
+  // Re-bind on every client-side navigation, not just the first load — see
+  // the astro:page-load comment in contact.astro for why this is needed
+  // with astro:transitions. The header is transition:persist'd, so its
+  // buttons are the *same* DOM nodes across navigations rather than fresh
+  // ones — guard with a data attribute so we don't double-bind and end up
+  // toggling twice per click.
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('.theme-toggle').forEach((btn) => {
+      if (btn.hasAttribute('data-theme-bound')) return;
+      btn.setAttribute('data-theme-bound', 'true');
+      btn.addEventListener('click', () => {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        setTheme(isLight ? 'dark' : 'light');
+      });
     });
   });
 </script>
