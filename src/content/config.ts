@@ -10,21 +10,22 @@ import { defineCollection, z } from 'astro:content';
 // declaring it manually throws ContentSchemaContainsSlugError. Use
 // `entry.slug` at the call site instead of `entry.data.slug`.
 
-// Safari Meat sells a single product: whole baby goat carcasses. There is
-// no multi-item catalog, so this is a singleton "spec sheet" rather than a
-// browsable/priced collection — no pricePerKg, stockQty, or cart fields.
-const product = defineCollection({
+const products = defineCollection({
   type: 'content',
   schema: z.object({
-    heading: z.string(),
     name: z.string(),
-    weightMinKg: z.number().positive(),
-    weightMaxKg: z.number().positive(),
-    form: z.string(),
-    processing: z.string(),
-    packagingOptions: z.array(z.string()),
-    image: z.string().optional(),
+    category: z.enum(['beef', 'goat', 'chicken', 'pork', 'sausages', 'other']),
+    pricePerKg: z.number().positive(),
+    unit: z.string().default('kg'),
+    // `inStock` is a manual admin override (e.g. "pull this off the site
+    // right now" without zeroing out the count). `stockQty` is the actual
+    // count on hand and is what caps how much a customer can order — a
+    // product is only orderable when BOTH inStock is true AND stockQty > 0.
+    inStock: z.boolean().default(true),
+    stockQty: z.number().int().nonnegative().default(0),
+    featured: z.boolean().default(false),
     description: z.string().optional(),
+    image: z.string().optional(),
   }),
 });
 
@@ -98,9 +99,6 @@ const about = defineCollection({
     ),
     qualityCommitmentTitle: z.string(),
     qualityCommitmentDescription: z.string(),
-    exportReadinessTitle: z.string(),
-    exportReadinessDescription: z.string(),
-    exportReadinessPoints: z.array(z.string()),
   }),
 });
 
@@ -143,18 +141,24 @@ const contact = defineCollection({
   }),
 });
 
+const wholesale = defineCollection({
+  type: 'content',
+  schema: z.object({ heading: z.string() }),
+});
+
 const quote = defineCollection({
   type: 'content',
   schema: z.object({ heading: z.string() }),
 });
 
 export const collections = {
-  product,
+  products,
   home,
   about,
   contact,
   certification,
   markets,
+  wholesale,
   exportProcess,
   gallery,
   quote,

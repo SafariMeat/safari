@@ -1,0 +1,488 @@
+---
+import Layout from '../components/Layout.astro';
+import { getEntry, getCollection } from 'astro:content';
+
+const contact = await getEntry('contact', 'contact');
+const whatsappNumber = contact.data.whatsapp;
+const businessEmail = contact.data.email;
+
+// Stock snapshot as of this build, used to cap quantities in the cart —
+// the cart itself only remembers price/name/qty from whenever the item
+// was added, so stock has to be re-checked here rather than trusted from
+// localStorage. On a Netlify+CMS setup, editing a product's stock in
+// /admin/ triggers a rebuild, so this stays current in practice.
+const products = await getCollection('products');
+const stockBySlug = Object.fromEntries(
+  products.map((p) => [p.slug, { stockQty: p.data.stockQty, inStock: p.data.inStock }])
+);
+
+// Fixed conversion rate (not live) — update this number whenever you want to refresh it.
+// Also read client-side by the cart script below, so it's exposed as a data attribute.
+const USD_TO_KSH = 129;
+---
+
+<Layout title="Your Order — Safari Meat Exports">
+  <main
+    data-whatsapp-number={whatsappNumber}
+    data-business-email={businessEmail}
+    data-usd-to-ksh={USD_TO_KSH}
+    class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] px-4 py-10 sm:py-16"
+  >
+    <div class="mx-auto w-full max-w-3xl">
+      <!-- Page heading -->
+      <div class="mb-8 sm:mb-10">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[color-mix(in_srgb,var(--color-accent)_80%,transparent)]">
+          Safari Meat Exports
+        </p>
+        <h1 class="mt-2 text-3xl sm:text-4xl font-bold tracking-tight text-[var(--color-text)]">
+          Your Order
+        </h1>
+        <p class="mt-2 text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">
+          Review your items, confirm your details, and send your order via WhatsApp or email.
+        </p>
+      </div>
+
+      <!-- Empty-cart state: shown instead of the cart/checkout when there's nothing to order -->
+      <div id="order-empty-state" hidden>
+        <a
+          href="/products"
+          class="group flex flex-col gap-5 rounded-2xl border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_3%,transparent)] backdrop-blur-sm shadow-xl shadow-black/30 p-6 sm:p-8 transition hover:border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-text)_5%,transparent)] sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="flex items-start gap-4">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--color-accent)_15%,transparent)] text-[var(--color-accent)]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                <path d="M3 6h18" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+            </span>
+            <div>
+              <h2 class="text-lg font-semibold text-[var(--color-text)]">Your order is empty</h2>
+              <p class="mt-1 text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">
+                Browse our products and add a few to your order to get started.
+              </p>
+            </div>
+          </div>
+          <span class="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-lg bg-[var(--color-accent)] px-4 py-2.5 text-sm font-semibold text-[var(--color-bg)] shadow-lg transition group-hover:brightness-110 sm:self-auto">
+            Browse products
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </span>
+        </a>
+
+        <a
+          href="/wholesale"
+          class="group mt-4 flex flex-col gap-5 rounded-2xl border border-dashed border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_2%,transparent)] backdrop-blur-sm p-6 sm:p-8 transition hover:border-[color-mix(in_srgb,var(--color-accent)_30%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-text)_4%,transparent)] sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="flex items-start gap-4">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_srgb,var(--color-text)_8%,transparent)] text-[color-mix(in_srgb,var(--color-text)_70%,transparent)]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+                <path d="M16.5 9.4 7.5 4.21" />
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                <path d="m3.27 6.96 8.73 5.05 8.73-5.05" />
+                <path d="M12 22.08V12" />
+              </svg>
+            </span>
+            <div>
+              <h2 class="text-base font-semibold text-[var(--color-text)]">Ordering in bulk?</h2>
+              <p class="mt-1 text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">
+                For larger or recurring volumes, send us a wholesale enquiry and we'll get back to you with pricing.
+              </p>
+            </div>
+          </div>
+          <span class="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-lg border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text)] transition group-hover:bg-[color-mix(in_srgb,var(--color-text)_6%,transparent)] sm:self-auto">
+            Wholesale enquiry
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <!-- Cart + checkout: hidden while the cart is empty -->
+      <div id="order-active">
+      <!-- Cart card -->
+      <section class="rounded-2xl border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_3%,transparent)] backdrop-blur-sm shadow-xl shadow-black/30 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table id="cart-table" class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] text-xs uppercase tracking-wider text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">
+                <th class="px-5 py-4 font-medium">Item</th>
+                <th class="px-5 py-4 font-medium">Price/kg</th>
+                <th class="px-5 py-4 font-medium">Qty</th>
+                <th class="px-5 py-4 font-medium">Subtotal</th>
+                <th class="px-5 py-4"></th>
+              </tr>
+            </thead>
+            <tbody id="cart-body" class="divide-y divide-[color-mix(in_srgb,var(--color-text)_5%,transparent)]"></tbody>
+          </table>
+        </div>
+
+        <div class="flex items-center justify-between border-t border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_2%,transparent)] px-5 py-4">
+          <span class="text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">Total</span>
+          <span class="text-xl font-semibold text-[var(--color-accent)]">
+            Ksh <span id="cart-total">0</span>
+            <span id="cart-total-usd" class="text-sm font-normal text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]"></span>
+          </span>
+        </div>
+      </section>
+
+      <script type="application/json" id="stock-data" set:html={JSON.stringify(stockBySlug)} />
+
+      <!--
+        name + data-netlify="true" + the hidden form-name input let Netlify
+        detect this form at build time and log every submission to the
+        Forms tab in the Netlify dashboard — this is the business's order
+        history. The `items` and `total` hidden inputs exist purely so
+        Netlify's schema includes those fields too; their values are filled
+        in by script just before submit (see below).
+      -->
+      <form
+        id="checkout-form"
+        name="order"
+        data-netlify="true"
+        class="mt-6 rounded-2xl border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_3%,transparent)] backdrop-blur-sm shadow-xl shadow-black/30 p-5 sm:p-6 space-y-5"
+      >
+        <input type="hidden" name="form-name" value="order" />
+        <input type="hidden" name="items" />
+        <input type="hidden" name="total" />
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <label class="block">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
+              Full name
+            </span>
+            <input
+              type="text"
+              name="customerName"
+              minlength="2"
+              required
+              class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
+              placeholder="Jane Doe"
+            />
+          </label>
+
+          <label class="block">
+            <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
+              Phone number
+            </span>
+            <input
+              type="tel"
+              name="phone"
+              required
+              class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
+              placeholder="07XX XXX XXX"
+            />
+          </label>
+        </div>
+
+        <label class="block">
+          <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
+            Delivery address
+          </span>
+          <textarea
+            name="address"
+            minlength="2"
+            required
+            rows="3"
+            class="w-full resize-none rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
+            placeholder="Street, building, city"
+          ></textarea>
+        </label>
+
+        <fieldset class="border-0 p-0">
+          <legend class="mb-2.5 text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
+            How would you like to send your order?
+          </legend>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <button
+              type="submit"
+              name="channel"
+              value="whatsapp"
+              class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:bg-emerald-500 active:scale-[0.98]"
+            >
+              Place order via WhatsApp
+            </button>
+            <button
+              type="submit"
+              name="channel"
+              value="email"
+              class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_4%,transparent)] px-4 py-2.5 text-sm font-semibold text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_8%,transparent)] active:scale-[0.98]"
+            >
+              Place order via Email
+            </button>
+          </div>
+        </fieldset>
+      </form>
+
+      <p id="checkout-status" role="status" class="mt-4 min-h-[1.25rem] text-sm text-[var(--color-accent)]"></p>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { getCart, setQty, removeFromCart, clearCart, cartTotal, type CartItem } from '../lib/cart';
+  import { isValidText } from '../lib/validate';
+  import { submitLead } from '../lib/leads';
+
+  document.addEventListener('astro:page-load', () => {
+      if (!document.getElementById('stock-data')) return;
+
+      type StockInfo = { stockQty: number; inStock: boolean };
+      const stockData: Record<string, StockInfo> = JSON.parse(
+        document.getElementById('stock-data')?.textContent || '{}'
+      );
+
+      // Fixed conversion rate (not live), passed down from the server as a
+      // data attribute so it stays in sync with the one used elsewhere on
+      // the site.
+      const mainEl = document.querySelector('main') as HTMLElement;
+      const USD_TO_KSH = Number(mainEl.dataset.usdToKsh) || 129;
+      const toUsd = (kshAmount: number) => (Number(kshAmount) / USD_TO_KSH).toFixed(2);
+
+      /** Max orderable qty for a slug right now: 0 if unknown/unavailable/removed. */
+      function maxFor(slug: string): number {
+        const info = stockData[slug];
+        if (!info || !info.inStock) return 0;
+        return Math.max(0, info.stockQty);
+      }
+
+      /**
+       * Clamp every cart line to current stock (dropping anything that's
+       * gone out of stock or been removed from the catalog entirely since
+       * it was added), and report what changed so the customer can be told.
+       */
+      function reconcileWithStock(): { adjusted: string[]; removed: string[] } {
+        const cart = getCart();
+        const adjusted: string[] = [];
+        const removed: string[] = [];
+
+        for (const item of Object.values(cart)) {
+          const max = maxFor(item.slug);
+          if (max <= 0) {
+            removeFromCart(item.slug);
+            removed.push(item.name);
+          } else if (item.qty > max) {
+            setQty(item.slug, max);
+            adjusted.push(`${item.name} (now ${max})`);
+          }
+        }
+
+        return { adjusted, removed };
+      }
+
+      const body = document.getElementById('cart-body')!;
+      const totalEl = document.getElementById('cart-total')!;
+      const totalUsdEl = document.getElementById('cart-total-usd')!;
+      const form = document.getElementById('checkout-form') as HTMLFormElement;
+      const status = document.getElementById('checkout-status')!;
+      const emptyState = document.getElementById('order-empty-state')!;
+      const activeState = document.getElementById('order-active')!;
+
+      function render() {
+        const cart = getCart();
+        const items = Object.values(cart) as CartItem[];
+
+        // Nothing in the cart: hide the table/checkout entirely and show
+        // the "go browse products" / "wholesale" prompt instead.
+        const isEmpty = items.length === 0;
+        emptyState.hidden = !isEmpty;
+        activeState.hidden = isEmpty;
+        if (isEmpty) {
+          body.innerHTML = '';
+          totalEl.textContent = '0';
+          totalUsdEl.textContent = '';
+          return;
+        }
+
+        body.innerHTML = '';
+
+        for (const item of items) {
+          const subtotal = Math.round(item.pricePerKg * item.qty * 100) / 100;
+          const max = maxFor(item.slug);
+          const row = document.createElement('tr');
+          row.className = 'transition hover:bg-[color-mix(in_srgb,var(--color-text)_2%,transparent)]';
+          row.innerHTML = `
+            <td class="px-5 py-4 font-medium text-[var(--color-text)]">${item.name}</td>
+            <td class="px-5 py-4 text-[color-mix(in_srgb,var(--color-text)_80%,transparent)]">Ksh ${item.pricePerKg} <span class="text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">($${toUsd(item.pricePerKg)})</span></td>
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-2">
+                <input
+                  type="number"
+                  min="1"
+                  max="${max}"
+                  step="1"
+                  value="${item.qty}"
+                  data-qty="${item.slug}"
+                  class="w-16 rounded-md border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-2 py-1.5 text-sm text-[var(--color-text)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
+                />
+                ${max > 0 ? `<span class="text-xs text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">/ ${max} available</span>` : ''}
+              </div>
+            </td>
+            <td class="px-5 py-4 font-medium text-[var(--color-accent)]">Ksh ${subtotal} <span class="font-normal text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">($${toUsd(subtotal)})</span></td>
+            <td class="px-5 py-4 text-right">
+              <button
+                type="button"
+                data-remove="${item.slug}"
+                class="rounded-md px-2.5 py-1.5 text-xs font-medium text-[color-mix(in_srgb,var(--color-text)_60%,transparent)] transition hover:bg-red-500/10 hover:text-red-400"
+              >
+                Remove
+              </button>
+            </td>
+          `;
+          body.appendChild(row);
+        }
+
+        const total = cartTotal(cart);
+        totalEl.textContent = String(total);
+        totalUsdEl.textContent = `($${toUsd(total)})`;
+      }
+
+      body.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const slug = target.dataset.remove;
+        if (slug) {
+          removeFromCart(slug);
+          render();
+        }
+      });
+
+      // Editing the qty input updates the cart (a value of 0 or less
+      // removes the line, same as clicking Remove). Also clamped to
+      // current stock — typing more than what's available snaps back down.
+      body.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        const slug = target.dataset.qty;
+        if (slug) {
+          const requested = parseInt(target.value, 10);
+          const max = maxFor(slug);
+          setQty(slug, Math.min(requested, max));
+          render();
+        }
+      });
+
+      // Reconcile against current stock before the first render, in case
+      // items were added on an earlier visit when more stock was available.
+      {
+        const { adjusted, removed } = reconcileWithStock();
+        if (removed.length || adjusted.length) {
+          const parts = [];
+          if (removed.length) parts.push(`no longer available and removed: ${removed.join(', ')}`);
+          if (adjusted.length) parts.push(`quantity reduced to match stock: ${adjusted.join(', ')}`);
+          status.textContent = `Your order was updated — ${parts.join('; ')}.`;
+        }
+      }
+
+      render();
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Which button the customer pressed — 'whatsapp' or 'email'.
+        // Falls back to 'whatsapp' if the browser doesn't report
+        // submitter (older Safari), matching the original single-button
+        // behavior.
+        const channel =
+          (e.submitter as HTMLButtonElement | null)?.value === 'email' ? 'email' : 'whatsapp';
+
+        // Final safety check: re-clamp to current stock right at submit
+        // time, not just on page load, in case the customer sat on this
+        // page a while or edited quantities directly.
+        const { adjusted, removed } = reconcileWithStock();
+        if (removed.length || adjusted.length) {
+          render();
+          const parts = [];
+          if (removed.length) parts.push(`no longer available and removed: ${removed.join(', ')}`);
+          if (adjusted.length) parts.push(`quantity reduced to match stock: ${adjusted.join(', ')}`);
+          status.textContent = `Your order changed before submitting — ${parts.join('; ')}. Please review and place your order again.`;
+          return;
+        }
+
+        const cart = getCart();
+        const items = Object.values(cart);
+
+        if (items.length === 0) {
+          status.textContent = 'Add at least one item before placing an order.';
+          return;
+        }
+
+        const formData = new FormData(form);
+        const payload = {
+          customerName: String(formData.get('customerName') ?? '').trim(),
+          phone: String(formData.get('phone') ?? '').trim(),
+          address: String(formData.get('address') ?? '').trim(),
+          items,
+          total: cartTotal(cart),
+        };
+
+        if (!isValidText(payload.customerName)) {
+          status.textContent = 'Please enter your full name (at least 2 characters).';
+          return;
+        }
+
+        if (!isValidText(payload.address)) {
+          status.textContent = 'Please enter a valid delivery address (at least 2 characters).';
+          return;
+        }
+
+        // Business contact details, editable by the admin via the Contact
+        // Page entry in /admin/ (src/content/contact/contact.md). WhatsApp
+        // number must be in international format without +, spaces, or
+        // punctuation.
+        const main = document.querySelector('main') as HTMLElement;
+        const whatsappNumber = main.dataset.whatsappNumber ?? '';
+        const businessEmail = main.dataset.businessEmail ?? '';
+        const orderLines = items.map((item) => {
+          const subtotal = Math.round(item.pricePerKg * item.qty * 100) / 100;
+          return `- ${item.name}: ${item.qty} kg x Ksh ${item.pricePerKg} (\$${toUsd(item.pricePerKg)}) = Ksh ${subtotal} (\$${toUsd(subtotal)})`;
+        });
+        const message = [
+          'New Safari Meat Exports Order',
+          '',
+          `Customer: ${payload.customerName}`,
+          `Phone: ${payload.phone}`,
+          `Address: ${payload.address}`,
+          '',
+          'Items:',
+          ...orderLines,
+          '',
+          `Total: Ksh ${payload.total} ($${toUsd(payload.total)})`,
+        ].join('\n');
+
+        // Record the order in Netlify Forms (the business's order history)
+        // in parallel with whichever channel the customer picked.
+        // Best-effort: a failed log here (offline, not on Netlify, etc.)
+        // must never block the order itself from reaching the business.
+        const itemsSummary = orderLines.join(' | ');
+        void submitLead('order', {
+          customerName: payload.customerName,
+          phone: payload.phone,
+          address: payload.address,
+          items: itemsSummary,
+          total: String(payload.total),
+          channel,
+        });
+
+        // The order has been prepared for submission, so clear the local
+        // cart before handing off to prevent accidental duplicates.
+        clearCart();
+        render();
+        form.reset();
+
+        if (channel === 'email') {
+          const subject = `New order from ${payload.customerName}`;
+          const mailtoUrl = `mailto:${businessEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+          status.textContent = 'Order ready. Opening your email app to send it.';
+          window.open(mailtoUrl, '_blank', 'noopener,noreferrer');
+        } else {
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+          status.textContent = 'Order ready. Opening WhatsApp to send it.';
+          window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+      });
+  });
+</script>

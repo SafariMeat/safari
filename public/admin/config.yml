@@ -5,10 +5,48 @@ backend:
   base_url: https://safari-orpin.vercel.app
   auth_endpoint: api/auth
 
-media_folder: "public/images/product"
-public_folder: "/images/product"
+media_folder: "public/images/products"
+public_folder: "/images/products"
 
 collections:
+  - name: "products"
+    label: "Products"
+    folder: "src/content/products"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Product name", name: "name", widget: "string" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["beef", "goat", "chicken", "pork", "sausages", "other"]
+      - { label: "Price per kg (Ksh)", name: "pricePerKg", widget: "number", value_type: "float", min: 0 }
+      - { label: "Unit", name: "unit", widget: "string", default: "kg" }
+      - label: "Availability"
+        name: "inStock"
+        widget: "boolean"
+        default: true
+        true_label: "Available / In stock"
+        false_label: "Unavailable / Out of stock"
+        hint: "Manual override — turn this off to pull the product from ordering immediately, regardless of stock quantity below."
+      - label: "Stock quantity (kg on hand)"
+        name: "stockQty"
+        widget: "number"
+        value_type: "int"
+        min: 0
+        default: 0
+        hint: "The most a customer can order in one go. Update this whenever stock changes — customers can't order more than what's here."
+      - label: "Featured product"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Turn this on to show the product in the Featured section on the homepage."
+      - { label: "Product image", name: "image", widget: "image", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Full product details", name: "body", widget: "markdown", required: false }
+
   - name: "pages"
     label: "Site Content"
     files:
@@ -45,22 +83,11 @@ collections:
         name: "markets"
         fields:
           - { label: "Heading", name: "heading", widget: "string" }
-      - file: "src/content/product/product.md"
-        label: "Product Specification"
-        name: "product"
+      - file: "src/content/wholesale/wholesale.md"
+        label: "Wholesale Buyers Page"
+        name: "wholesale"
         fields:
           - { label: "Heading", name: "heading", widget: "string" }
-          - { label: "Product name", name: "name", widget: "string" }
-          - { label: "Minimum typical weight (kg)", name: "weightMinKg", widget: "number", value_type: "float", min: 0 }
-          - { label: "Maximum typical weight (kg)", name: "weightMaxKg", widget: "number", value_type: "float", min: 0 }
-          - { label: "Form", name: "form", widget: "string" }
-          - { label: "Processing", name: "processing", widget: "string" }
-          - label: "Packaging options"
-            name: "packagingOptions"
-            widget: "list"
-            field: { label: "Option", name: "option", widget: "string" }
-          - { label: "Product image", name: "image", widget: "image", required: false }
-          - { label: "Description", name: "description", widget: "text", required: false }
       - file: "src/content/exportProcess/exportprocess.md"
         label: "Our Export Process Page"
         name: "export-process"

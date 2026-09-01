@@ -16,9 +16,6 @@ const {
   whyWorkWithUs,
   qualityCommitmentTitle,
   qualityCommitmentDescription,
-  exportReadinessTitle,
-  exportReadinessDescription,
-  exportReadinessPoints,
 } = entry.data;
 ---
 
@@ -83,22 +80,6 @@ const {
         <p class="mt-4 text-sm sm:text-base leading-relaxed text-[color-mix(in_srgb,var(--color-text)_80%,transparent)]">
           {qualityCommitmentDescription}
         </p>
-      </section>
-
-      <!-- Export readiness -->
-      <section class="rounded-2xl border border-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] bg-gradient-to-br from-[color-mix(in_srgb,var(--color-accent)_7%,transparent)] to-transparent p-6 sm:p-8">
-        <h2 class="text-xl sm:text-2xl font-semibold text-[var(--color-text)]">{exportReadinessTitle}</h2>
-        <p class="mt-4 text-sm sm:text-base leading-relaxed text-[color-mix(in_srgb,var(--color-text)_80%,transparent)]">
-          {exportReadinessDescription}
-        </p>
-        <ul class="mt-5 grid gap-3 sm:grid-cols-2">
-          {exportReadinessPoints.map((point) => (
-            <li class="flex items-start gap-2.5 text-sm text-[color-mix(in_srgb,var(--color-text)_80%,transparent)]">
-              <span class="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--color-accent)]"></span>
-              <span>{point}</span>
-            </li>
-          ))}
-        </ul>
       </section>
     </div>
   </main>

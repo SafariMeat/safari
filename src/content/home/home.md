@@ -1,50 +1,50 @@
 ---
 heading: "Home"
 
-heroEyebrow: "-WHOLE BABY GOAT. EXPORT READY-"
+heroEyebrow: "-WHOLE GOAT CARCASS. READY FOR EXPORT-"
 heroHeadingLine1: "Whole Premium East African Goat Meat"
-heroHeadingLine2: "for Wholesale Export."
+heroHeadingLine2: "-for Wholesale Export."
 heroDescription: >
-  Safari Meat supplies whole baby goat carcasses (6–10 kg), Halal certified
-  and export-ready, to international wholesale buyers — with cold-chain
-  handling and full export documentation from East Africa to your market,
-  including the UAE and wider GCC region.
+  Whole baby goat carcasses, typically 6–10 kg, supplied to international
+  wholesale buyers — professionally sourced, processed and cleaned, halal
+  certified, packaged frozen or chilled and handled through a reliable cold
+  chain from East Africa to markets including the UAE and wider GCC region.
 heroCtaPrimaryLabel: "Request a Quotation"
-heroCtaSecondaryLabel: "View Product Spec"
+heroCtaSecondaryLabel: "Explore Products"
 heroCtaWhatsappLabel: "WhatsApp Sales"
 heroLedger:
   - number: "01"
-    category: "Product"
-    value: "Whole baby goat, 6–10 kg"
+    category: "Weight"
+    value: "6–10 kg whole carcass"
   - number: "02"
     category: "Handling"
-    value: "Cold-chain, frozen or chilled"
+    value: "Cold-chain, frozen/chilled"
   - number: "03"
-    category: "Certification"
-    value: "Halal certified"
-  - number: "04"
     category: "Markets"
-    value: "UAE / GCC & international"
+    value: "UAE/GCC & wholesale"
+  - number: "04"
+    category: "Origin"
+    value: "East Africa"
 
 tickerRow1:
-  - "Whole Baby Goat Carcasses"
+  - "Whole Goat Carcass"
   - "Export Ready"
   - "East African Origin"
   - "Wholesale Supply"
 tickerRow2:
   - "Halal Certified"
   - "Cold-Chain Handling"
-  - "Frozen & Chilled"
-  - "Export Documentation"
+  - "Frozen/Chilled Packaging"
+  - "UAE/GCC Export"
 
-productsEyebrow: "Product Specification"
-productsHeadingLine1: "One product."
-productsHeadingLine2: "Whole carcass only."
+productsEyebrow: "Product Ledger"
+productsHeadingLine1: "Whole goat carcasses."
+productsHeadingLine2: "Ready for export."
 productsDescription: >
-  Safari Meat supplies a single product — the whole baby goat carcass —
-  prepared and documented to a consistent standard for wholesale buyers
-  and international markets.
-productsCtaLabel: "Full specification"
+  Whole baby goat carcasses, 6–10 kg typical weight, processed, cleaned
+  and packaged frozen or chilled for wholesale buyers, distributors and
+  international markets including the UAE/GCC.
+productsCtaLabel: "View full manifest"
 
 whySupplyEyebrow: "Terms of Supply"
 whySupplyHeadingLine1: "A supply partner,"
@@ -52,23 +52,23 @@ whySupplyHeadingLine2: "not just a supplier."
 whySupplyCards:
   - code: "§ SRC"
     title: "Reliable sourcing"
-    description: "Consistent sourcing standards designed to support repeat wholesale orders of whole goats."
+    description: "Consistent sourcing standards designed to support repeat wholesale orders of whole goat carcasses."
   - code: "§ HDL"
     title: "Professional handling"
-    description: "Proper packaging and cold-chain handling, frozen or chilled, from preparation through delivery."
+    description: "Proper frozen/chilled packaging and cold-chain handling from preparation through delivery."
   - code: "§ EXP"
     title: "Export focused"
-    description: "Halal certification, documentation and processes designed around international wholesale requirements."
+    description: "Halal certification, documentation and processes designed around international wholesale requirements, including UAE/GCC markets."
   - code: "§ SLS"
     title: "Responsive sales"
-    description: "Clear communication on quantities, weight range, packaging, and shipping requirements."
+    description: "Clear communication on weight range, quantity, packaging and shipping requirements."
 
 ctaEyebrow: "Start a conversation"
-ctaHeading: "Looking for a reliable East African whole goat meat supplier?"
+ctaHeading: "Looking for a reliable East African whole goat carcass supplier?"
 ctaDescription: >
-  Request a quotation with your quantity, desired weight range,
-  destination and packaging requirements. Our team responds promptly
-  to wholesale enquiries.
+  Request weight range, quantity, packaging, pricing and
+  shipping information. Our team responds promptly to
+  wholesale enquiries, including from the UAE and GCC region.
 ctaPrimaryLabel: "Request a Quote"
 ctaSecondaryLabel: "Contact Sales"
 ---

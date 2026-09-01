@@ -22,8 +22,7 @@ const contact = await getEntry('contact', 'contact');
           {quote.data.heading}
         </h1>
         <p class="mt-2 text-sm text-[color-mix(in_srgb,var(--color-text)_60%,transparent)]">
-          Tell us how many whole goats you need, your desired weight range, and where they're
-          headed — we'll get back to you with a tailored quotation.
+          Tell us what you need and we'll get back to you with a tailored quotation.
         </p>
       </div>
 
@@ -117,6 +116,31 @@ const contact = await getEntry('contact', 'contact');
           <div class="grid gap-5 sm:grid-cols-2">
             <label class="block">
               <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
+                Product
+              </span>
+              <input
+                type="text"
+                name="product"
+                required
+                class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
+                placeholder="e.g. Whole baby goat, 6–10 kg"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
+                Desired weight range
+              </span>
+              <input
+                type="text"
+                name="weight"
+                class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
+                placeholder="e.g. 6–10 kg per carcass (optional)"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
                 Quantity of whole goats
               </span>
               <input
@@ -130,13 +154,13 @@ const contact = await getEntry('contact', 'contact');
 
             <label class="block">
               <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
-                Desired weight range
+                Order frequency
               </span>
               <input
                 type="text"
-                name="weightRange"
+                name="frequency"
                 class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
-                placeholder="e.g. 6–10 kg (optional)"
+                placeholder="e.g. Monthly (optional)"
               />
             </label>
 
@@ -150,31 +174,32 @@ const contact = await getEntry('contact', 'contact');
                 minlength="2"
                 required
                 class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
-                placeholder="Port, city or country of delivery"
+                placeholder="Port or city of delivery"
               />
             </label>
 
             <label class="block">
+              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
+                Incoterm
+              </span>
+              <input
+                type="text"
+                name="incoterm"
+                class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
+                placeholder="e.g. FOB, CIF (optional)"
+              />
+            </label>
+
+            <label class="block sm:col-span-2">
               <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
                 Packaging requirements
               </span>
               <input
                 type="text"
                 name="packaging"
+                required
                 class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
-                placeholder="e.g. Frozen or chilled (optional)"
-              />
-            </label>
-
-            <label class="block sm:col-span-2">
-              <span class="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_55%,transparent)]">
-                Order frequency
-              </span>
-              <input
-                type="text"
-                name="frequency"
-                class="w-full rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
-                placeholder="e.g. Monthly (optional)"
+                placeholder="e.g. Frozen, individually bagged whole carcasses"
               />
             </label>
           </div>
@@ -187,7 +212,7 @@ const contact = await getEntry('contact', 'contact');
               name="requirements"
               rows="4"
               class="w-full resize-none rounded-lg border border-[color-mix(in_srgb,var(--color-text)_10%,transparent)] bg-[color-mix(in_srgb,var(--color-bg-soft)_80%,transparent)] px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder-[color-mix(in_srgb,var(--color-text)_40%,transparent)] outline-none transition focus:border-[color-mix(in_srgb,var(--color-accent)_60%,transparent)] focus:ring-2 focus:ring-[color-mix(in_srgb,var(--color-accent)_20%,transparent)]"
-              placeholder="Certifications needed, shipping terms, or anything else we should know"
+              placeholder="Certifications needed, cold-chain requirements, etc."
             ></textarea>
           </label>
         </fieldset>
@@ -236,11 +261,13 @@ const contact = await getEntry('contact', 'contact');
       country: String(formData.get('country') ?? '').trim(),
       email: String(formData.get('email') ?? '').trim(),
       phone: String(formData.get('phone') ?? '').trim(),
+      product: String(formData.get('product') ?? '').trim(),
+      weight: String(formData.get('weight') ?? '').trim(),
       quantity: String(formData.get('quantity') ?? '').trim(),
-      weightRange: String(formData.get('weightRange') ?? '').trim(),
-      destination: String(formData.get('destination') ?? '').trim(),
-      packaging: String(formData.get('packaging') ?? '').trim(),
       frequency: String(formData.get('frequency') ?? '').trim(),
+      destination: String(formData.get('destination') ?? '').trim(),
+      incoterm: String(formData.get('incoterm') ?? '').trim(),
+      packaging: String(formData.get('packaging') ?? '').trim(),
       requirements: String(formData.get('requirements') ?? '').trim(),
     };
   }
@@ -258,23 +285,29 @@ const contact = await getEntry('contact', 'contact');
       status.textContent = 'Please enter a valid destination (at least 2 characters).';
       return false;
     }
+    if (!fields.packaging) {
+      status.textContent = 'Please tell us your packaging requirements.';
+      return false;
+    }
     return true;
   }
 
   function buildMessage(fields: ReturnType<typeof getFields>) {
     return [
-      'Quotation Request — Safari Meat Exports (Whole Baby Goat)',
+      'Quotation Request — Safari Meat Exports',
       '',
       `Name: ${fields.name}`,
       `Company: ${fields.company}`,
       `Country: ${fields.country}`,
       `Email: ${fields.email}`,
       `Phone/WhatsApp: ${fields.phone}`,
+      `Product: ${fields.product}`,
+      `Desired weight range: ${fields.weight}`,
       `Quantity of whole goats: ${fields.quantity}`,
-      `Desired weight range: ${fields.weightRange}`,
-      `Destination: ${fields.destination}`,
-      `Packaging requirements: ${fields.packaging}`,
       `Order frequency: ${fields.frequency}`,
+      `Destination: ${fields.destination}`,
+      `Incoterm: ${fields.incoterm}`,
+      `Packaging requirements: ${fields.packaging}`,
       `Additional requirements: ${fields.requirements}`,
     ].join('\n');
   }
@@ -301,7 +334,7 @@ const contact = await getEntry('contact', 'contact');
     if (!validate(fields)) return;
 
     const text = buildMessage(fields);
-    const subject = `Quotation Request — Whole Baby Goat (${fields.quantity || 'Safari Meat Exports'})`;
+    const subject = `Quotation Request — ${fields.product || 'Safari Meat Exports'}`;
     const mailtoUrl = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
 
     void submitLead('quote', fields);
