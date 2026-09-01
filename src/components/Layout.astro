@@ -48,7 +48,7 @@ const quickFadePair: Pair = {
   new: { name: 'quick-fade-in', duration: '0.2s', easing: 'ease-out', fillMode: 'both' },
 };
 
-const taskPages = ['/wholesale', '/contact', '/quote', '/order'];
+const taskPages = ['/contact', '/quote'];
 const utilityPages = ['/terms', '/privacy'];
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -71,8 +71,7 @@ const { title } = Astro.props;
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About Us' },
-  { href: '/products', label: 'Products' },
-  { href: '/wholesale', label: 'Wholesale' },
+  { href: '/product', label: 'Product' },
   { href: '/contact', label: 'Contact' },
   { href: '/quote', label: 'Request a Quote' },
 ];
@@ -80,8 +79,7 @@ const navLinks = [
 const footerLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About Us' },
-  { href: '/products', label: 'Products' },
-  { href: '/wholesale', label: 'Wholesale' },
+  { href: '/product', label: 'Product' },
   { href: '/quote', label: 'Request a Quote' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -266,16 +264,10 @@ const footerLinks = [
           </button>
 
           <a
-            href="/order"
+            href="/quote"
             class="ml-2 inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-3.5 py-2 text-sm font-semibold text-[var(--color-accent-contrast)] transition hover:brightness-110"
           >
-            Your Order
-            <span
-              id="nav-cart-count"
-              class="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-black/20 px-1.5 py-0.5 text-xs font-bold"
-            >
-              0
-            </span>
+            Request a Quote
           </a>
         </div>
 
@@ -295,16 +287,10 @@ const footerLinks = [
           </button>
 
           <a
-            href="/order"
+            href="/quote"
             class="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-3 py-1.5 text-sm font-semibold text-[var(--color-accent-contrast)]"
           >
-            Order
-            <span
-              id="nav-cart-count-mobile"
-              class="inline-flex min-w-[1.1rem] items-center justify-center rounded-full bg-black/20 px-1.5 py-0.5 text-xs font-bold"
-            >
-              0
-            </span>
+            Quote
           </a>
           <button
             id="mobile-menu-button"
@@ -377,19 +363,13 @@ const footerLinks = [
 
           <div>
             <h3 class="text-xs font-semibold uppercase tracking-wide text-[color-mix(in_srgb,var(--color-text)_45%,transparent)]">
-              Your Order
+              Get a Quote
             </h3>
             <a
-              href="/order"
+              href="/quote"
               class="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-[color-mix(in_srgb,var(--color-text)_15%,transparent)] bg-[color-mix(in_srgb,var(--color-text)_4%,transparent)] px-3.5 py-2 text-sm font-medium text-[var(--color-text)] transition hover:bg-[color-mix(in_srgb,var(--color-text)_8%,transparent)]"
             >
-              View Order
-              <span
-                id="nav-cart-count-footer"
-                class="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--color-accent)_20%,transparent)] px-1.5 py-0.5 text-xs font-bold text-[var(--color-accent)]"
-              >
-                0
-              </span>
+              Request a Quote
             </a>
           </div>
         </div>
@@ -409,29 +389,6 @@ const footerLinks = [
 </html>
 
 <script>
-  // Keeps the "Your Order (N)" badge in the header/footer nav in sync with
-  // the cart on every page, not just the order page itself. cartCount() was
-  // previously exported from cart.ts but never called anywhere — this is
-  // that call site.
-  import { getCart, cartCount, CART_CHANGED_EVENT } from '../lib/cart';
-
-  function updateCartBadge() {
-    const count = cartCount(getCart());
-    for (const id of ['nav-cart-count', 'nav-cart-count-mobile', 'nav-cart-count-footer']) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = String(count);
-    }
-  }
-
-  updateCartBadge();
-
-  // Same-tab updates (adding an item, editing qty on the order page, etc.)
-  window.addEventListener(CART_CHANGED_EVENT, updateCartBadge);
-  // Cross-tab updates (cart changed in another open tab/window).
-  window.addEventListener('storage', (e) => {
-    if (e.key === null || e.key === 'safari-meats-cart') updateCartBadge();
-  });
-
   // Mobile menu toggle.
   const menuButton = document.getElementById('mobile-menu-button');
   const menu = document.getElementById('mobile-menu');

@@ -1,48 +1,50 @@
 ---
 heading: "Home"
 
-heroEyebrow: "-PREMIUM GOAT MEAT. READY FOR EXPORT-"
-heroHeadingLine1: "Quality Goat Meat,"
-heroHeadingLine2: "-Global Supply."
+heroEyebrow: "-WHOLE BABY GOAT. EXPORT READY-"
+heroHeadingLine1: "Whole Premium East African Goat Meat"
+heroHeadingLine2: "for Wholesale Export."
 heroDescription: >
-  Premium, export-ready goat meat supplied to international wholesale
-  buyers — professionally sourced, quality controlled, packaged and
-  handled through a reliable cold chain from East Africa to your market.
+  Safari Meat supplies whole baby goat carcasses (6–10 kg), Halal certified
+  and export-ready, to international wholesale buyers — with cold-chain
+  handling and full export documentation from East Africa to your market,
+  including the UAE and wider GCC region.
 heroCtaPrimaryLabel: "Request a Quotation"
-heroCtaSecondaryLabel: "Explore Products"
+heroCtaSecondaryLabel: "View Product Spec"
 heroCtaWhatsappLabel: "WhatsApp Sales"
 heroLedger:
   - number: "01"
-    category: "Quality"
-    value: "Controlled sourcing"
+    category: "Product"
+    value: "Whole baby goat, 6–10 kg"
   - number: "02"
     category: "Handling"
-    value: "Cold-chain"
+    value: "Cold-chain, frozen or chilled"
   - number: "03"
-    category: "Supply"
-    value: "Wholesale volumes"
+    category: "Certification"
+    value: "Halal certified"
   - number: "04"
-    category: "Origin"
-    value: "East Africa"
+    category: "Markets"
+    value: "UAE / GCC & international"
 
 tickerRow1:
-  - "Premium Goat Meat"
+  - "Whole Baby Goat Carcasses"
   - "Export Ready"
   - "East African Origin"
   - "Wholesale Supply"
 tickerRow2:
   - "Halal Certified"
   - "Cold-Chain Handling"
-  - "Professional Packaging"
+  - "Frozen & Chilled"
   - "Export Documentation"
 
-productsEyebrow: "Product Ledger"
-productsHeadingLine1: "Premium goat meat."
-productsHeadingLine2: "Ready for export."
+productsEyebrow: "Product Specification"
+productsHeadingLine1: "One product."
+productsHeadingLine2: "Whole carcass only."
 productsDescription: >
-  Carefully sourced products prepared for wholesale buyers,
-  distributors, restaurants and international markets.
-productsCtaLabel: "View full manifest"
+  Safari Meat supplies a single product — the whole baby goat carcass —
+  prepared and documented to a consistent standard for wholesale buyers
+  and international markets.
+productsCtaLabel: "Full specification"
 
 whySupplyEyebrow: "Terms of Supply"
 whySupplyHeadingLine1: "A supply partner,"
@@ -50,23 +52,23 @@ whySupplyHeadingLine2: "not just a supplier."
 whySupplyCards:
   - code: "§ SRC"
     title: "Reliable sourcing"
-    description: "Consistent sourcing standards designed to support repeat wholesale orders."
+    description: "Consistent sourcing standards designed to support repeat wholesale orders of whole goats."
   - code: "§ HDL"
     title: "Professional handling"
-    description: "Proper packaging and cold-chain handling from preparation through delivery."
+    description: "Proper packaging and cold-chain handling, frozen or chilled, from preparation through delivery."
   - code: "§ EXP"
     title: "Export focused"
-    description: "Documentation and processes designed around international wholesale requirements."
+    description: "Halal certification, documentation and processes designed around international wholesale requirements."
   - code: "§ SLS"
     title: "Responsive sales"
-    description: "Clear communication on specifications, quantities, pricing and shipping requirements."
+    description: "Clear communication on quantities, weight range, packaging, and shipping requirements."
 
 ctaEyebrow: "Start a conversation"
-ctaHeading: "Looking for a reliable East African goat meat supplier?"
+ctaHeading: "Looking for a reliable East African whole goat meat supplier?"
 ctaDescription: >
-  Request product specifications, pricing, quantities and
-  shipping information. Our team responds promptly to
-  wholesale enquiries.
+  Request a quotation with your quantity, desired weight range,
+  destination and packaging requirements. Our team responds promptly
+  to wholesale enquiries.
 ctaPrimaryLabel: "Request a Quote"
 ctaSecondaryLabel: "Contact Sales"
 ---
