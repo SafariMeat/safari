@@ -91,6 +91,16 @@ const footerLinks = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Tells mobile browsers exactly what color to tint the system UI
+      (Safari's bottom bar, Chrome for Android's nav bar) instead of
+      letting them live-sample the page background. Without this, the
+      browser re-samples the animating background-color during the
+      dark/light transition and the system bar flickers as a result.
+      Updated instantly (no transition) whenever the theme is toggled —
+      see the setTheme() script below.
+    -->
+    <meta name="theme-color" id="theme-color-meta" content="#0b0c0e" />
     <title>{title} — Safari Meat Exports</title>
 
     <!-- Enables smooth, SPA-style page transitions for every internal link
@@ -221,6 +231,8 @@ const footerLinks = [
           var stored = localStorage.getItem('safari-meats-theme');
           if (stored === 'light') {
             document.documentElement.setAttribute('data-theme', 'light');
+            var meta = document.getElementById('theme-color-meta');
+            if (meta) meta.setAttribute('content', '#faf9f6');
           }
         } catch (e) {}
       })();
@@ -459,12 +471,18 @@ const footerLinks = [
   // Theme toggle (desktop + mobile buttons share this handler).
   const THEME_KEY = 'safari-meats-theme';
 
+  const themeColorMeta = document.getElementById('theme-color-meta');
+
   function setTheme(theme: 'dark' | 'light') {
     if (theme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
     } else {
       document.documentElement.removeAttribute('data-theme');
     }
+    // Set instantly (no CSS transition applies to a meta tag), so the
+    // browser gets the final color right away instead of trying to
+    // interpolate/re-sample it across the 0.3s background-color fade.
+    themeColorMeta?.setAttribute('content', theme === 'light' ? '#faf9f6' : '#0b0c0e');
     try {
       localStorage.setItem(THEME_KEY, theme);
     } catch (e) {}
