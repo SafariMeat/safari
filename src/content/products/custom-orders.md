@@ -6,7 +6,7 @@ unit: "order"
 inStock: true
 stockQty: 20
 featured: true
-image: "/goat2.png"
+image: "/goat4.jpeg"
 description: "Custom whole goat carcass orders — tell us the weight range and quantity you need."
 ---
 
