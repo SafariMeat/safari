@@ -4,7 +4,7 @@ category: "goat"
 pricePerKg: 11200
 unit: "piece"
 inStock: true
-stockQty: 10
+stockQty: 100001
 featured: true
 description: "Whole baby goat carcass — 6–10 kg, processed and cleaned, sold frozen or chilled."
 ---

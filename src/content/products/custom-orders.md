@@ -4,7 +4,7 @@ category: "other"
 pricePerKg: 12000
 unit: "order"
 inStock: true
-stockQty: 20
+stockQty: 100001
 featured: true
 image: "/goat4.jpeg"
 description: "Custom whole goat carcass orders — tell us the weight range and quantity you need."
